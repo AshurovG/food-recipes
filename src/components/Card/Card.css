@@ -1,0 +1,76 @@
+.card {
+    max-width: 360px;
+    height: auto;
+    background-color: #fff;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.card:hover {
+    box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.25);
+}
+
+.card_image {
+    width: 100%;
+    background: #D9D9D9;
+    border-radius: 0
+}
+
+.card_container {
+    margin-top: -4px;
+    padding: 24px 12px;
+}
+
+.card_caption {
+    /* overflow: hidden; */
+    color: #AFADB5;
+    /* text-overflow: ellipsis; */
+    font-family: Roboto;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 18px;
+    margin-bottom: 8px;
+}
+
+.card_title {
+    color: #000;
+    font-family: Roboto;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    margin-bottom: 8px;
+}
+
+.card_subtitle {
+    /* overflow: hidden; */
+    color: #AFADB5;
+    /* text-overflow: ellipsis; */
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+}
+
+.footer_container {
+    width: 100%;
+    max-height: 52px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    align-self: stretch;
+    border-radius: 0
+}
+
+.card_content {
+    color: #000;
+    font-family: Roboto;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 22px
+}
