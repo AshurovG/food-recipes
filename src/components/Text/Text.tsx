@@ -1,5 +1,5 @@
 import * as React from 'react'
-import "./Text.css"
+import "./Text.scss"
 import cn from 'classnames'
 
 export type TextProps = {

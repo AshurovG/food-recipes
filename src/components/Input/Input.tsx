@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Input.css'
+import './Input.scss'
 
 export type InputProps = Omit<
     React.InputHTMLAttributes<HTMLInputElement>,
