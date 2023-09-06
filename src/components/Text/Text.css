@@ -1,0 +1,73 @@
+/* @import url('../../styles/styles.scss') */
+
+.text {
+    font-family: serif;
+    font-weight: 400;
+}
+
+.text.text_view-button {
+    font-size: 18px;
+    line-height: 18px;
+}
+
+.text.text_view-title {
+    font-size: 44px;
+    line-height: 48px;
+    font-weight: 700;
+}
+
+.text.text_view-p-20 {
+    font-size: 20px;
+    line-height: 24px;
+}
+
+.text.text_view-p-18 {
+    font-size: 18px;
+    line-height: 22px;
+}
+
+.text.text_view-p-16 {
+    font-size: 16px;
+    line-height: 20px;
+}
+
+.text.text_view-p-14 {
+    font-size: 16px;
+    line-height: 20px;
+}
+
+.text.text_weight-normal {
+    font-weight: 400;
+}
+
+.text.text_weight-normal {
+    font-weight: 500;
+}
+
+.text.text_weight-normal {
+    font-weight: 700;
+}
+
+.text.text_color-primary {
+    color: #000;
+}
+
+.text.text_color-secondary {
+    color: gray;
+}
+
+.text.text_color-secondary {
+    color: gray;
+}
+
+.text.text_color-accent {
+    color: red;
+}
+
+.text.text_multi-ellipsis {
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: var(--max-lines-count);
+}
