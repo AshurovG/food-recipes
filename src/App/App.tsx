@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import reactLogo from '../assets/react.svg'
 import './App.css'
-import Loader from 'components/Loader'
 
 function App() {
     const [count, setCount] = useState(0)
