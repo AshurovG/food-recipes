@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import reactLogo from '../assets/react.svg'
 import './App.scss'
-// import
+import Loader from 'components/Loader'
 // import Card from 'components/Card'
 // import Button from 'components/Button'
 
@@ -27,6 +27,7 @@ function App() {
             <p className="read-the-docs">
                 Click on the Vite and React logos to learn more
             </p>
+            <Loader />
             {/* <Card title="eda" subtitle="edaaaaaaaaaaaaaaaaa" image='http://s1.1zoom.ru/big7/856/Meat_products_French_511460.jpg' actionSlot={<Button>В корзину</Button>} /> */}
         </>
     )
