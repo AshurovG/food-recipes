@@ -7,7 +7,7 @@ export type InputProps = Omit<
     'onChange' | 'value'
 > & {
     /** Значение поля */
-    value?: string;
+    value: string;
     placeholder?: string;
     /** Callback, вызываемый при вводе данных в поле */
     onChange: (value: string) => void;
@@ -15,10 +15,9 @@ export type InputProps = Omit<
     afterSlot?: React.ReactNode;
     disabled?: Boolean;
     className?: string;
-    onclick?: () => void;
 };
 
-const Input = React.forwardRef<HTMLInputElement, InputProps>(({ value, onChange, onClick, afterSlot, placeholder, disabled, className, ...props }, ref) => {
+const Input = React.forwardRef<HTMLInputElement, InputProps>(({ value, onChange, afterSlot, disabled, className, ...props }, ref) => {
     const changeHandler = React.useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
             onChange(e.target.value)
@@ -35,8 +34,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(({ value, onChange,
             )}
         >
             <input
-                value={value && value}
-                placeholder={placeholder && placeholder}
+                value={value}
                 onChange={changeHandler}
                 className="input"
                 ref={ref}
