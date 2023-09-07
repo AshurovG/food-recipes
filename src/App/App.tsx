@@ -5,6 +5,8 @@ import './App.scss'
 // import Card from 'components/Card'
 // import Button from 'components/Button'
 import MultiDropdown from 'components/MultiDropdown'
+import CheckIcon from 'components/icons/CheckIcon';
+import FavoritesIcon from 'components/icons/FavoritesIcon';
 // import CheckBox from 'components/CheckBox'
 
 type Option = {
@@ -38,6 +40,7 @@ function App() {
                 onChange={setValue}
                 getTitle={(values: Option[]) => values.length === 0 ? 'Выберите города' : values.map(({ value }) => value).join(', ')}
             />
+            <FavoritesIcon width={17} height={17} />  <CheckIcon />
         </div>
     )
 }
