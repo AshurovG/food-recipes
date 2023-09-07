@@ -142,7 +142,7 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
                 afterSlot={<ArrowDownIcon color='secondary' width={24} height={24} />}
             />
             {isOpen && (
-                <div className="dropdown__options">
+                <div className={styles.dropdown__options}>
                     {filteredOptions.map((o) => (
                         <button
                             key={o.key}
