@@ -2,7 +2,7 @@ import React from 'react';
 import cn from 'classnames';
 import Loader from '../Loader/Loader';
 import Text from '../Text/Text';
-import './Button.scss'
+import styles from './Button.module.scss'
 
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
     /** Состояние загрузки */
@@ -21,11 +21,11 @@ const Button: React.FC<ButtonProps> = ({
     return (
         <button
             {...props}
-            className={cn(className, 'button', props.disabled && 'button_disabled')}
+            className={cn(className, styles.button, props.disabled && styles.button_disabled)}
             disabled={props.disabled || loading}
         >
-            {loading && <Loader className='button__loader' size='s' />}
-            <Text className='button__text' tag='span' view='button'>
+            {loading && <Loader className={styles.button__loader} size='s' />}
+            <Text className={styles.button__text} tag='span' view='button'>
                 {children}
             </Text>
 

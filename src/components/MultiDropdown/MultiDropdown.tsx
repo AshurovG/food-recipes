@@ -1,5 +1,5 @@
 import React, { HtmlHTMLAttributes, useState } from 'react';
-import './MultiDropdown.scss'
+import styles from './MultiDropdown.module.scss'
 import cn from 'classnames'
 import Input from 'components/Input';
 import Text from 'components/Text';
@@ -126,15 +126,15 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
     return (
         <div
             className={cn(
-                'dropdown',
-                isOpen && 'dropdown_open',
-                disabled && 'dropdown_disabled',
+                styles.dropdown,
+                isOpen && styles.dropdown_open,
+                disabled && styles.dropdown_disabled,
                 className
             )}
             ref={rootRef}
         >
             <Input
-                className='dropdown__input'
+                className={styles.dropdown__input}
                 value={inputValue}
                 placeholder={title}
                 onChange={setFilter}
@@ -147,8 +147,8 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
                         <button
                             key={o.key}
                             className={cn(
-                                'dropdown__option',
-                                selectedSet.has(o) && 'dropdown__option_selected'
+                                styles.dropdown__option,
+                                selectedSet.has(o) && styles.dropdown__option_selected
                             )}
                             onClick={onClickOption(o)}
                         >

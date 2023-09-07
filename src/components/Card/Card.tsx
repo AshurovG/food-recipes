@@ -1,7 +1,7 @@
 import React from 'react';
 import cn from 'classnames';
 import Text from '../Text/Text';
-import './Card.scss';
+import styles from './Card.module.scss';
 
 export type CardProps = {
     /** Дополнительный classname */
@@ -25,14 +25,14 @@ export type CardProps = {
 
 const Card: React.FC<CardProps> = ({ className, image, captionSlot, title, subtitle, contentSlot, onClick, actionSlot }) => {
     return (
-        <div className={cn('card', className)} onClick={onClick}>
-            <div className="card__header">
-                <img className='card__header-src' src={image} alt="card" />
+        <div className={cn(styles.card, className)} onClick={onClick}>
+            <div className={styles.card__header}>
+                <img className={styles['card__header-src']} src={image} alt="card" />
             </div>
-            <div className="card__body">
+            <div className={styles.card__body}>
                 {captionSlot && (
                     <Text
-                        className="card__caption"
+                        className={styles.card__caption}
                         view='p-14'
                         weight='medium'
                         color='secondary'
@@ -51,23 +51,23 @@ const Card: React.FC<CardProps> = ({ className, image, captionSlot, title, subti
                 </Text>
                 <Text
                     maxLines={3}
-                    className='card__subtitle'
+                    className={styles.card__subtitle}
                     view='p-16'
                     color='secondary'
                 >
                     {subtitle}
                 </Text>
-                <div className="card__footer">
+                <div className={styles.card__footer}>
                     {contentSlot && (
                         <Text
                             view='p-18'
                             weight='bold'
-                            className='card__content'
+                            className={styles.card__content}
                         >
                             {contentSlot}
                         </Text>
                     )}
-                    <div className="card__action">{actionSlot}</div>
+                    <div className={styles.card__action}>{actionSlot}</div>
                 </div>
             </div>
         </div>

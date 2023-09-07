@@ -3,7 +3,6 @@
 
 .card {
     cursor: pointer;
-    // width: 360px;
     width: 100%;
     max-width: 360px;
     background-color: $default-color;
@@ -17,8 +16,7 @@
 }
 
 .card__header {
-    background-color: #D9D9D9;
-    /* проверить ! */
+    background-color: $brand-disabled;
     position: relative;
 }
 

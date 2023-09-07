@@ -1,6 +1,6 @@
 import React from 'react';
 import cn from 'classnames'
-import './Input.scss'
+import styles from './Input.module.scss'
 
 export type InputProps = Omit<
     React.InputHTMLAttributes<HTMLInputElement>,
@@ -28,22 +28,22 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(({ value, onChange,
     return (
         <label
             className={cn(
-                'input-wrapper',
-                disabled && 'input-wrapper_disabled',
+                styles['input-wrapper'],
+                disabled && styles['input-wrapper_disabled'],
                 className
             )}
         >
             <input
                 value={value}
                 onChange={changeHandler}
-                className="input"
+                className={styles.input}
                 ref={ref}
                 disabled={disabled}
                 type="text"
                 {...props}
             />
-            {!!afterSlot && <div className='input-after'>{afterSlot}</div>}
-        </label>
+            {!!afterSlot && <div className={styles['input-after']}>{afterSlot}</div>}
+        </label >
     )
 });
 
