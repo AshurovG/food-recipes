@@ -1,37 +1,50 @@
 @import '../../styles/styles.scss';
+@import '../../styles//variables.scss';
 
-.input_container {
+
+.input-wrapper {
     display: flex;
-    width: 400px;
-    height: 52px;
-    padding: 14px 12px;
-    align-items: center;
-    gap: 8px;
-    flex-shrink: 0;
-    background: #fff;
-}
-
-.input_container:focus {
-    border: 1px solid #518581;
-}
-
-.input_area {
+    color: $text-primary;
+    background: $default-color;
+    padding: $space-s $space-xs;
+    border: 1px solid transparent;
     width: 100%;
-    border: 0;
-    color: #000;
-    font-family: Roboto;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 20px;
+    height: 52px;
+    transition: border-color .2s ease, background-color .2s ease, color .2s ease;
 }
 
-.input_area:focus {
+.input-wrapper:focus-within {
+    background: $default-color;
+    color: $text-primary;
+    border-color: $brand;
+}
+
+.input-wrapper_disabled .input {
+    background: $brand-disabled;
+    color: $text-secondary;
+    border-color: $default-color;
+}
+
+.input {
+    appearance: none;
     border: none;
+    background: none;
     outline: none;
+    margin: 0;
+
+    width: 100%;
+
+    font-family: Roboto, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20;
 }
 
-.input_area:disabled {
-    background: #fff;
-    color: #AFADB5;
+.input::placeholder {
+    color: $brand-disabled;
+}
+
+.input-after {
+    flex-shrink: 0;
+    margin-left: $space-xxs;
 }

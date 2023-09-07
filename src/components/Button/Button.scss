@@ -1,39 +1,43 @@
-@import '../../styles/styles.scss';
+@import '../../styles/variables.scss';
 
 .btn {
     display: inline-flex;
-    padding: var(--space-s, 14px) var(--space-l, 20px);
+    padding: 14px 20px;
     justify-content: center;
     align-items: center;
-    gap: var(--space-xxs, 8px);
-    border-radius: var(--border-radius, 0px);
-    background: var(--brand, #518581);
-    color: #fff;
+    gap: $space-xxs;
+    border-radius: $border-radius;
+    background: $brand;
+    color: $default-color;
     height: 52px;
 }
 
 .btn:hover {
-    background: var(--brand-hover, #86AAA7);
+    background: $brand-hover;
+}
+
+.btn:active {
+    background: $brand-active;
 }
 
 .disableStatus {
     pointer-events: none;
-    border-radius: var(--border-radius, 0px);
-    background: var(--button-primary-bg-disabled, #D9D9D9);
+    border-radius: $border-radius;
+    background: $brand-disabled;
 }
 
 .btn.loading {
     pointer-events: none;
-    color: #fff;
+    color: $default-color;
 }
 
 .button-loader {
-    fill: #fff;
+    fill: $default-color;
     margin: 0;
 }
 
 .button-text {
-    color: var(--button-primary-text, #ffffff);
+    color: $default-color;
     font-family: Roboto;
     font-size: 18px;
     font-style: normal;
