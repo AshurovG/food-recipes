@@ -1,14 +1,15 @@
 import { useState } from 'react'
 // import reactLogo from '../assets/react.svg'
 import './App.scss'
-import Input from 'components/Input'
+// import Input from 'components/Input'
 // import Card from 'components/Card'
 // import Button from 'components/Button'
+import CheckBox from 'components/CheckBox'
 
 function App() {
     return (
-        <div className="tstw">
-            <Input disabled={false} placeholder='fhdkjfsa' onChange={() => console.log(111)} />
+        <div className="test">
+            <CheckBox onChange={() => { }} />
         </div>
     )
 }
