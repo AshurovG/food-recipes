@@ -9,32 +9,26 @@ export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
     loading?: boolean;
     /** Текст кнопки */
     children: React.ReactNode;
-    state?: boolean
 };
 
-const Button: React.FC<ButtonProps> = ({ children, onClick, className, disabled, state, loading, ...rest }) => {
+const Button: React.FC<ButtonProps> = ({
+    className,
+    loading,
+    children = null,
+    ...props
+}) => {
 
-    const classes = cn(
-        'btn',
-        className,
-        {
-            loading: loading,
-            disableStatus: disabled
-        }
-    )
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        if (loading || disabled) {
-            event.preventDefault();
-            return;
-        }
-        if (onClick) {
-            onClick(event);
-        }
-    };
     return (
-        <button data-testid="button" className={classes} disabled={loading || disabled} onClick={handleClick} {...rest}>
-            {loading ? <Loader className='button-loader' size="s" /> : <></>}
-            <Text className='button-text'>{children}</Text>
+        <button
+            {...props}
+            className={cn(className, 'button', props.disabled && 'button_disabled')}
+            disabled={props.disabled || loading}
+        >
+            {loading && <Loader className='button__loader' size='s' />}
+            <Text className='button__text' tag='span' view='button'>
+                {children}
+            </Text>
+
         </button>
     )
 };
