@@ -55,13 +55,7 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
         }
         setIsOpen(true)
         setIsTyping(true)
-        console.log(isOpen)
     }, [disabled])
-
-    React.useEffect(() => {
-        console.log(options)
-    }, [])
-
 
     const onClickOption = (selectedOption: Option) => () => {
         if (disabled) {
@@ -69,16 +63,12 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
         }
 
         setIsTyping(false)
-        console.log(`set is ${[...selectedSet.keys()]}`);
 
         if (selectedSet.has(selectedOption)) {
-            console.log(11)
             onChange(value.filter((o) => o.key !== selectedOption.key))
             return
         }
-        console.log(`1 ${filter}`)
         onChange([...value, selectedOption])
-        console.log(`2 ${filter}`)
     }
 
     React.useEffect(() => {
