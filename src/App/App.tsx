@@ -40,7 +40,7 @@ function App() {
                 onChange={setValue}
                 getTitle={(values: Option[]) => values.length === 0 ? 'Выберите города' : values.map(({ value }) => value).join(', ')}
             />
-            <FavoritesIcon width={17} height={17} />  <CheckIcon />
+            <FavoritesIcon width={19} height={19} />  <CheckIcon width={24} height={24} />
         </div>
     )
 }
