@@ -7,26 +7,6 @@ import FavoritesIcon from 'components/icons/FavoritesIcon';
 import AccountIcon from 'components/icons/AccountIcon';
 import classNames from 'classnames';
 
-// export type CardProps = {
-//     /** Дополнительный classname */
-//     className?: string,
-//     /** URL изображения */
-//     image: string;
-//     /** Слот над заголовком */
-//     captionSlot?: React.ReactNode;
-//     /** Заголовок карточки */
-//     title: React.ReactNode;
-//     /** Описание карточки */
-//     subtitle: React.ReactNode;
-//     /** Содержимое карточки (футер/боковая часть), может быть пустым */
-//     contentSlot?: React.ReactNode;
-//     /** Клик на карточку */
-//     onClick?: React.MouseEventHandler;
-//     /** Слот для действия */
-//     actionSlot?: React.ReactNode;
-// };
-
-
 const Header: React.FC = () => {
     const blockNames: Array<string> = ['Recipes', 'Ingradients', 'Products', 'Menu Items', 'Meal Planning']
     return (
@@ -41,7 +21,7 @@ const Header: React.FC = () => {
                 </Text>
 
                 <div className={styles.icons}>
-                    <FavoritesIcon className={styles.favorite__icon} /> <AccountIcon />
+                    <FavoritesIcon className={cn(styles.favorite__icon, styles.icons__item)} /> <AccountIcon className={styles.icons__item} />
                 </div>
             </div>
         </div>

@@ -41,8 +41,7 @@
 .icons {
     position: absolute;
     right: 0;
-}
-
-.favorite__icon {
-    margin-right: 17px;
+    display: flex;
+    align-items: center;
+    gap: 17px;
 }
