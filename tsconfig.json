@@ -27,6 +27,9 @@
       "pages": [
         "pages/*"
       ],
+      "images": [
+        "images/*"
+      ],
       "config": [
         "config/*"
       ],
