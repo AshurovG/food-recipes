@@ -1,0 +1,48 @@
+@import '../../styles/variables.scss';
+@import '../../styles/styles.scss';
+
+.header {
+    width: 100%;
+    height: 64px;
+    background-color: #fff;
+}
+
+.header__wrapper {
+    position: relative;
+    max-width: 1240px;
+    height: 100%;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.header__title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-left: 20px;
+}
+
+.header__blocks {
+    margin-left: 80px;
+}
+
+.header__block {
+    margin-left: $space-m;
+    cursor: pointer;
+    transition: color .2s ease;
+}
+
+.header__block:hover {
+    color: $brand;
+}
+
+.icons {
+    position: absolute;
+    right: 0;
+}
+
+.favorite__icon {
+    margin-right: 17px;
+}
