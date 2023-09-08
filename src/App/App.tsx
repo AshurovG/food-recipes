@@ -6,8 +6,10 @@ import './App.scss'
 // import Button from 'components/Button'
 import MultiDropdown from 'components/MultiDropdown'
 import CheckIcon from 'components/icons/CheckIcon';
+import ArrowDownIcon from 'components/icons/ArrowDownIcon';
 import FavoritesIcon from 'components/icons/FavoritesIcon';
 import AccountIcon from 'components/icons/AccountIcon';
+import SearchIcon from 'components/icons/SearchIcon';
 // import CheckBox from 'components/CheckBox'
 
 type Option = {
@@ -19,7 +21,7 @@ type Option = {
 function App() {
     const [value, setValue] = useState<Option[]>([]);
     return (
-        <div>
+        <div className='test'>
             {/* <Card
                 actionSlot={<Button>В корзину</Button>}
                 captionSlot={' гошвашаолдывоалдывовалдв'}
@@ -41,7 +43,7 @@ function App() {
                 onChange={setValue}
                 getTitle={(values: Option[]) => values.length === 0 ? 'Выберите города' : values.map(({ value }) => value).join(', ')}
             />
-            <FavoritesIcon width={19} height={19} />  <CheckIcon width={24} height={24} /> <AccountIcon width={24} height={24} />
+            <FavoritesIcon width={19} height={19} /> <ArrowDownIcon /> <CheckIcon width={24} height={24} /> <SearchIcon />  <AccountIcon width={24} height={24} />
         </div>
     )
 }
