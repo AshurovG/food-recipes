@@ -58,6 +58,7 @@ const RecipesPage: React.FC = () => {
     const [value, setValue] = useState<Option[]>([]);
     const [inputValue, setInputValue] = useState('');
     const [filterArr, setFilterArr] = useState<testData[]>([])
+    const [isfilterArrEmpty, setIsfilterArrEmpty] = useState<Boolean>(false)
     //2f57ba40700b492a98d46c16cb731636
     //96b03ded692d45b391ec26a66cf00564
     const apiKey = '2f57ba40700b492a98d46c16cb731636';
@@ -107,11 +108,24 @@ const RecipesPage: React.FC = () => {
     }, [])
 
     const searchTitle = (value: string) => {
-        setFilterArr(recipesArr.filter((o) => o.title.toLowerCase().includes(value.toLowerCase())))
+        // setFilterArr(recipesArr.filter((o) => o.title.toLowerCase().includes(value.toLowerCase())))
+        // if (filterArr.length === 0) {
+        //     setIsfilterArrEmpty(true)
+        // } else {
+        //     setIsfilterArrEmpty(false)
+        // }
+
+        return recipesArr.filter((o) => o.title.toLowerCase().includes(value.toLowerCase()))
     }
 
     const onSearchButtonClick = (): void => {
-        searchTitle(inputValue)
+        const newArr = searchTitle(inputValue)
+        if (newArr.length === 0) {
+            setIsfilterArrEmpty(true)
+        } else {
+            setIsfilterArrEmpty(false)
+        }
+        setFilterArr(newArr)
     }
 
     const getIngredientsString = (ingredients: Array<ingredientData>): string => {
@@ -135,6 +149,7 @@ const RecipesPage: React.FC = () => {
                     <div className={styles['search__input-block']}>
                         <Input value={inputValue} onChange={setInputValue}></Input> <Button onClick={onSearchButtonClick}><SearchIcon /></Button>
                     </div>
+                    {isfilterArrEmpty && <Text className={styles['filter__error-title']} tag='h4' view='p-20' weight='medium'>No such dish was found !</Text>}
 
                     <MultiDropdown
                         className={styles.selection__block}

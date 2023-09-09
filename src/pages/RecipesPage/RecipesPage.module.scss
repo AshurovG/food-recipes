@@ -31,6 +31,13 @@
     align-items: end;
 }
 
+.filter__error-title {
+    padding-top: 20px;
+    width: 100%;
+    text-align: center;
+    color: red;
+}
+
 .search__input-block {
     width: 100%;
     display: flex;
