@@ -105,8 +105,9 @@ const RecipesDetailedPage: React.FC = () => {
                     <div className={styles.features__item}>
                         <Text className={styles['features__item-title']} view='p-20' weight='bold'>Ingredients</Text>
                         <div className={`${styles['features__ingredients-content']} ${styles['features__item-content']}`}>
-                            {/* {recipe?.extendedIngredients.map(())} */}
-                            <DetailedInfo type='ingredients'> L ipsum dol</DetailedInfo>
+                            {recipe?.extendedIngredients.map((item: any) =>
+                                <DetailedInfo type='ingredients'> {item.original}</DetailedInfo>
+                            )}
                         </div>
                     </div>
                     <div className={styles.separator}>
@@ -117,17 +118,19 @@ const RecipesDetailedPage: React.FC = () => {
                     <div className={styles.features__item}>
                         <Text className={styles['features__item-title']} view='p-20' weight='bold'>Equipment</Text>
                         <div className={`${styles['features__equipment-content']} ${styles['features__item-content']}`}>
-                            <DetailedInfo type='equipment'> Lorem, ipsum dol</DetailedInfo>
-                            <DetailedInfo type='equipment'> Lorem, ipsum do.</DetailedInfo>
-                            <DetailedInfo type='equipment'> Lorem, ifdpsum dol</DetailedInfo>
-                            <DetailedInfo type='equipment'> Lorem, ipsum dol</DetailedInfo>
-                            <DetailedInfo type='equipment'> Lorem, ipsum dol</DetailedInfo>
-                            <DetailedInfo type='equipment'> Lorem, ipsum dol</DetailedInfo>
+                            {recipe?.equipment.map((item: any) =>
+                                <DetailedInfo type='equipment'> {item.original}</DetailedInfo>
+                            )}
                         </div>
                     </div>
                 </div>
                 <Text className={styles['features__item-title']} view='p-20' weight='bold'>Directions</Text>
-                <DirectionsList steps={steps} />
+                <DirectionsList steps={recipe?.equipment.map((item: any) => {
+                    return {
+                        title: `step ${item.number}`,
+                        text: `${item.step}`
+                    }
+                })} />
             </div>
         </div>
     )
