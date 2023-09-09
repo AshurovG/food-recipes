@@ -20,7 +20,7 @@ type RecipeData = {
 
     title: string;
 
-    summary: string;
+    summary: any;
 
     extendedIngredients: [];
 
@@ -33,32 +33,32 @@ const RecipesDetailedPage: React.FC = () => {
     const { id } = useParams();
     const apiKey = '3a40e1bfe3084f53b0d475f56d06468b';
 
-    // React.useEffect(() => {
-    //     const fetch = async () => {
-    //         const result = await axios({
-    //             method: 'get',
-    //             url: `https://api.spoonacular.com/recipes/${id}/information?apiKey=${apiKey}&addRecipeInformation=true&instructionsRequired=true&includeEquipment=true`
-    //         })
-    //         setRecipe({
-    //             id: result.data.id,
-    //             title: result.data.title,
-    //             image: result.data.image,
-    //             preparationMinutes: result.data.preparationMinutes,
-    //             cookingMinutes: result.data.cookingMinutes,
-    //             aggregateLikes: result.data.aggregateLikes,
-    //             servings: result.data.servings,
-    //             summary: result.data.summary,
-    //             extendedIngredients: result.data.extendedIngredients,
-    //             equipment: result.data.analyzedInstructions[0].steps,
-    //         });
+    React.useEffect(() => {
+        const fetch = async () => {
+            const result = await axios({
+                method: 'get',
+                url: `https://api.spoonacular.com/recipes/${id}/information?apiKey=${apiKey}&addRecipeInformation=true&instructionsRequired=true&includeEquipment=true`
+            })
+            setRecipe({
+                id: result.data.id,
+                title: result.data.title,
+                image: result.data.image,
+                preparationMinutes: result.data.preparationMinutes,
+                cookingMinutes: result.data.cookingMinutes,
+                aggregateLikes: result.data.aggregateLikes,
+                servings: result.data.servings,
+                summary: result.data.summary,
+                extendedIngredients: result.data.extendedIngredients,
+                equipment: result.data.analyzedInstructions[0].steps,
+            });
 
-    //         //   console.log(result.data.analyzedInstructions[0].steps[1].equipment[0].name)
+            //   console.log(result.data.analyzedInstructions[0].steps[1].equipment[0].name)
 
-    //     }
+        }
 
-    //     fetch()
-    //     console.log(recipe)
-    // }, [])
+        fetch()
+        console.log(recipe)
+    }, [])
 
     const info = [
         { title: 'title 1', value: 'value 1' },
@@ -98,24 +98,15 @@ const RecipesDetailedPage: React.FC = () => {
                 </div>
 
                 <RecipeDescription>
-                    {recipe?.summary}
+                    <div dangerouslySetInnerHTML={{ __html: recipe?.summary }}></div>
                 </RecipeDescription>
 
                 <div className={styles.features}>
                     <div className={styles.features__item}>
-                        <h2 className={styles['features__item-title']}>Ingredients</h2>
+                        <Text className={styles['features__item-title']} view='p-20' weight='bold'>Ingredients</Text>
                         <div className={`${styles['features__ingredients-content']} ${styles['features__item-content']}`}>
+                            {/* {recipe?.extendedIngredients.map(())} */}
                             <DetailedInfo type='ingredients'> L ipsum dol</DetailedInfo>
-                            <DetailedInfo type='ingredients'> Lorem, ipfsum dol</DetailedInfo>
-                            <DetailedInfo type='ingredients'> Lorem, ipfffffffsum dol</DetailedInfo>
-                            <DetailedInfo type='ingredients'> Lorem, ipsum dol</DetailedInfo>
-                            <DetailedInfo type='ingredients'> Lorem, fdsfpsum dol</DetailedInfo>
-                            <DetailedInfo type='ingredients'> Lorem, ipsum dol</DetailedInfo>
-                            <DetailedInfo type='ingredients'> Lorem, ipsum dol</DetailedInfo>
-                            <DetailedInfo type='ingredients'> Lorem, ipfssum dol</DetailedInfo>
-                            <DetailedInfo type='ingredients'> Lorem, ifsdfdpsum dol</DetailedInfo>
-                            <DetailedInfo type='ingredients'> Lorem, ipsum dol</DetailedInfo>
-                            <DetailedInfo type='ingredients'> Lorem, ipsum dol</DetailedInfo>
                         </div>
                     </div>
                     <div className={styles.separator}>
@@ -124,7 +115,7 @@ const RecipesDetailedPage: React.FC = () => {
                     </div>
 
                     <div className={styles.features__item}>
-                        <h2 className={styles['features__item-title']}>Equipment</h2>
+                        <Text className={styles['features__item-title']} view='p-20' weight='bold'>Equipment</Text>
                         <div className={`${styles['features__equipment-content']} ${styles['features__item-content']}`}>
                             <DetailedInfo type='equipment'> Lorem, ipsum dol</DetailedInfo>
                             <DetailedInfo type='equipment'> Lorem, ipsum do.</DetailedInfo>
@@ -135,7 +126,7 @@ const RecipesDetailedPage: React.FC = () => {
                         </div>
                     </div>
                 </div>
-
+                <Text className={styles['features__item-title']} view='p-20' weight='bold'>Directions</Text>
                 <DirectionsList steps={steps} />
             </div>
         </div>

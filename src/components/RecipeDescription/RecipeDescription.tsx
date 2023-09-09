@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Children, Fragment } from 'react';
 import styles from './RecipeDescription.module.scss';
 import Text from 'components/Text';
 
@@ -9,7 +9,9 @@ export type RecipeDescriptionProps = {
 const RecipeDescription: React.FC<RecipeDescriptionProps> = ({ children }) => {
     return (
         <Text view='p-16' className={styles.description__text}>
-            {children}
+            {Children.map(children, (child) => (
+                <Fragment>{child}</Fragment>
+            ))}
         </Text>
     )
 };
