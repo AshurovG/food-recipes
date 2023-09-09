@@ -36,6 +36,15 @@ export type RecipeData = {
     ingredients: string
 }
 
+export type testData = {
+    id: number;
+    image: string;
+    title: string;
+    readyInMinutes?: string;
+    healthScore?: string;
+    ingredients: string
+}
+
 type Option = {
     /** Ключ варианта, используется для отправки на бек/использования в коде */
     key: string;
@@ -44,9 +53,11 @@ type Option = {
 };
 
 const RecipesPage: React.FC = () => {
-    const [recipesArr, setRecipesArr] = useState([])
+    // const [recipesArr, setRecipesArr] = useState([])
+    const [recipesArr, setRecipesArr] = useState<testData[]>([])
     const [value, setValue] = useState<Option[]>([]);
     const [inputValue, setInputValue] = useState('');
+    const [filterArr, setFilterArr] = useState<testData[]>([])
     //2f57ba40700b492a98d46c16cb731636
     //96b03ded692d45b391ec26a66cf00564
     const apiKey = '2f57ba40700b492a98d46c16cb731636';
@@ -71,6 +82,38 @@ const RecipesPage: React.FC = () => {
 
     // }, [])
 
+    React.useEffect(() => { // Тест данных без API
+        const getAllCards = (): void => {
+            let count: number = 0
+            const titles: Array<string> = ['meet', 'lemon', 'apple', 'green bins', 'egg', 'chicken', 'potato', 'srawberry', 'rasberry', 'ing']
+            let newArr: Array<testData> = []
+            while (count < 10) {
+                let newItem: any = {
+                    id: count,
+                    image: 'https://w.forfun.com/fetch/f7/f76c030200142905d4d0856baa694308.jpeg',
+                    title: titles[count],
+                    readyInMinutes: '45',
+                    ingredients: 'fjdklsa fjdkl jfkdlsjf kdlsajfkd lsajfkls', // Преобразовываем массив ингредиентов в строку с разделителями
+                    healthScore: '23434'
+                }
+                console.log(count)
+                count++
+                newArr.push(newItem)
+            }
+            setRecipesArr(newArr)
+            setFilterArr(newArr)
+        }
+        getAllCards()
+    }, [])
+
+    const searchTitle = (value: string) => {
+        setFilterArr(recipesArr.filter((o) => o.title.toLowerCase().includes(value.toLowerCase())))
+    }
+
+    const handleChangeInputValue = (value: string) => {
+        setInputValue(value);
+        searchTitle(value)
+    }
 
     const getIngredientsString = (ingredients: Array<ingredientData>): string => {
         let newArr: Array<string> = ingredients.map((ingredient: ingredientData) => {
@@ -91,8 +134,7 @@ const RecipesPage: React.FC = () => {
                 </Text>
                 <div className={styles['search__info-block']}>
                     <div className={styles['search__input-block']}>
-                        <Input value={inputValue} onChange={setInputValue}></Input> <Button><SearchIcon /></Button>
-                        <p>Значение: {inputValue}</p>
+                        <Input value={inputValue} onChange={handleChangeInputValue}></Input> <Button><SearchIcon /></Button>
                     </div>
 
                     <MultiDropdown
@@ -108,7 +150,18 @@ const RecipesPage: React.FC = () => {
                     />
                 </div>
                 <div className={styles['recipes__page-cards']}>
-                    {recipesArr.map((recipe: RecipeData) =>
+                    {/* {recipesArr.map((recipe: RecipeData) =>
+                        <Card
+                            key={recipe.id}
+                            actionSlot={<Button>Save</Button>}
+                            captionSlot={recipe.readyInMinutes + ' minutes'}
+                            contentSlot={recipe.healthScore + ' kcal'}
+                            image={recipe.image}
+                            title={recipe.title}
+                            subtitle={recipe.ingredients}
+                        />
+                    )} */}
+                    {filterArr.map((recipe: testData) =>
                         <Card
                             key={recipe.id}
                             actionSlot={<Button>Save</Button>}
