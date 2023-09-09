@@ -8,6 +8,7 @@
 
 .recipes__page-wrapper {
     max-width: 1240px;
+    width: 100%;
     margin: 0 auto;
 }
 
@@ -16,7 +17,7 @@
 
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: 65px;
+    gap: 75px;
 }
 
 .search__title {
