@@ -1,0 +1,17 @@
+@import '../../styles/variables.scss';
+@import '../../styles/styles.scss';
+
+.directions__list {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.directions__list-item {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
