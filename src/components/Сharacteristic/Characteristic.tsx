@@ -4,7 +4,7 @@ import Text from 'components/Text';
 
 export type СharacteristicProps = {
     title: string;
-    value: string
+    value: string | number | undefined
 };
 
 const Сharacteristic: React.FC<СharacteristicProps> = ({

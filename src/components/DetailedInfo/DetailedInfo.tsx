@@ -16,7 +16,7 @@ const DetailedInfo: React.FC<DetailedInfoProps> = ({
     return (
         <div className={styles.detailed}>
             {type === 'ingredients' ? <IngredientIcon className={styles.detailed__icon} /> : <EquipmentIcon className={styles.detailed__icon} />}
-            <div className='detailed__text'>{children}</div>
+            <div className={styles.detailed__text}>{children}</div>
         </div>
     )
 };
