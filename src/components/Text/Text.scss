@@ -1,4 +1,5 @@
 @import '../../styles/styles.scss';
+@import '../../styles//variables.scss';
 
 .text {
     font-weight: 400;
@@ -60,7 +61,7 @@
 }
 
 .text.text_color-accent {
-    color: red;
+    color: $brand;
 }
 
 .text.text_multi-ellipsis {
