@@ -2,6 +2,7 @@ import React from 'react';
 import cn from 'classnames';
 import Text from '../Text/Text';
 import styles from './Card.module.scss';
+import ClockIcon from 'components/icons/ClockIcon';
 
 export type CardProps = {
     /** Дополнительный classname */
@@ -37,6 +38,7 @@ const Card: React.FC<CardProps> = ({ className, image, captionSlot, title, subti
                         weight='medium'
                         color='secondary'
                     >
+                        <ClockIcon className={styles.card__icon} />
                         {captionSlot}
                     </Text>
                 )}
