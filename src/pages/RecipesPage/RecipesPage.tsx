@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState } from 'react';
 import cn from 'classnames';
 import styles from './RecipesPage.module.scss';
 import Header from 'components/Header';
@@ -36,14 +36,14 @@ export type RecipeData = {
     ingredients: string
 }
 
-export type testData = {
-    id: number;
-    image: string;
-    title: string;
-    readyInMinutes?: string;
-    healthScore?: string;
-    ingredients: string
-}
+// export type testData = {
+//     id: number;
+//     image: string;
+//     title: string;
+//     readyInMinutes?: string;
+//     healthScore?: string;
+//     ingredients: string
+// }
 
 type Option = {
     /** Ключ варианта, используется для отправки на бек/использования в коде */
@@ -53,68 +53,71 @@ type Option = {
 };
 
 const RecipesPage: React.FC = () => {
-    // const [recipesArr, setRecipesArr] = useState([])
-    const [recipesArr, setRecipesArr] = useState<testData[]>([])
+    const [recipesArr, setRecipesArr] = useState<RecipeData[]>([])
+    // const [recipesArr, setRecipesArr] = useState<testData[]>([])
     const [value, setValue] = useState<Option[]>([]);
     const [inputValue, setInputValue] = useState('');
-    const [filterArr, setFilterArr] = useState<testData[]>([])
+    // const [filterArr, setFilterArr] = useState<testData[]>([])
+    const [filterArr, setFilterArr] = useState<RecipeData[]>([])
     const [isfilterArrEmpty, setIsfilterArrEmpty] = useState<Boolean>(false)
     //2f57ba40700b492a98d46c16cb731636
     //96b03ded692d45b391ec26a66cf00564
-    const apiKey = '2f57ba40700b492a98d46c16cb731636';
+    //3a40e1bfe3084f53b0d475f56d06468b
+    const apiKey = '3a40e1bfe3084f53b0d475f56d06468b';
 
-    // React.useEffect(() => { // Получаем данные о всех рецептах из API
-    //     const getAllCards = async (): Promise<void> => {
-    //         const result = await axios({
-    //             method: 'get',
-    //             url: `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&addRecipeNutrition=true`
-    //         });
-    //         setRecipesArr(result.data.results.map((raw: RecipeData) => ({
-    //             id: raw.id,
-    //             image: raw.image,
-    //             title: raw.title,
-    //             readyInMinutes: raw.readyInMinutes,
-    //             ingredients: getIngredientsString(raw.nutrition.ingredients), // Преобразовываем массив ингредиентов в строку с разделителями
-    //             healthScore: raw.healthScore
-    //         })))
-    //         console.log('result', result.data.results)
-    //     }
-    //     getAllCards()
-
-    // }, [])
-
-    React.useEffect(() => { // Тест данных без API
-        const getAllCards = (): void => {
-            let count: number = 0
-            const titles: Array<string> = ['meet', 'lemon', 'apple', 'green bins', 'egg', 'chicken', 'potato', 'srawberry', 'rasberry', 'ing']
-            let newArr: Array<testData> = []
-            while (count < 10) {
-                let newItem: any = {
-                    id: count,
-                    image: 'https://w.forfun.com/fetch/f7/f76c030200142905d4d0856baa694308.jpeg',
-                    title: titles[count],
-                    readyInMinutes: '45',
-                    ingredients: 'fjdklsa fjdkl jfkdlsjf kdlsajfkd lsajfkls', // Преобразовываем массив ингредиентов в строку с разделителями
-                    healthScore: '23434'
-                }
-                console.log(count)
-                count++
-                newArr.push(newItem)
-            }
-            setRecipesArr(newArr)
-            setFilterArr(newArr)
+    React.useEffect(() => { // Получаем данные о всех рецептах из API
+        const getAllCards = async (): Promise<void> => {
+            const result = await axios({
+                method: 'get',
+                url: `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&addRecipeNutrition=true`
+            });
+            setRecipesArr(result.data.results.map((raw: RecipeData) => ({
+                id: raw.id,
+                image: raw.image,
+                title: raw.title,
+                readyInMinutes: raw.readyInMinutes,
+                ingredients: getIngredientsString(raw.nutrition.ingredients), // Преобразовываем массив ингредиентов в строку с разделителями
+                healthScore: raw.healthScore
+            })))
+            setFilterArr(result.data.results.map((raw: RecipeData) => ({
+                id: raw.id,
+                image: raw.image,
+                title: raw.title,
+                readyInMinutes: raw.readyInMinutes,
+                ingredients: getIngredientsString(raw.nutrition.ingredients), // Преобразовываем массив ингредиентов в строку с разделителями
+                healthScore: raw.healthScore
+            })))
         }
         getAllCards()
+
     }, [])
 
-    const searchTitle = (value: string) => {
-        // setFilterArr(recipesArr.filter((o) => o.title.toLowerCase().includes(value.toLowerCase())))
-        // if (filterArr.length === 0) {
-        //     setIsfilterArrEmpty(true)
-        // } else {
-        //     setIsfilterArrEmpty(false)
-        // }
 
+    // React.useEffect(() => { // Тест данных без API
+    //     const getAllCards = (): void => {
+    //         let count: number = 0
+    //         const titles: Array<string> = ['meet', 'lemon', 'apple', 'green bins', 'egg', 'chicken', 'potato', 'srawberry', 'rasberry', 'ing']
+    //         let newArr: Array<testData> = []
+    //         while (count < 10) {
+    //             let newItem: any = {
+    //                 id: count,
+    //                 image: 'https://w.forfun.com/fetch/f7/f76c030200142905d4d0856baa694308.jpeg',
+    //                 title: titles[count],
+    //                 readyInMinutes: '45',
+    //                 ingredients: 'fjdklsa fjdkl jfkdlsjf kdlsajfkd lsajfkls', // Преобразовываем массив ингредиентов в строку с разделителями
+    //                 healthScore: '23434'
+    //             }
+    //             console.log(count)
+    //             count++
+    //             newArr.push(newItem)
+    //         }
+    //         setRecipesArr(newArr)
+    //         setFilterArr(newArr)
+    //     }
+    //     getAllCards()
+    // }, [])
+
+    const searchTitle = (value: string) => {
         return recipesArr.filter((o) => o.title.toLowerCase().includes(value.toLowerCase()))
     }
 
@@ -164,18 +167,7 @@ const RecipesPage: React.FC = () => {
                     />
                 </div>
                 <div className={styles['recipes__page-cards']}>
-                    {/* {recipesArr.map((recipe: RecipeData) =>
-                        <Card
-                            key={recipe.id}
-                            actionSlot={<Button>Save</Button>}
-                            captionSlot={recipe.readyInMinutes + ' minutes'}
-                            contentSlot={recipe.healthScore + ' kcal'}
-                            image={recipe.image}
-                            title={recipe.title}
-                            subtitle={recipe.ingredients}
-                        />
-                    )} */}
-                    {filterArr.map((recipe: testData) =>
+                    {filterArr.map((recipe: RecipeData) =>
                         <Card
                             key={recipe.id}
                             actionSlot={<Button>Save</Button>}
@@ -186,6 +178,17 @@ const RecipesPage: React.FC = () => {
                             subtitle={recipe.ingredients}
                         />
                     )}
+                    {/* {filterArr.map((recipe: testData) =>
+                        <Card
+                            key={recipe.id}
+                            actionSlot={<Button>Save</Button>}
+                            captionSlot={recipe.readyInMinutes + ' minutes'}
+                            contentSlot={recipe.healthScore + ' kcal'}
+                            image={recipe.image}
+                            title={recipe.title}
+                            subtitle={recipe.ingredients}
+                        />
+                    )} */}
                 </div>
             </div>
         </div>
