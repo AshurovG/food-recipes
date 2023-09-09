@@ -110,9 +110,8 @@ const RecipesPage: React.FC = () => {
         setFilterArr(recipesArr.filter((o) => o.title.toLowerCase().includes(value.toLowerCase())))
     }
 
-    const handleChangeInputValue = (value: string) => {
-        setInputValue(value);
-        searchTitle(value)
+    const onSearchButtonClick = (): void => {
+        searchTitle(inputValue)
     }
 
     const getIngredientsString = (ingredients: Array<ingredientData>): string => {
@@ -134,7 +133,7 @@ const RecipesPage: React.FC = () => {
                 </Text>
                 <div className={styles['search__info-block']}>
                     <div className={styles['search__input-block']}>
-                        <Input value={inputValue} onChange={handleChangeInputValue}></Input> <Button><SearchIcon /></Button>
+                        <Input value={inputValue} onChange={setInputValue}></Input> <Button onClick={onSearchButtonClick}><SearchIcon /></Button>
                     </div>
 
                     <MultiDropdown
