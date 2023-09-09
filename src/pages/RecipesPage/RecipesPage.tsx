@@ -28,7 +28,8 @@ export type RecipeData = {
     title: string;
     readyInMinutes?: string;
     healthScore?: string;
-    nutrition: any
+    nutrition: any,
+    ingredients: string
 }
 
 const RecipesPage: React.FC = () => {
@@ -45,7 +46,7 @@ const RecipesPage: React.FC = () => {
                 image: raw.image,
                 title: raw.title,
                 readyInMinutes: raw.readyInMinutes,
-                ingredients: getIngredientsString(raw.nutrition.ingredients),
+                ingredients: getIngredientsString(raw.nutrition.ingredients), // Преобразовываем массив ингредиентов в строку с разделителями
                 healthScore: raw.healthScore
             })))
             console.log('result', result.data.results)
@@ -56,14 +57,12 @@ const RecipesPage: React.FC = () => {
 
 
     const getIngredientsString = (ingredients: Array<ingredientData>): string => {
-        console.log(111)
         let newArr: Array<string> = ingredients.map((ingredient: ingredientData) => {
             return ingredient.name
         })
 
         return newArr.slice(0, newArr.length - 1).join(' + ') + ' ' + newArr[newArr.length - 1];
     }
-    console.log(recipesArr)
 
 
     return (
@@ -75,11 +74,11 @@ const RecipesPage: React.FC = () => {
                 {recipesArr.map((recipe: RecipeData) =>
                     <Card
                         actionSlot={<Button>Save</Button>}
-                        captionSlot={recipe.readyInMinutes}
-                        contentSlot={recipe.healthScore}
+                        captionSlot={recipe.readyInMinutes + ' minutes'}
+                        contentSlot={recipe.healthScore + ' kcal'}
                         image={recipe.image}
                         title={recipe.title}
-                        subtitle={'recipetle'}
+                        subtitle={recipe.ingredients}
                     />
                 )}
             </div>
