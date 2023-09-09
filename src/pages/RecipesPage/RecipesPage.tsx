@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom'
 import cn from 'classnames';
 import styles from './RecipesPage.module.scss';
 import Header from 'components/Header';
@@ -197,16 +198,21 @@ const RecipesPage: React.FC = () => {
                             subtitle={recipe.ingredients}
                         />
                     )} */}
+
+
                     {filterArr.map((recipe: testData) =>
-                        <Card
-                            key={recipe.id}
-                            actionSlot={<Button>Save</Button>}
-                            captionSlot={recipe.readyInMinutes + ' minutes'}
-                            contentSlot={recipe.healthScore + ' kcal'}
-                            image={recipe.image}
-                            title={recipe.title}
-                            subtitle={recipe.ingredients}
-                        />
+                        <Link to={`/recipe/${recipe.id}`}>
+                            <Card
+                                key={recipe.id}
+                                actionSlot={<Button>Save</Button>}
+                                captionSlot={recipe.readyInMinutes + ' minutes'}
+                                contentSlot={recipe.healthScore + ' kcal'}
+                                image={recipe.image}
+                                title={recipe.title}
+                                subtitle={recipe.ingredients}
+                            />
+                        </Link>
+
                     )}
                 </div>
             </div>
