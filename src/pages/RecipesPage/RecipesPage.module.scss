@@ -10,9 +10,23 @@
 .recipes__page-wrapper {
     max-width: 1240px;
     margin: 0 auto;
+}
+
+.recipes__page-cards {
     margin-top: 64px;
 
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 65px;
+}
+
+.search__title {
+    text-align: center;
+    padding-top: 30px;
+    padding-bottom: 48px;
+}
+
+.search__block {
+    display: flex;
+    gap: 20px;
 }

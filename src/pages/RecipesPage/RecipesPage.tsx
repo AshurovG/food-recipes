@@ -3,6 +3,10 @@ import cn from 'classnames';
 import styles from './RecipesPage.module.scss';
 import Header from 'components/Header';
 import MainImage from 'components/MainImage';
+import Input from 'components/Input';
+import MultiDropdown from 'components/MultiDropdown';
+import Text from 'components/Text';
+import SearchIcon from 'components/icons/SearchIcon';
 import Card from 'components/Card';
 import Button from 'components/Button';
 import axios from 'axios';
@@ -69,18 +73,26 @@ const RecipesPage: React.FC = () => {
         <div className={styles.recipes__page}>
             <Header></Header>
             <MainImage />
-
             <div className={styles['recipes__page-wrapper']}>
-                {recipesArr.map((recipe: RecipeData) =>
-                    <Card
-                        actionSlot={<Button>Save</Button>}
-                        captionSlot={recipe.readyInMinutes + ' minutes'}
-                        contentSlot={recipe.healthScore + ' kcal'}
-                        image={recipe.image}
-                        title={recipe.title}
-                        subtitle={recipe.ingredients}
-                    />
-                )}
+                <Text className={styles.search__title} view='p-20'>
+                    Find the perfect food and <span style={{ textDecorationLine: 'underline' }}>drink ideas</span> for every occasion, from <span style={{ textDecorationLine: 'underline' }}>weeknight dinners</span> to <span style={{ textDecorationLine: 'underline' }}>holiday feasts</span>.
+                </Text>
+                <div className={styles.search__block}>
+                    <Input value='' onChange={() => { }}></Input> <Button><SearchIcon /></Button>
+                </div>
+                <div className={styles['recipes__page-cards']}>
+                    {recipesArr.map((recipe: RecipeData) =>
+                        <Card
+                            key={recipe.id}
+                            actionSlot={<Button>Save</Button>}
+                            captionSlot={recipe.readyInMinutes + ' minutes'}
+                            contentSlot={recipe.healthScore + ' kcal'}
+                            image={recipe.image}
+                            title={recipe.title}
+                            subtitle={recipe.ingredients}
+                        />
+                    )}
+                </div>
             </div>
         </div>
     )
