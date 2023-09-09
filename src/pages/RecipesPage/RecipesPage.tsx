@@ -18,6 +18,26 @@ export type nutrientsOfIngredientData = {
     unit: string
 }
 
+export const USERS = [
+    {
+        id: '1',
+        name: 'Ivan'
+    },
+    {
+        id: '2',
+        name: 'Alex'
+    },
+    {
+        id: '3',
+        name: 'Sergy'
+    },
+    {
+        id: '4',
+        name: 'Artem'
+    }
+
+]
+
 export type ingredientData = {
     amount: number,
     id: number,
@@ -138,7 +158,6 @@ const RecipesPage: React.FC = () => {
 
         return newArr.slice(0, newArr.length - 1).join(' + ') + ' ' + newArr[newArr.length - 1];
     }
-
 
     return (
         <div className={styles.recipes__page}>

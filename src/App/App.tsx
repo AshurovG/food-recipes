@@ -28,7 +28,9 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path='/' element={<RecipesPage />} />
-                    <Route path='/recipe' element={<RecipesDetailedPage />}></Route>
+                    <Route path='/recipe'>
+                        <Route path=':id' element={<RecipesDetailedPage />} />
+                    </Route>
                 </Routes>
 
             </BrowserRouter>
