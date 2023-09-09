@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import cn from 'classnames';
 import styles from './RecipesPage.module.scss';
 import Header from 'components/Header';
@@ -46,6 +46,7 @@ type Option = {
 const RecipesPage: React.FC = () => {
     const [recipesArr, setRecipesArr] = useState([])
     const [value, setValue] = useState<Option[]>([]);
+    const [inputValue, setInputValue] = useState('');
     //2f57ba40700b492a98d46c16cb731636
     //96b03ded692d45b391ec26a66cf00564
     const apiKey = '2f57ba40700b492a98d46c16cb731636';
@@ -90,7 +91,8 @@ const RecipesPage: React.FC = () => {
                 </Text>
                 <div className={styles['search__info-block']}>
                     <div className={styles['search__input-block']}>
-                        <Input value='' onChange={() => { }}></Input> <Button><SearchIcon /></Button>
+                        <Input value={inputValue} onChange={setInputValue}></Input> <Button><SearchIcon /></Button>
+                        <p>Значение: {inputValue}</p>
                     </div>
 
                     <MultiDropdown
