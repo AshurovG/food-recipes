@@ -1,0 +1,21 @@
+@import '../../styles/variables.scss';
+@import '../../styles/styles.scss';
+
+.detailed {
+    width: 100%;
+    height: auto;
+    display: flex;
+    gap: 16px;
+    // align-items: start;
+    justify-content: start;
+}
+
+
+.detailed__text {
+    vertical-align: bottom;
+    line-height: 20px;
+}
+
+// .detailed__icon {
+//     margin-right: 16px;
+// }
