@@ -36,28 +36,39 @@ export type RecipeData = {
     ingredients: string
 }
 
+type Option = {
+    /** Ключ варианта, используется для отправки на бек/использования в коде */
+    key: string;
+    /** Значение варианта, отображается пользователю */
+    value: string;
+};
+
 const RecipesPage: React.FC = () => {
     const [recipesArr, setRecipesArr] = useState([])
-    const apiKey = '96b03ded692d45b391ec26a66cf00564';
-    React.useEffect(() => { // Получаем данные о всех рецептах из API
-        const getAllCards = async (): Promise<void> => {
-            const result = await axios({
-                method: 'get',
-                url: `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&addRecipeNutrition=true`
-            });
-            setRecipesArr(result.data.results.map((raw: RecipeData) => ({
-                id: raw.id,
-                image: raw.image,
-                title: raw.title,
-                readyInMinutes: raw.readyInMinutes,
-                ingredients: getIngredientsString(raw.nutrition.ingredients), // Преобразовываем массив ингредиентов в строку с разделителями
-                healthScore: raw.healthScore
-            })))
-            console.log('result', result.data.results)
-        }
-        getAllCards()
+    const [value, setValue] = useState<Option[]>([]);
+    //2f57ba40700b492a98d46c16cb731636
+    //96b03ded692d45b391ec26a66cf00564
+    const apiKey = '2f57ba40700b492a98d46c16cb731636';
 
-    }, [])
+    // React.useEffect(() => { // Получаем данные о всех рецептах из API
+    //     const getAllCards = async (): Promise<void> => {
+    //         const result = await axios({
+    //             method: 'get',
+    //             url: `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&addRecipeNutrition=true`
+    //         });
+    //         setRecipesArr(result.data.results.map((raw: RecipeData) => ({
+    //             id: raw.id,
+    //             image: raw.image,
+    //             title: raw.title,
+    //             readyInMinutes: raw.readyInMinutes,
+    //             ingredients: getIngredientsString(raw.nutrition.ingredients), // Преобразовываем массив ингредиентов в строку с разделителями
+    //             healthScore: raw.healthScore
+    //         })))
+    //         console.log('result', result.data.results)
+    //     }
+    //     getAllCards()
+
+    // }, [])
 
 
     const getIngredientsString = (ingredients: Array<ingredientData>): string => {
@@ -77,8 +88,22 @@ const RecipesPage: React.FC = () => {
                 <Text className={styles.search__title} view='p-20'>
                     Find the perfect food and <span style={{ textDecorationLine: 'underline' }}>drink ideas</span> for every occasion, from <span style={{ textDecorationLine: 'underline' }}>weeknight dinners</span> to <span style={{ textDecorationLine: 'underline' }}>holiday feasts</span>.
                 </Text>
-                <div className={styles.search__block}>
-                    <Input value='' onChange={() => { }}></Input> <Button><SearchIcon /></Button>
+                <div className={styles['search__info-block']}>
+                    <div className={styles['search__input-block']}>
+                        <Input value='' onChange={() => { }}></Input> <Button><SearchIcon /></Button>
+                    </div>
+
+                    <MultiDropdown
+                        className={styles.selection__block}
+                        options={[
+                            { key: '1', value: 'Категория 1' },
+                            { key: '2', value: 'Категория 2' },
+                            { key: '3', value: 'Категория 3' }
+                        ]}
+                        value={value}
+                        onChange={setValue}
+                        getTitle={(values: Option[]) => values.length === 0 ? 'Categories' : values.map(({ value }) => value).join(', ')}
+                    />
                 </div>
                 <div className={styles['recipes__page-cards']}>
                     {recipesArr.map((recipe: RecipeData) =>
