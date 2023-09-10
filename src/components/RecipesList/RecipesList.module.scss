@@ -1,0 +1,10 @@
+@import '../../styles/styles.scss';
+@import '../../styles/variables.scss';
+
+.recipes__page-cards {
+    margin-top: 48px;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 75px;
+}
