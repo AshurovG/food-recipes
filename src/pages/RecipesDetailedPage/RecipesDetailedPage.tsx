@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom'
 import axios from 'axios';
+import { Link } from 'react-router-dom'
 import styles from './RecipesDetailedPage.module.scss';
 import Header from 'components/Header';
 import Сharacteristic from 'components/Сharacteristic'
@@ -16,14 +17,11 @@ type RecipeData = {
     cookingMinutes: string;
     image: string;
     aggregateLikes: string;
+    readyMinutes: string;
     servings: string;
-
     title: string;
-
     summary: any;
-
     extendedIngredients: [];
-
     equipment: [];
 }
 
@@ -47,6 +45,7 @@ const RecipesDetailedPage: React.FC = () => {
                 cookingMinutes: result.data.cookingMinutes,
                 aggregateLikes: result.data.aggregateLikes,
                 servings: result.data.servings,
+                readyMinutes: result.data.readyInMinutes,
                 summary: result.data.summary,
                 extendedIngredients: result.data.extendedIngredients,
                 equipment: result.data.analyzedInstructions[0].steps,
@@ -80,7 +79,7 @@ const RecipesDetailedPage: React.FC = () => {
 
             <div className={styles.detailed__wrapper}>
                 <div className={styles['content__title-flex']}>
-                    <BackIcon /><h1 className={styles.content__title} >{recipe?.title}</h1>
+                    <Link to='/'><BackIcon className={styles.back__button} /></Link><h1 className={styles.content__title} >{recipe?.title}</h1>
                 </div>
 
                 <div className={styles.main__info}>
@@ -89,10 +88,11 @@ const RecipesDetailedPage: React.FC = () => {
                         {/* {info.map((item: any) =>
                             <Сharacteristic title={item.title} value={item.value} />
                         )} */}
-                        <Сharacteristic title={'preparation'} value={recipe?.preparationMinutes} />
-                        <Сharacteristic title={'cooking'} value={recipe?.cookingMinutes} />
-                        <Сharacteristic title={'rating'} value={recipe?.aggregateLikes} />
-                        <Сharacteristic title={'servings'} value={recipe?.servings} />
+                        <Сharacteristic title={'Preparation'} value={`${recipe?.preparationMinutes} minutes`} />
+                        <Сharacteristic title={'Cooking'} value={`${recipe?.cookingMinutes} minutes`} />
+                        <Сharacteristic title={'Total'} value={`${recipe?.readyMinutes} minutes`} />
+                        <Сharacteristic title={'Rating'} value={`${recipe?.aggregateLikes} minutes`} />
+                        <Сharacteristic title={'Servings'} value={`${recipe?.servings} minutes`} />
 
                     </div>
                 </div>
@@ -118,8 +118,9 @@ const RecipesDetailedPage: React.FC = () => {
                     <div className={styles.features__item}>
                         <Text className={styles['features__item-title']} view='p-20' weight='bold'>Equipment</Text>
                         <div className={`${styles['features__equipment-content']} ${styles['features__item-content']}`}>
-                            {recipe?.equipment.map((item: any) =>
-                                <DetailedInfo type='equipment'> {item.original}</DetailedInfo>
+                            {recipe?.equipment.map((item: any, index) =>
+                                item.equipment.length > 0 &&
+                                <DetailedInfo type='equipment'> {item.equipment[0].name}</DetailedInfo>
                             )}
                         </div>
                     </div>

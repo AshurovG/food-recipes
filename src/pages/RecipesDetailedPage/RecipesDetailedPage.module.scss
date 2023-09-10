@@ -11,6 +11,7 @@
     width: 100%;
     margin: 0 auto;
     margin-top: 113px;
+    margin-bottom: 55px;
 }
 
 .content__title-flex {
@@ -24,6 +25,10 @@
     color: $text-primary;
     font-size: 44px;
     line-height: 48px;
+}
+
+.back__button {
+    cursor: pointer;
 }
 
 .main__info {
@@ -61,6 +66,10 @@
 
 .features__item-title {
     margin-bottom: $space-xl;
+}
+
+.features__item {
+    width: 48%;
 }
 
 .separator {
@@ -106,4 +115,5 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     column-gap: 80px;
+    row-gap: 10px;
 }
