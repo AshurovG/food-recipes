@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom'
-import cn from 'classnames';
+import axios from 'axios';
 import styles from './RecipesPage.module.scss';
 import Header from 'components/Header';
 import MainImage from 'components/MainImage';
@@ -10,7 +10,7 @@ import Text from 'components/Text';
 import SearchIcon from 'components/icons/SearchIcon';
 import Card from 'components/Card';
 import Button from 'components/Button';
-import axios from 'axios';
+import Loader from 'components/Loader';
 
 export type nutrientsOfIngredientData = {
     amount: number,
@@ -186,6 +186,7 @@ const RecipesPage: React.FC = () => {
                         getTitle={(values: Option[]) => values.length === 0 ? 'Categories' : values.map(({ value }) => value).join(', ')}
                     />
                 </div>
+                {/* <div className={styles.loader__wrapper}><Loader className={styles.loader} size='xl'></Loader></div> */}
                 <div className={styles['recipes__page-cards']}>
                     {/* {filterArr.map((recipe: RecipeData) =>
                         <Card

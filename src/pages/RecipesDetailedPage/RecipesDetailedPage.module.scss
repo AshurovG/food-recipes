@@ -31,6 +31,13 @@
     cursor: pointer;
 }
 
+.test {
+    width: 1000%;
+    height: 100%;
+    background-color: red;
+    font-size: 100px;
+}
+
 .main__info {
     display: flex;
     align-items: center;
@@ -116,4 +123,25 @@
     grid-template-columns: 1fr 1fr;
     column-gap: 80px;
     row-gap: 10px;
+}
+
+.loader__wrapper {
+    width: 100%;
+    margin-top: 113px;
+    display: flex;
+    justify-content: center;
+}
+
+.loader {
+    animation: rotate 1s infinite linear;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg) scale(1);
+    }
+
+    to {
+        transform: rotate((360deg)) scale(1.4);
+    }
 }

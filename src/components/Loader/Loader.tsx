@@ -18,7 +18,7 @@ const Loader: React.FC<LoaderProps> = ({ size, className }) => {
         } else if (size === 'l') {
             return '80px'
         } else if (size === 'xl') {
-            return '150px'
+            return '120px'
         } else {
             return '60px'
         }
