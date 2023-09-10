@@ -3,18 +3,22 @@ import React from 'react';
 
 export type LoaderProps = {
     /** Размер */
-    size?: 's' | 'm' | 'l';
+    size?: 's' | 'm' | 'l' | 'xl';
     /** Дополнительный класс */
     className?: string;
 };
 
 const Loader: React.FC<LoaderProps> = ({ size, className }) => {
 
-    const pxSize = (size?: 's' | 'm' | 'l') => {
-        if (size == 's') {
+    const pxSize = (size?: 's' | 'm' | 'l' | 'xl') => {
+        if (size === 's') {
             return '24px'
-        } else if (size == 'm') {
+        } else if (size === 'm') {
             return '48px'
+        } else if (size === 'l') {
+            return '80px'
+        } else if (size === 'xl') {
+            return '150px'
         } else {
             return '60px'
         }
