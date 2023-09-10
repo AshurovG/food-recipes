@@ -53,9 +53,7 @@ const RecipesDetailedPage: React.FC = () => {
                 extendedIngredients: result.data.extendedIngredients,
                 equipment: result.data.analyzedInstructions[0].steps,
             });
-            console.log(isDetailedPageLoading)
             setIsDetailedPageLoading(false)
-            console.log(isDetailedPageLoading)
         }
         fetch()
 

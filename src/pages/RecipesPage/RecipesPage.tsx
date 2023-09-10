@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'
 import axios from 'axios';
 import styles from './RecipesPage.module.scss';
 import Header from 'components/Header';
@@ -11,6 +10,7 @@ import SearchIcon from 'components/icons/SearchIcon';
 import Card from 'components/Card';
 import Button from 'components/Button';
 import Loader from 'components/Loader';
+import RecipesList from 'components/RecipesList';
 
 export type nutrientsOfIngredientData = {
     amount: number,
@@ -18,26 +18,6 @@ export type nutrientsOfIngredientData = {
     percentOfDailyNeeds: number,
     unit: string
 }
-
-export const USERS = [
-    {
-        id: '1',
-        name: 'Ivan'
-    },
-    {
-        id: '2',
-        name: 'Alex'
-    },
-    {
-        id: '3',
-        name: 'Sergy'
-    },
-    {
-        id: '4',
-        name: 'Artem'
-    }
-
-]
 
 export type ingredientData = {
     amount: number,
@@ -74,69 +54,107 @@ type Option = {
 };
 
 const RecipesPage: React.FC = () => {
-    // const [recipesArr, setRecipesArr] = useState<RecipeData[]>([])
-    const [recipesArr, setRecipesArr] = useState<testData[]>([])
+    const [recipesArr, setRecipesArr] = useState<RecipeData[]>([])
+    // const [recipesArr, setRecipesArr] = useState<testData[]>([])
     const [value, setValue] = useState<Option[]>([]);
     const [inputValue, setInputValue] = useState('');
-    const [filterArr, setFilterArr] = useState<testData[]>([])
-    // const [filterArr, setFilterArr] = useState<RecipeData[]>([])
+    // const [filterArr, setFilterArr] = useState<testData[]>([])
+    const [filterArr, setFilterArr] = useState<RecipeData[]>([])
     const [isfilterArrEmpty, setIsfilterArrEmpty] = useState<Boolean>(false)
+    const [totalCountCards, setTotalCountCards] = useState(0)
+    const [totalPages, setTotalPages] = useState(0)
+    const [currentPage, setCurrentPage] = useState<number>(1)
+    const lastElement = React.useRef<HTMLDivElement>(null)
+    const observer = React.useRef<any>(null)
+    const [isPageLoading, setIsPageLoading] = useState(false)
+    // const [observerTriggered, setObserverTriggered] = useState(false);
     //2f57ba40700b492a98d46c16cb731636
     //96b03ded692d45b391ec26a66cf00564
     //3a40e1bfe3084f53b0d475f56d06468b
     const apiKey = '3a40e1bfe3084f53b0d475f56d06468b';
 
-    // React.useEffect(() => { // Получаем данные о всех рецептах из API
-    //     const getAllCards = async (): Promise<void> => {
-    //         const result = await axios({
-    //             method: 'get',
-    //             url: `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&addRecipeNutrition=true`
-    //         });
-    //         setRecipesArr(result.data.results.map((raw: RecipeData) => ({
-    //             id: raw.id,
-    //             image: raw.image,
-    //             title: raw.title,
-    //             readyInMinutes: raw.readyInMinutes,
-    //             ingredients: getIngredientsString(raw.nutrition.ingredients), // Преобразовываем массив ингредиентов в строку с разделителями
-    //             healthScore: raw.healthScore
-    //         })))
-    //         setFilterArr(result.data.results.map((raw: RecipeData) => ({
-    //             id: raw.id,
-    //             image: raw.image,
-    //             title: raw.title,
-    //             readyInMinutes: raw.readyInMinutes,
-    //             ingredients: getIngredientsString(raw.nutrition.ingredients), // Преобразовываем массив ингредиентов в строку с разделителями
-    //             healthScore: raw.healthScore
-    //         })))
-    //     }
-    //     getAllCards()
+    React.useEffect(() => { // Получаем данные о всех рецептах из API
+        const getAllCards = async (): Promise<void> => {
+            setIsPageLoading(true)
+            const result = await axios({
+                method: 'get',
+                url: `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&addRecipeNutrition=true&number=6`
+            });
+            setRecipesArr(result.data.results.map((raw: RecipeData) => ({
+                id: raw.id,
+                image: raw.image,
+                title: raw.title,
+                readyInMinutes: raw.readyInMinutes,
+                ingredients: getIngredientsString(raw.nutrition.ingredients), // Преобразовываем массив ингредиентов в строку с разделителями
+                healthScore: raw.healthScore
+            })))
+            setFilterArr(result.data.results.map((raw: RecipeData) => ({
+                id: raw.id,
+                image: raw.image,
+                title: raw.title,
+                readyInMinutes: raw.readyInMinutes,
+                ingredients: getIngredientsString(raw.nutrition.ingredients), // Преобразовываем массив ингредиентов в строку с разделителями
+                healthScore: raw.healthScore
+            })))
 
-    // }, [])
-
-
-    React.useEffect(() => { // Тест данных без API
-        const getAllCards = (): void => {
-            let count: number = 0
-            const titles: Array<string> = ['meet', 'lemon', 'apple', 'green bins', 'egg', 'chicken', 'potato', 'srawberry', 'rasberry', 'ing']
-            let newArr: Array<testData> = []
-            while (count < 10) {
-                let newItem: any = {
-                    id: count,
-                    image: 'https://w.forfun.com/fetch/f7/f76c030200142905d4d0856baa694308.jpeg',
-                    title: titles[count],
-                    readyInMinutes: '45',
-                    ingredients: 'fjdklsa fjdkl jfkdlsjf kdlsajfkd lsajfkls', // Преобразовываем массив ингредиентов в строку с разделителями
-                    healthScore: '23434'
-                }
-                console.log(count)
-                count++
-                newArr.push(newItem)
-            }
-            setRecipesArr(newArr)
-            setFilterArr(newArr)
+            setIsPageLoading(false)
         }
         getAllCards()
+
     }, [])
+
+
+    // React.useEffect(() => { // Тест данных без API
+
+    //     const getAllCards = (): void => {
+    //         let count: number = 0
+    //         const titles: Array<string> = ['meet', 'lemon', 'apple', 'green bins', 'egg', 'chicken', 'potato', 'srawberry', 'rasberry', 'ing']
+    //         let newArr: Array<testData> = []
+    //         while (count < 10) {
+    //             let newItem: any = {
+    //                 id: count,
+    //                 image: 'https://w.forfun.com/fetch/f7/f76c030200142905d4d0856baa694308.jpeg',
+    //                 title: titles[count],
+    //                 readyInMinutes: '45',
+    //                 ingredients: 'fjdklsa fjdkl jfkdlsjf kdlsajfkd lsajfkls', // Преобразовываем массив ингредиентов в строку с разделителями
+    //                 healthScore: '23434'
+    //             }
+    //             count++
+    //             newArr.push(newItem)
+    //         }
+    //         setTotalCountCards(newArr.length)
+    //         setRecipesArr(newArr)
+    //         setFilterArr(newArr)
+    //     }
+    //     getAllCards()
+    //     setTotalPages(Math.ceil(totalCountCards / 9))
+    // }, [])
+
+    React.useEffect(() => {
+        const callback = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
+            if (entries[0].isIntersecting) {
+                setCurrentPage(currentPage + 1);
+
+                console.log("ДИВ ВИДИМЫЙ");
+            }
+
+        };
+
+        if (lastElement.current) {
+            observer.current = new IntersectionObserver(callback);
+            observer.current.observe(lastElement.current);
+        }
+
+        return () => {
+            if (observer.current) {
+                observer.current.disconnect();
+            }
+        };
+    }, []);
+
+    React.useEffect(() => {
+
+    }, [currentPage])
 
     const searchTitle = (value: string) => {
         return recipesArr.filter((o) => o.title.toLowerCase().includes(value.toLowerCase()))
@@ -186,36 +204,13 @@ const RecipesPage: React.FC = () => {
                         getTitle={(values: Option[]) => values.length === 0 ? 'Categories' : values.map(({ value }) => value).join(', ')}
                     />
                 </div>
-                {/* <div className={styles.loader__wrapper}><Loader className={styles.loader} size='xl'></Loader></div> */}
-                <div className={styles['recipes__page-cards']}>
-                    {/* {filterArr.map((recipe: RecipeData) =>
-                        <Card
-                            key={recipe.id}
-                            actionSlot={<Button>Save</Button>}
-                            captionSlot={recipe.readyInMinutes + ' minutes'}
-                            contentSlot={recipe.healthScore + ' kcal'}
-                            image={recipe.image}
-                            title={recipe.title}
-                            subtitle={recipe.ingredients}
-                        />
-                    )} */}
+                {isPageLoading &&
+                    <div className={styles.loader__wrapper}>
+                        <Loader className={styles.loader} size='xl' />
+                    </div>}
 
-
-                    {filterArr.map((recipe: testData) =>
-                        <Link to={`/recipe/${recipe.id}`}>
-                            <Card
-                                key={recipe.id}
-                                actionSlot={<Button>Save</Button>}
-                                captionSlot={recipe.readyInMinutes + ' minutes'}
-                                contentSlot={recipe.healthScore + ' kcal'}
-                                image={recipe.image}
-                                title={recipe.title}
-                                subtitle={recipe.ingredients}
-                            />
-                        </Link>
-
-                    )}
-                </div>
+                <RecipesList cards={filterArr} />
+                <div ref={lastElement} style={{ width: '100%', height: '20px', backgroundColor: "red" }}></div>
             </div>
         </div>
     )
