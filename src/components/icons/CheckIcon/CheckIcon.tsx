@@ -13,7 +13,7 @@ const CheckIcon: React.FC<IconProps> = ({ className, color, width, height }) => 
         colorResult = "#518581"
     }
     let classes: string = `icon_wrapper ${className}`
-    return <Icon viewBox="0 0 24 24" color={color} width={width ? width : 24} height={height ? height : 24} className={classes} ><path d="M4 11.6129L9.87755 18L20 7" stroke={colorResult} stroke-width="2" /></Icon>
+    return <Icon viewBox="0 0 24 24" color={color} width={width ? width : 24} height={height ? height : 24} className={classes} ><path d="M4 11.6129L9.87755 18L20 7" stroke={colorResult} strokeWidth="2" /></Icon>
 }
 
 export default CheckIcon;

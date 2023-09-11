@@ -13,7 +13,7 @@ const LogoIcon: React.FC<IconProps> = ({ className, color, width, height }) => {
     }
     return <Icon viewBox="0 0 36 36" color={color} width={width ? width : 36} height={height ? height : 36} className={'icon_wrapper' + ` ${className}`} >
         <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36" fill="none">
-            <g clip-path="url(#clip0_508_1449)">
+            <g clipPath="url(#clip0_508_1449)">
                 <path d="M17.8585 0.506165C27.5209 0.506165 35.352 8.33833 35.352 18C35.352 27.6628 27.5209 35.4938 17.8585 35.4938C8.19684 35.4938 0.364685 27.6628 0.364685 18C0.364685 8.33833 8.19684 0.506165 17.8585 0.506165Z" fill="white" />
                 <path d="M17.7689 33.4343C26.4389 33.4343 33.4674 26.4058 33.4674 17.7358C33.4674 9.0657 26.4389 2.03723 17.7689 2.03723C9.09884 2.03723 2.07037 9.0657 2.07037 17.7358C2.07037 26.4058 9.09884 33.4343 17.7689 33.4343Z" fill="url(#paint0_linear_508_1449)" />
                 <path d="M18.1897 30.3613C16.3901 28.1578 15.4422 27.0086 15.3479 26.915C14.9918 26.4884 14.3878 25.8966 13.5356 25.1388C13.9144 23.1008 14.4119 21.5143 15.0282 20.3767C15.2647 19.9739 16.2479 18.6473 17.9773 16.3969C18.9252 18.3629 20.2046 19.6895 21.8149 20.3767C22.1695 20.5189 23.6977 20.839 26.3974 21.3368C28.3882 21.7382 29.9876 22.4852 31.1947 23.5753C32.9004 25.114 34.3804 27.6728 35.6357 31.2494C30.5431 28.3831 26.9068 27.3769 24.7284 28.2294C23.7092 28.8457 22.8326 29.331 22.099 29.6863C20.9858 30.2544 19.6826 30.4798 18.1897 30.3613Z" fill="white" />
@@ -21,8 +21,8 @@ const LogoIcon: React.FC<IconProps> = ({ className, color, width, height }) => {
             </g>
             <defs>
                 <linearGradient id="paint0_linear_508_1449" x1="15.0425" y1="2.27336" x2="20.4954" y2="33.1986" gradientUnits="userSpaceOnUse">
-                    <stop stop-color="#B5460F" />
-                    <stop offset="1" stop-color="#B5460F" />
+                    <stop stopColor="#B5460F" />
+                    <stop offset="1" stopColor="#B5460F" />
                 </linearGradient>
                 <clipPath id="clip0_508_1449">
                     <rect width="36" height="36" fill="white" />
