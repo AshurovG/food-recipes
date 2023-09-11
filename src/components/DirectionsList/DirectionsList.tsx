@@ -17,7 +17,7 @@ const DirectionsList: React.FC<DirectionsListProps> = ({
 
     return (
         <div className={styles.directions__list}>
-            {steps && steps.map((step: any) =>
+            {steps && steps.map((step: DirectionsInfo) =>
                 <div className={styles['directions__list-item']}>
                     <Text view='p-16' weight='bold' className={styles['directions__list-title']}>{step.title}</Text>
                     <Text view='p-14' className={styles['directions__list-text']}>{step.text}</Text>
