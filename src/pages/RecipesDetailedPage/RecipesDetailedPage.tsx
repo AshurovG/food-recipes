@@ -30,7 +30,7 @@ const RecipesDetailedPage: React.FC = () => {
     const [recipe, setRecipe] = useState<RecipeData>();
     const { id } = useParams();
     const [isDetailedPageLoading, setIsDetailedPageLoading] = useState(true)
-    const apiKey = '5884e4538ade47a3bee00a8bed3eb378';
+    const apiKey = 'b628c4fc31ce4a519836f0bfa06853a4';
 
     React.useEffect(() => {
         const fetch = async () => {

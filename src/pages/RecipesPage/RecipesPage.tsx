@@ -65,7 +65,8 @@ const RecipesPage: React.FC = () => {
     //96b03ded692d45b391ec26a66cf00564
     //3a40e1bfe3084f53b0d475f56d06468b
     //5884e4538ade47a3bee00a8bed3eb378
-    const apiKey = '5884e4538ade47a3bee00a8bed3eb378';
+    //b628c4fc31ce4a519836f0bfa06853a4 - АКТУАЛЬНЫЙ КЛЮЧ К АПИ
+    const apiKey = 'b628c4fc31ce4a519836f0bfa06853a4';
 
     React.useEffect(() => { // Получаем данные о всех рецептах из API
         if (isFirstCards) {
