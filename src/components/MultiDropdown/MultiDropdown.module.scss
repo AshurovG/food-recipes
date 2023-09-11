@@ -3,48 +3,49 @@
 
 .dropdown {
     position: relative;
-}
 
-.dropdown_disabled {
-    pointer-events: none;
+    &_disabled {
+        pointer-events: none;
+    }
+
+    &_open {}
+
+    &__options {
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 0;
+        width: 100%;
+
+        background-color: $default-color;
+        box-shadow: $box-shadow;
+        z-index: 100;
+    }
+
+    &__option {
+        appearance: none;
+        background: none;
+        outline: none;
+        border: none;
+
+        width: 100%;
+        height: 48px;
+        padding: $space-s $space-xs;
+
+        color: $text-primary;
+        text-align: left;
+        cursor: pointer;
+        transition: color .2s ease;
+
+        &:hover {
+            color: $text-secondary;
+        }
+
+        &_selected {
+            color: $brand;
+        }
+    }
 }
 
 .dropdown_open .dropdown__input {
     border: 1px solid $brand;
-}
-
-.dropdown__options {
-    position: absolute;
-    top: calc(100% + 8px);
-    left: 0;
-    width: 100%;
-
-    background-color: $default-color;
-    box-shadow: $box-shadow;
-    z-index: 100;
-}
-
-.dropdown__option {
-    appearance: none;
-    background: none;
-    outline: none;
-    border: none;
-
-    width: 100%;
-    height: 48px;
-    padding: $space-s $space-xs;
-
-    color: $text-primary;
-    text-align: left;
-    cursor: pointer;
-    transition: color .2s ease;
-}
-
-
-.dropdown__option:hover {
-    color: $text-secondary;
-}
-
-.dropdown__option_selected {
-    color: $brand;
 }

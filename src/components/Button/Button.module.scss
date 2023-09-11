@@ -3,8 +3,6 @@
 
 .button {
     color: $text-primary;
-    // background: $brand;
-
     min-height: 52px;
     padding: $space-s $space-l;
     border-radius: $border-radius;
@@ -14,37 +12,34 @@
     border: none;
     display: inline-flex;
     align-items: center;
-}
 
-.button:hover {
-    background-color: $brand-hover;
-    color: $default-color;
-}
+    &:hover {
+        background-color: $brand-hover;
+        color: $default-color;
+    }
 
-.button:active {
-    background-color: $brand-active;
-    color: $default-color;
-}
+    &:active {
+        background-color: $brand-active;
+        color: $default-color;
+    }
 
-.button:disabled {
-    pointer-events: none;
-}
+    &:disabled {
+        pointer-events: none;
+    }
 
-.button.button_disabled {
-    background-color: $brand-disabled;
-    color: $default-color;
-}
+    &.button_disabled {
+        background-color: $brand-disabled;
+        color: $default-color;
+    }
 
-.button__text,
-.button__loader {
-    transition: color .3s ease;
-}
+    &__text {
+        transition: color .3s ease;
+        color: $default-color;
+    }
 
-.button__text {
-    color: $default-color;
-}
-
-.button__loader {
-    margin-right: 8px;
-    flex-shrink: 0;
+    &__loader {
+        transition: color .3s ease;
+        margin-right: 8px;
+        flex-shrink: 0;
+    }
 }

@@ -1,28 +1,31 @@
 @import '../../styles/variables.scss';
 @import '../../styles/styles.scss';
 
-.custom-checkbox_enable {
-    position: relative;
-    display: block;
-    width: 40px;
-    height: 40px;
-    background: $default-color;
-    border: 1px solid $default-color;
-    border-radius: $border-radius;
-}
+.custom-checkbox {
+    &_enable {
+        position: relative;
+        display: block;
+        width: 40px;
+        height: 40px;
+        background: $default-color;
+        border: 1px solid $default-color;
+        border-radius: $border-radius;
 
-.custom-checkbox_enable:hover {
-    border: 1px solid $brand;
-}
+        &:hover {
+            border: 1px solid $brand;
+        }
+    }
 
-.custom-checkbox_disable {
-    position: relative;
-    display: block;
-    width: 40px;
-    height: 40px;
-    border-radius: 0px;
-    border: 1px solid rgba(255, 255, 255, 0.00);
-    background: rgba(255, 255, 255, 0.50);
+    &_disable {
+        position: relative;
+        display: block;
+        width: 40px;
+        height: 40px;
+        border-radius: 0px;
+        border: 1px solid rgba(255, 255, 255, 0.00);
+        background: rgba(255, 255, 255, 0.50);
+    }
+
 }
 
 .checkbox {

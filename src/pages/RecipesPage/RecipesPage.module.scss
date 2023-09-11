@@ -4,25 +4,39 @@
 .recipes__page {
     width: 100%;
     margin-bottom: 50px;
+
+    &-wrapper {
+        max-width: 1240px;
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    &-cards {
+        margin-top: 48px;
+
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 75px;
+    }
 }
 
-.recipes__page-wrapper {
-    max-width: 1240px;
-    width: 100%;
-    margin: 0 auto;
-}
+// .recipes__page-wrapper {
+//     max-width: 1240px;
+//     width: 100%;
+//     margin: 0 auto;
+// }
 
 .infinite__scroll::-webkit-scrollbar {
     display: none;
 }
 
-.recipes__page-cards {
-    margin-top: 48px;
+// .recipes__page-cards {
+//     margin-top: 48px;
 
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 75px;
-}
+//     display: grid;
+//     grid-template-columns: 1fr 1fr 1fr;
+//     gap: 75px;
+// }
 
 .search__title {
     text-align: center;

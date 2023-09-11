@@ -10,11 +10,11 @@
     background-size: cover;
     background-repeat: no-repeat;
     margin-top: 64px;
-}
 
-.main__image-title {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%)
+    &-title {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%)
+    }
 }

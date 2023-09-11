@@ -7,11 +7,11 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
-}
 
-.directions__list-item {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
+    &-item {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+    }
 }
