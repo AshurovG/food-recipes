@@ -27,7 +27,6 @@ type RecipeData = {
 }
 
 const RecipesDetailedPage: React.FC = () => {
-    // const [value, setValue] = useState<Option[]>([]);  
     const [recipe, setRecipe] = useState<RecipeData>();
     const { id } = useParams();
     const [isDetailedPageLoading, setIsDetailedPageLoading] = useState(true)
@@ -58,21 +57,6 @@ const RecipesDetailedPage: React.FC = () => {
         fetch()
 
     }, [])
-
-    const info = [
-        { title: 'title 1', value: 'value 1' },
-        { title: 'title 1', value: 'value 1' },
-        { title: 'title 1', value: 'value 1' },
-        { title: 'title 1', value: 'value 1' },
-        { title: 'title 1', value: 'value 1' }
-    ]
-    const steps = [
-        { title: 'title 1', text: 'value 1' },
-        { title: 'title 1', text: 'value 1' },
-        { title: 'title 1', text: 'value 1' },
-        { title: 'title 1', text: 'value 1' },
-        { title: 'title 1', text: 'value 1' }
-    ]
     return (
         <div className={styles.detailed__page}>
             <Header />
@@ -87,9 +71,6 @@ const RecipesDetailedPage: React.FC = () => {
                     <div className={styles.main__info}>
                         <img className={styles['main__info-image']} src={recipe?.image} alt={recipe?.title} />
                         <div className={styles['main__info-content']}>
-                            {/* {info.map((item: any) =>
-                                <Сharacteristic title={item.title} value={item.value} />
-                            )} */}
                             <Сharacteristic title={'Preparation'} value={`${recipe?.preparationMinutes} minutes`} />
                             <Сharacteristic title={'Cooking'} value={`${recipe?.cookingMinutes} minutes`} />
                             <Сharacteristic title={'Total'} value={`${recipe?.readyMinutes} minutes`} />
@@ -108,7 +89,7 @@ const RecipesDetailedPage: React.FC = () => {
                             <Text className={styles['features__item-title']} view='p-20' weight='bold'>Ingredients</Text>
                             <div className={`${styles['features__ingredients-content']} ${styles['features__item-content']}`}>
                                 {recipe?.extendedIngredients.map((item: any) =>
-                                    <DetailedInfo type='ingredients'> {item.original}</DetailedInfo>
+                                    <DetailedInfo key={item.original} type='ingredients'> {item.original}</DetailedInfo>
                                 )}
                             </div>
                         </div>
@@ -122,7 +103,7 @@ const RecipesDetailedPage: React.FC = () => {
                             <div className={`${styles['features__equipment-content']} ${styles['features__item-content']}`}>
                                 {recipe?.equipment.map((item: any, index) =>
                                     item.equipment.length > 0 &&
-                                    <DetailedInfo type='equipment'> {item.equipment[0].name}</DetailedInfo>
+                                    <DetailedInfo key={index} type='equipment'> {item.equipment[0].name}</DetailedInfo>
                                 )}
                             </div>
                         </div>
