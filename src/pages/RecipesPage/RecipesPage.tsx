@@ -11,6 +11,7 @@ import Card from 'components/Card';
 import Button from 'components/Button';
 import Loader from 'components/Loader';
 import RecipesList from 'components/RecipesList';
+import { getPageCount } from '../../utils/cards';
 
 export type nutrientsOfIngredientData = {
     amount: number,
@@ -67,44 +68,56 @@ const RecipesPage: React.FC = () => {
     const lastElement = React.useRef<HTMLDivElement>(null)
     const observer = React.useRef<any>(null)
     const [isPageLoading, setIsPageLoading] = useState(false)
+    const [offset, setOffset] = useState(0);
     // const [observerTriggered, setObserverTriggered] = useState(false);
     //2f57ba40700b492a98d46c16cb731636
     //96b03ded692d45b391ec26a66cf00564
     //3a40e1bfe3084f53b0d475f56d06468b
-    const apiKey = '3a40e1bfe3084f53b0d475f56d06468b';
+    const apiKey = '2f57ba40700b492a98d46c16cb731636';
 
     React.useEffect(() => { // Получаем данные о всех рецептах из API
         const getAllCards = async (): Promise<void> => {
+            if (recipesArr.length > 6) {
+                return
+            }
+            // if (recipesArr.length > 6) {
+            //     return
+            // }
             setIsPageLoading(true)
             const result = await axios({
                 method: 'get',
-                url: `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&addRecipeNutrition=true&number=6`
+                url: `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&addRecipeNutrition=true&offset=${offset}&number=3`
             });
-            setRecipesArr(result.data.results.map((raw: RecipeData) => ({
-                id: raw.id,
-                image: raw.image,
-                title: raw.title,
-                readyInMinutes: raw.readyInMinutes,
-                ingredients: getIngredientsString(raw.nutrition.ingredients), // Преобразовываем массив ингредиентов в строку с разделителями
-                healthScore: raw.healthScore
-            })))
-            setFilterArr(result.data.results.map((raw: RecipeData) => ({
-                id: raw.id,
-                image: raw.image,
-                title: raw.title,
-                readyInMinutes: raw.readyInMinutes,
-                ingredients: getIngredientsString(raw.nutrition.ingredients), // Преобразовываем массив ингредиентов в строку с разделителями
-                healthScore: raw.healthScore
-            })))
+
+            // Ниже закомментирован код для проверки:
+            // setRecipesArr(result.data.results.map((raw: RecipeData) => ({
+            //     id: raw.id,
+            //     image: raw.image,
+            //     title: raw.title,
+            //     readyInMinutes: raw.readyInMinutes,
+            //     ingredients: getIngredientsString(raw.nutrition.ingredients), // Преобразовываем массив ингредиентов в строку с разделителями
+            //     healthScore: raw.healthScore
+            // })))
+            // setFilterArr(result.data.results.map((raw: RecipeData) => ({
+            //     id: raw.id,
+            //     image: raw.image,
+            //     title: raw.title,
+            //     readyInMinutes: raw.readyInMinutes,
+            //     ingredients: getIngredientsString(raw.nutrition.ingredients), // Преобразовываем массив ингредиентов в строку с разделителями
+            //     healthScore: raw.healthScore
+            // })))
+
+            setRecipesArr([...recipesArr, ...result.data.results])
+            setFilterArr([...recipesArr, ...result.data.results])
 
             setIsPageLoading(false)
         }
         getAllCards()
 
-    }, [])
+    }, [offset])
 
-
-    // React.useEffect(() => { // Тест данных без API
+    // Тест данных без API:
+    // React.useEffect(() => { 
 
     //     const getAllCards = (): void => {
     //         let count: number = 0
@@ -131,30 +144,17 @@ const RecipesPage: React.FC = () => {
     // }, [])
 
     React.useEffect(() => {
+        if (isPageLoading) return;
+        if (observer.current) observer.current.disconnect();
         const callback = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
             if (entries[0].isIntersecting) {
-                setCurrentPage(currentPage + 1);
-
-                console.log("ДИВ ВИДИМЫЙ");
+                console.log(currentPage)
+                setOffset(offset + 3)
             }
 
         };
-
-        if (lastElement.current) {
-            observer.current = new IntersectionObserver(callback);
-            observer.current.observe(lastElement.current);
-        }
-
-        return () => {
-            if (observer.current) {
-                observer.current.disconnect();
-            }
-        };
-    }, []);
-
-    React.useEffect(() => {
-
-    }, [currentPage])
+        observer.current.observe(lastElement.current);
+    }, [isPageLoading]);
 
     const searchTitle = (value: string) => {
         return recipesArr.filter((o) => o.title.toLowerCase().includes(value.toLowerCase()))
@@ -204,13 +204,12 @@ const RecipesPage: React.FC = () => {
                         getTitle={(values: Option[]) => values.length === 0 ? 'Categories' : values.map(({ value }) => value).join(', ')}
                     />
                 </div>
+                <RecipesList cards={filterArr} />
                 {isPageLoading &&
                     <div className={styles.loader__wrapper}>
                         <Loader className={styles.loader} size='xl' />
                     </div>}
-
-                <RecipesList cards={filterArr} />
-                <div ref={lastElement} style={{ width: '100%', height: '20px', backgroundColor: "red" }}></div>
+                <div ref={lastElement} style={{ width: '100%' }}></div>
             </div>
         </div>
     )
