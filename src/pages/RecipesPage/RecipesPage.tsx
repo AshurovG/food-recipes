@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import styles from './RecipesPage.module.scss';
 import Header from 'components/Header';
 import MainImage from 'components/MainImage';
@@ -7,11 +8,10 @@ import Input from 'components/Input';
 import MultiDropdown from 'components/MultiDropdown';
 import Text from 'components/Text';
 import SearchIcon from 'components/icons/SearchIcon';
-import Card from 'components/Card';
 import Button from 'components/Button';
 import Loader from 'components/Loader';
 import RecipesList from 'components/RecipesList';
-import { getPageCount } from '../../utils/cards';
+
 
 export type nutrientsOfIngredientData = {
     amount: number,
@@ -21,11 +21,7 @@ export type nutrientsOfIngredientData = {
 }
 
 export type ingredientData = {
-    amount: number,
-    id: number,
     name: string,
-    nutrients: Array<nutrientsOfIngredientData>,
-    unit: string
 }
 
 export type RecipeData = {
@@ -33,142 +29,91 @@ export type RecipeData = {
     image: string;
     title: string;
     readyInMinutes?: string;
-    healthScore?: string;
-    nutrition: any,
+    caloricContent?: string;
     ingredients: string
 }
 
-export type testData = {
+export type ReceivedRecipeData = {
     id: number;
-    image: string;
     title: string;
-    readyInMinutes?: string;
-    healthScore?: string;
-    ingredients: string
+    image: string;
+    readyInMinutes: string;
+    nutrition: {
+        nutrients: {
+            amount: number;
+        }[];
+        ingredients: ingredientData[];
+    };
 }
 
 type Option = {
-    /** Ключ варианта, используется для отправки на бек/использования в коде */
     key: string;
-    /** Значение варианта, отображается пользователю */
     value: string;
 };
 
 const RecipesPage: React.FC = () => {
     const [recipesArr, setRecipesArr] = useState<RecipeData[]>([])
-    // const [recipesArr, setRecipesArr] = useState<testData[]>([])
     const [value, setValue] = useState<Option[]>([]);
     const [inputValue, setInputValue] = useState('');
-    // const [filterArr, setFilterArr] = useState<testData[]>([])
-    const [filterArr, setFilterArr] = useState<RecipeData[]>([])
-    const [isfilterArrEmpty, setIsfilterArrEmpty] = useState<Boolean>(false)
-    const [totalCountCards, setTotalCountCards] = useState(0)
-    const [totalPages, setTotalPages] = useState(0)
-    const [currentPage, setCurrentPage] = useState<number>(1)
-    const lastElement = React.useRef<HTMLDivElement>(null)
-    const observer = React.useRef<any>(null)
-    const [isPageLoading, setIsPageLoading] = useState(false)
+    // const [filterArr, setFilterArr] = useState<RecipeData[]>([])
+    // const [isfilterArrEmpty, setIsfilterArrEmpty] = useState<Boolean>(false)
     const [offset, setOffset] = useState(0);
-    // const [observerTriggered, setObserverTriggered] = useState(false);
+    const [hasMore, setHasMore] = useState(true);
+    const [isFirstCards, setIsFirstCards] = useState<Boolean>(true)
+    const [isFirstCardsLoading, setIsFirstCardsLoading] = useState<Boolean>(true)
     //2f57ba40700b492a98d46c16cb731636
     //96b03ded692d45b391ec26a66cf00564
     //3a40e1bfe3084f53b0d475f56d06468b
-    const apiKey = '2f57ba40700b492a98d46c16cb731636';
+    //5884e4538ade47a3bee00a8bed3eb378
+    const apiKey = '5884e4538ade47a3bee00a8bed3eb378';
 
     React.useEffect(() => { // Получаем данные о всех рецептах из API
+        if (isFirstCards) {
+            setIsFirstCardsLoading(true)
+        }
         const getAllCards = async (): Promise<void> => {
-            if (recipesArr.length > 6) {
+            if (recipesArr.length >= 24) {
+                setHasMore(false)
                 return
             }
-            // if (recipesArr.length > 6) {
-            //     return
-            // }
-            setIsPageLoading(true)
             const result = await axios({
                 method: 'get',
-                url: `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&addRecipeNutrition=true&offset=${offset}&number=3`
+                url: `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&addRecipeNutrition=true&offset=${offset}&number=6`
             });
 
-            // Ниже закомментирован код для проверки:
-            // setRecipesArr(result.data.results.map((raw: RecipeData) => ({
-            //     id: raw.id,
-            //     image: raw.image,
-            //     title: raw.title,
-            //     readyInMinutes: raw.readyInMinutes,
-            //     ingredients: getIngredientsString(raw.nutrition.ingredients), // Преобразовываем массив ингредиентов в строку с разделителями
-            //     healthScore: raw.healthScore
-            // })))
-            // setFilterArr(result.data.results.map((raw: RecipeData) => ({
-            //     id: raw.id,
-            //     image: raw.image,
-            //     title: raw.title,
-            //     readyInMinutes: raw.readyInMinutes,
-            //     ingredients: getIngredientsString(raw.nutrition.ingredients), // Преобразовываем массив ингредиентов в строку с разделителями
-            //     healthScore: raw.healthScore
-            // })))
+            const newRecipesArr = result.data.results.map((raw: ReceivedRecipeData) => ({
+                id: raw.id,
+                image: raw.image,
+                title: raw.title,
+                readyInMinutes: raw.readyInMinutes,
+                ingredients: getIngredientsString(raw.nutrition.ingredients),
+                caloricContent: raw.nutrition.nutrients[0].amount
+            }))
+            setRecipesArr([...recipesArr, ...newRecipesArr]);
+            if (isFirstCards) {
+                setIsFirstCardsLoading(true)
+                setIsFirstCards(false)
+            }
 
-            setRecipesArr([...recipesArr, ...result.data.results])
-            setFilterArr([...recipesArr, ...result.data.results])
-
-            setIsPageLoading(false)
         }
         getAllCards()
 
     }, [offset])
 
-    // Тест данных без API:
-    // React.useEffect(() => { 
+    const loadMore = () => {
+        setOffset(prevOffset => prevOffset + 6);
+    };
 
-    //     const getAllCards = (): void => {
-    //         let count: number = 0
-    //         const titles: Array<string> = ['meet', 'lemon', 'apple', 'green bins', 'egg', 'chicken', 'potato', 'srawberry', 'rasberry', 'ing']
-    //         let newArr: Array<testData> = []
-    //         while (count < 10) {
-    //             let newItem: any = {
-    //                 id: count,
-    //                 image: 'https://w.forfun.com/fetch/f7/f76c030200142905d4d0856baa694308.jpeg',
-    //                 title: titles[count],
-    //                 readyInMinutes: '45',
-    //                 ingredients: 'fjdklsa fjdkl jfkdlsjf kdlsajfkd lsajfkls', // Преобразовываем массив ингредиентов в строку с разделителями
-    //                 healthScore: '23434'
-    //             }
-    //             count++
-    //             newArr.push(newItem)
-    //         }
-    //         setTotalCountCards(newArr.length)
-    //         setRecipesArr(newArr)
-    //         setFilterArr(newArr)
+    // Код для поиска
+    // const onSearchButtonClick = (): void => {
+    //     const newArr = searchTitle(inputValue)
+    //     if (newArr.length === 0) {
+    //         setIsfilterArrEmpty(true)
+    //     } else {
+    //         setIsfilterArrEmpty(false)
     //     }
-    //     getAllCards()
-    //     setTotalPages(Math.ceil(totalCountCards / 9))
-    // }, [])
-
-    React.useEffect(() => {
-        if (isPageLoading) return;
-        if (observer.current) observer.current.disconnect();
-        const callback = (entries: IntersectionObserverEntry[], observer: IntersectionObserver) => {
-            if (entries[0].isIntersecting) {
-                console.log(currentPage)
-                setOffset(offset + 3)
-            }
-
-        };
-        observer.current.observe(lastElement.current);
-    }, [isPageLoading]);
-
-    const searchTitle = (value: string) => {
-        return recipesArr.filter((o) => o.title.toLowerCase().includes(value.toLowerCase()))
-    }
-
-    const onSearchButtonClick = (): void => {
-        const newArr = searchTitle(inputValue)
-        if (newArr.length === 0) {
-            setIsfilterArrEmpty(true)
-        } else {
-            setIsfilterArrEmpty(false)
-        }
-        setFilterArr(newArr)
-    }
+    //     setFilterArr(newArr)
+    // }
 
     const getIngredientsString = (ingredients: Array<ingredientData>): string => {
         let newArr: Array<string> = ingredients.map((ingredient: ingredientData) => {
@@ -188,9 +133,9 @@ const RecipesPage: React.FC = () => {
                 </Text>
                 <div className={styles['search__info-block']}>
                     <div className={styles['search__input-block']}>
-                        <Input value={inputValue} onChange={setInputValue}></Input> <Button onClick={onSearchButtonClick}><SearchIcon /></Button>
+                        <Input value={inputValue} onChange={setInputValue}></Input> <Button onClick={() => 'onSearchButtonClick'}><SearchIcon /></Button>
                     </div>
-                    {isfilterArrEmpty && <Text className={styles['filter__error-title']} tag='h4' view='p-20' weight='medium'>No such dish was found !</Text>}
+                    {/* {isfilterArrEmpty && <Text className={styles['filter__error-title']} tag='h4' view='p-20' weight='medium'>No such dish was found !</Text>} */}
 
                     <MultiDropdown
                         className={styles.selection__block}
@@ -204,12 +149,27 @@ const RecipesPage: React.FC = () => {
                         getTitle={(values: Option[]) => values.length === 0 ? 'Categories' : values.map(({ value }) => value).join(', ')}
                     />
                 </div>
-                <RecipesList cards={filterArr} />
-                {isPageLoading &&
-                    <div className={styles.loader__wrapper}>
-                        <Loader className={styles.loader} size='xl' />
-                    </div>}
-                <div ref={lastElement} style={{ width: '100%' }}></div>
+
+                {isFirstCards
+                    ? <div><RecipesList cards={recipesArr} />
+                        {isFirstCardsLoading && <div className={styles.loader__wrapper}>
+                            <Loader className={styles.loader} size='xl' />
+                        </div>}
+                    </div>
+                    : <InfiniteScroll
+                        className={styles.infinite__scroll}
+                        dataLength={recipesArr.length}
+                        next={loadMore}
+                        hasMore={hasMore}
+                        loader={
+                            <div className={styles.loader__wrapper}>
+                                <Loader className={styles.loader} size='xl' />
+                            </div>
+                        }
+                        endMessage={<Text view='p-20' weight='medium' className={styles['end__list-message']}>There are no more recipes.</Text>}
+                    >
+                        <RecipesList cards={recipesArr} />
+                    </InfiniteScroll>}
             </div>
         </div>
     )

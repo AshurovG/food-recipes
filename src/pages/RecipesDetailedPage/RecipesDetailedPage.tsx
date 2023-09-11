@@ -31,7 +31,7 @@ const RecipesDetailedPage: React.FC = () => {
     const [recipe, setRecipe] = useState<RecipeData>();
     const { id } = useParams();
     const [isDetailedPageLoading, setIsDetailedPageLoading] = useState(true)
-    const apiKey = '3a40e1bfe3084f53b0d475f56d06468b';
+    const apiKey = '5884e4538ade47a3bee00a8bed3eb378';
 
     React.useEffect(() => {
         const fetch = async () => {
@@ -93,8 +93,8 @@ const RecipesDetailedPage: React.FC = () => {
                             <Сharacteristic title={'Preparation'} value={`${recipe?.preparationMinutes} minutes`} />
                             <Сharacteristic title={'Cooking'} value={`${recipe?.cookingMinutes} minutes`} />
                             <Сharacteristic title={'Total'} value={`${recipe?.readyMinutes} minutes`} />
-                            <Сharacteristic title={'Rating'} value={`${recipe?.aggregateLikes} minutes`} />
-                            <Сharacteristic title={'Servings'} value={`${recipe?.servings} minutes`} />
+                            <Сharacteristic title={'Rating'} value={`${recipe?.aggregateLikes} likes`} />
+                            <Сharacteristic title={'Servings'} value={`${recipe?.servings} servings`} />
 
                         </div>
                     </div>
