@@ -2,25 +2,24 @@ import React from 'react';
 // import path from '../../images/loader.svg'
 
 export type LoaderProps = {
-    /** Размер */
     size?: 's' | 'm' | 'l' | 'xl';
-    /** Дополнительный класс */
     className?: string;
 };
 
 const Loader: React.FC<LoaderProps> = ({ size, className }) => {
 
     const pxSize = (size?: 's' | 'm' | 'l' | 'xl') => {
-        if (size === 's') {
-            return '24px'
-        } else if (size === 'm') {
-            return '48px'
-        } else if (size === 'l') {
-            return '80px'
-        } else if (size === 'xl') {
-            return '120px'
-        } else {
-            return '60px'
+        switch (size) {
+            case ('s'):
+                return '24px'
+            case ('m'):
+                return '48px'
+            case ('l'):
+                return '80px'
+            case ('xl'):
+                return '120px'
+            default:
+                return '60px'
         }
     }
     return (
