@@ -12,16 +12,12 @@ import Button from 'components/Button';
 import Loader from 'components/Loader';
 import RecipesList from 'components/RecipesList';
 
-
-export type nutrientsOfIngredientData = {
-    amount: number,
+export type IngredientData = {
     name: string,
-    percentOfDailyNeeds: number,
-    unit: string
 }
 
-export type ingredientData = {
-    name: string,
+export type NutrientsData = {
+    amount: number,
 }
 
 export type RecipeData = {
@@ -39,10 +35,8 @@ export type ReceivedRecipeData = {
     image: string;
     readyInMinutes: string;
     nutrition: {
-        nutrients: {
-            amount: number;
-        }[];
-        ingredients: ingredientData[];
+        nutrients: NutrientsData[];
+        ingredients: IngredientData[];
     };
 }
 
@@ -116,8 +110,8 @@ const RecipesPage: React.FC = () => {
     //     setFilterArr(newArr)
     // }
 
-    const getIngredientsString = (ingredients: Array<ingredientData>): string => {
-        let newArr: Array<string> = ingredients.map((ingredient: ingredientData) => {
+    const getIngredientsString = (ingredients: Array<IngredientData>): string => {
+        let newArr: Array<string> = ingredients.map((ingredient: IngredientData) => {
             return ingredient.name
         })
 
