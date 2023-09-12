@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-// import reactLogo from '../assets/react.svg'
 import './App.scss'
 import RecipesPage from 'pages/RecipesPage'
 import RecipesDetailedPage from 'pages/RecipesDetailedPage'
