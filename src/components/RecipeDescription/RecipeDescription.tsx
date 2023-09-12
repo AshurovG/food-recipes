@@ -9,9 +9,7 @@ export type RecipeDescriptionProps = {
 const RecipeDescription: React.FC<RecipeDescriptionProps> = ({ children }) => {
     return (
         <Text view='p-16' className={styles.description__text}>
-            {Children.map(children, (child) => (
-                <Fragment>{child}</Fragment>
-            ))}
+            {children}
         </Text>
     )
 };
