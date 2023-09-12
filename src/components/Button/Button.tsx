@@ -14,7 +14,7 @@ export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 const Button: React.FC<ButtonProps> = ({
     className,
     loading,
-    children = null,
+    children,
     ...props
 }) => {
 
