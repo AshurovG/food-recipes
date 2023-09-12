@@ -53,11 +53,11 @@
 
     &.text_color {
         &-primary {
-            color: #000;
+            color: $text-primary;
         }
 
         &-secondary {
-            color: gray;
+            color: $text-secondary;
         }
 
         &-accent {
