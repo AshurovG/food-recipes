@@ -54,8 +54,8 @@ const RecipesPage: React.FC = () => {
     // const [isfilterArrEmpty, setIsfilterArrEmpty] = useState<Boolean>(false)
     const [offset, setOffset] = useState(0);
     const [hasMore, setHasMore] = useState(true);
-    const [isFirstCards, setIsFirstCards] = useState<Boolean>(true)
-    const [isFirstCardsLoading, setIsFirstCardsLoading] = useState<Boolean>(true)
+    const [isFirstCards, setIsFirstCards] = useState<boolean>(true)
+    const [isFirstCardsLoading, setIsFirstCardsLoading] = useState<boolean>(true)
 
 
     React.useEffect(() => {
