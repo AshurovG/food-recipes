@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom'
 import axios from 'axios';
 import { Link } from 'react-router-dom'
+import { apiKey } from '../../../consts.config.ts';
 import styles from './RecipesDetailedPage.module.scss';
 import Header from 'components/Header';
 import Сharacteristic from 'components/Сharacteristic'
@@ -30,7 +31,6 @@ const RecipesDetailedPage: React.FC = () => {
     const [recipe, setRecipe] = useState<RecipeData>();
     const { id } = useParams();
     const [isDetailedPageLoading, setIsDetailedPageLoading] = useState(true)
-    const apiKey = 'b628c4fc31ce4a519836f0bfa06853a4';
 
     React.useEffect(() => {
         const fetch = async () => {

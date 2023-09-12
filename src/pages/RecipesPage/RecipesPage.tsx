@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { apiKey } from '../../../consts.config.ts';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import styles from './RecipesPage.module.scss';
 import Header from 'components/Header';
@@ -55,14 +56,9 @@ const RecipesPage: React.FC = () => {
     const [hasMore, setHasMore] = useState(true);
     const [isFirstCards, setIsFirstCards] = useState<Boolean>(true)
     const [isFirstCardsLoading, setIsFirstCardsLoading] = useState<Boolean>(true)
-    //2f57ba40700b492a98d46c16cb731636
-    //96b03ded692d45b391ec26a66cf00564
-    //3a40e1bfe3084f53b0d475f56d06468b
-    //5884e4538ade47a3bee00a8bed3eb378
-    //b628c4fc31ce4a519836f0bfa06853a4 - АКТУАЛЬНЫЙ КЛЮЧ К АПИ
-    const apiKey = 'b628c4fc31ce4a519836f0bfa06853a4';
 
-    React.useEffect(() => { // Получаем данные о всех рецептах из API
+
+    React.useEffect(() => {
         if (isFirstCards) {
             setIsFirstCardsLoading(true)
         }
