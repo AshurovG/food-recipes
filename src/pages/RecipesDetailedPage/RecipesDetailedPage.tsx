@@ -57,66 +57,71 @@ const RecipesDetailedPage: React.FC = () => {
         fetch()
 
     }, [])
+
+    if (isDetailedPageLoading) {
+        return <div className={styles.loader__wrapper}><Loader className={styles.loader} size='xl'></Loader></div>;
+    }
+
+    if (!recipe) {
+        return null
+    }
+
     return (
         <div className={styles.detailed__page}>
             <Header />
-            {isDetailedPageLoading
-                ? <div className={styles.loader__wrapper}><Loader className={styles.loader} size='xl'></Loader></div>
-                : <div className={styles.detailed__wrapper}>
-                    <div className={styles['content__title-flex']}>
-                        <Link to='/'><BackIcon className={styles.back__button} /></Link><h1 className={styles.content__title} >{recipe?.title}</h1>
-                    </div>
-
-
-                    <div className={styles.main__info}>
-                        <img className={styles['main__info-image']} src={recipe?.image} alt={recipe?.title} />
-                        <div className={styles['main__info-content']}>
-                            <Сharacteristic title={'Preparation'} value={`${recipe?.preparationMinutes} minutes`} />
-                            <Сharacteristic title={'Cooking'} value={`${recipe?.cookingMinutes} minutes`} />
-                            <Сharacteristic title={'Total'} value={`${recipe?.readyMinutes} minutes`} />
-                            <Сharacteristic title={'Rating'} value={`${recipe?.aggregateLikes} likes`} />
-                            <Сharacteristic title={'Servings'} value={`${recipe?.servings} servings`} />
-
-                        </div>
-                    </div>
-
-                    <RecipeDescription>
-                        <div dangerouslySetInnerHTML={{ __html: recipe?.summary }}></div>
-                    </RecipeDescription>
-
-                    <div className={styles.features}>
-                        <div className={styles.features__item}>
-                            <Text className={styles['features__item-title']} view='p-20' weight='bold'>Ingredients</Text>
-                            <div className={`${styles['features__ingredients-content']} ${styles['features__item-content']}`}>
-                                {recipe?.extendedIngredients.map((item: any) =>
-                                    <DetailedInfo key={item.original} type='ingredients'> {item.original}</DetailedInfo>
-                                )}
-                            </div>
-                        </div>
-                        <div className={styles.separator}>
-                            <div className={styles.separator__dot}></div>
-                            <div className={styles.separator__line}> </div>
-                        </div>
-
-                        <div className={styles.features__item}>
-                            <Text className={styles['features__item-title']} view='p-20' weight='bold'>Equipment</Text>
-                            <div className={`${styles['features__equipment-content']} ${styles['features__item-content']}`}>
-                                {recipe?.equipment.map((item: any, index) =>
-                                    item.equipment.length > 0 &&
-                                    <DetailedInfo key={index} type='equipment'> {item.equipment[0].name}</DetailedInfo>
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                    <Text className={styles['features__item-title']} view='p-20' weight='bold'>Directions</Text>
-                    <DirectionsList steps={recipe?.equipment.map((item: any) => {
-                        return {
-                            title: `step ${item.number}`,
-                            text: `${item.step}`
-                        }
-                    })} />
+            <div className={styles.detailed__wrapper}>
+                <div className={styles['content__title-flex']}>
+                    <Link to='/'><BackIcon className={styles.back__button} /></Link><h1 className={styles.content__title} >{recipe?.title}</h1>
                 </div>
-            }
+
+                <div className={styles.main__info}>
+                    <img className={styles['main__info-image']} src={recipe?.image} alt={recipe?.title} />
+                    <div className={styles['main__info-content']}>
+                        <Сharacteristic title={'Preparation'} value={`${recipe?.preparationMinutes} minutes`} />
+                        <Сharacteristic title={'Cooking'} value={`${recipe?.cookingMinutes} minutes`} />
+                        <Сharacteristic title={'Total'} value={`${recipe?.readyMinutes} minutes`} />
+                        <Сharacteristic title={'Rating'} value={`${recipe?.aggregateLikes} likes`} />
+                        <Сharacteristic title={'Servings'} value={`${recipe?.servings} servings`} />
+
+                    </div>
+                </div>
+
+                <RecipeDescription>
+                    <div dangerouslySetInnerHTML={{ __html: recipe?.summary }}></div>
+                </RecipeDescription>
+
+                <div className={styles.features}>
+                    <div className={styles.features__item}>
+                        <Text className={styles['features__item-title']} view='p-20' weight='bold'>Ingredients</Text>
+                        <div className={`${styles['features__ingredients-content']} ${styles['features__item-content']}`}>
+                            {recipe?.extendedIngredients.map((item: any) =>
+                                <DetailedInfo key={item.original} type='ingredients'> {item.original}</DetailedInfo>
+                            )}
+                        </div>
+                    </div>
+                    <div className={styles.separator}>
+                        <div className={styles.separator__dot}></div>
+                        <div className={styles.separator__line}> </div>
+                    </div>
+
+                    <div className={styles.features__item}>
+                        <Text className={styles['features__item-title']} view='p-20' weight='bold'>Equipment</Text>
+                        <div className={`${styles['features__equipment-content']} ${styles['features__item-content']}`}>
+                            {recipe?.equipment.map((item: any, index) =>
+                                item.equipment.length > 0 &&
+                                <DetailedInfo key={index} type='equipment'> {item.equipment[0].name}</DetailedInfo>
+                            )}
+                        </div>
+                    </div>
+                </div>
+                <Text className={styles['features__item-title']} view='p-20' weight='bold'>Directions</Text>
+                <DirectionsList steps={recipe?.equipment.map((item: any) => {
+                    return {
+                        title: `step ${item.number}`,
+                        text: `${item.step}`
+                    }
+                })} />
+            </div>
 
         </div>
     )
