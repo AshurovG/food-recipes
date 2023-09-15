@@ -1,0 +1,9 @@
+@import 'styles/styles.scss';
+@import 'styles/variables.scss';
+
+.characteristic {
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    gap: $space-xxs;
+}

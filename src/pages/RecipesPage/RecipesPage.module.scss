@@ -1,0 +1,84 @@
+@import 'styles/variables.scss';
+@import 'styles/styles.scss';
+
+.recipes__page {
+    width: 100%;
+    margin-bottom: 50px;
+
+    &-wrapper {
+        max-width: 1240px;
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    &-cards {
+        margin-top: 48px;
+
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 75px;
+    }
+}
+
+.infinite__scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.search__title {
+    text-align: center;
+    padding-top: 30px;
+    padding-bottom: 48px;
+}
+
+.search__info-block {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+
+.filter__error-title {
+    padding-top: 20px;
+    width: 100%;
+    text-align: center;
+    color: red;
+}
+
+.search__input-block {
+    width: 100%;
+    display: flex;
+    gap: 20px;
+}
+
+.selection__block {
+    width: 300px;
+    padding-top: 20px;
+}
+
+.loader__wrapper {
+    width: 100%;
+    height: 170px;
+    margin-top: 113px;
+    display: flex;
+    justify-content: center;
+}
+
+.loader {
+    animation: rotate 1s infinite linear;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg) scale(1);
+    }
+
+    to {
+        transform: rotate((360deg)) scale(1.4);
+    }
+}
+
+.end__list-message {
+    color: $brand;
+    width: 100%;
+    text-align: center;
+    margin-top: $space-xl;
+}

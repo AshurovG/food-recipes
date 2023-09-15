@@ -1,0 +1,75 @@
+@import 'styles/styles.scss';
+@import 'styles//variables.scss';
+
+.text {
+    font-weight: 400;
+
+    &.text_view {
+        &button {
+            font-size: 18px;
+            line-height: 18px;
+        }
+
+        &-title {
+            font-size: 44px;
+            line-height: 48px;
+            font-weight: 700;
+        }
+
+        &-p-20 {
+            font-size: 20px;
+            line-height: 24px;
+        }
+
+        &-p-18 {
+            font-size: 18px;
+            line-height: 22px;
+        }
+
+        &-p-16 {
+            font-size: 16px;
+            line-height: 20px;
+        }
+
+        &-p-14 {
+            font-size: 16px;
+            line-height: 20px;
+        }
+    }
+
+    &.text_weight {
+        &-normal {
+            font-weight: 400;
+        }
+
+        &-medium {
+            font-weight: 500;
+        }
+
+        &-bold {
+            font-weight: 700;
+        }
+    }
+
+    &.text_color {
+        &-primary {
+            color: $text-primary;
+        }
+
+        &-secondary {
+            color: $text-secondary;
+        }
+
+        &-accent {
+            color: $brand;
+        }
+    }
+
+    &.text_multi-ellipsis {
+        display: -webkit-box;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: var(--max-lines-count);
+    }
+}

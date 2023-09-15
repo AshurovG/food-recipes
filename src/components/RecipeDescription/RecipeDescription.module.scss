@@ -1,0 +1,10 @@
+@import 'styles/variables.scss';
+@import 'styles/styles.scss';
+
+.description__text {
+    width: 100%;
+    padding: 36px;
+    background: $description-background;
+    color: $text-primary;
+    border-radius: $border-radius;
+}

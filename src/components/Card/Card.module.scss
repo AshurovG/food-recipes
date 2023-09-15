@@ -1,0 +1,68 @@
+@import 'styles/styles.scss';
+@import 'styles/variables.scss';
+
+.card {
+    cursor: pointer;
+    width: 100%;
+    max-width: 360px;
+    background-color: $default-color;
+    transition: box-shadow .3s ease;
+    border-radius: $border-radius;
+    overflow: hidden;
+
+    &:hover {
+        box-shadow: $box-shadow;
+    }
+
+    &__header {
+        background-color: $brand-disabled;
+        position: relative;
+
+        &::after {
+            content: "";
+            padding-top: 100%;
+            display: block;
+        }
+
+        &-src {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+    }
+
+    &__body {
+        padding: 24px 12px;
+    }
+
+    &__caption {
+        margin-bottom: $space-xxs;
+    }
+
+    &__icon {
+        margin-right: 3px;
+    }
+
+    &__subtitle {
+        margin-top: $space-xxs;
+    }
+
+    &__footer {
+        align-items: center;
+        display: flex;
+        margin-top: $space-l;
+    }
+
+    &__content {
+        color: $brand;
+        font-weight: bold;
+    }
+
+    &__action {
+        margin-left: auto;
+        padding-left: $space-xxs;
+    }
+}

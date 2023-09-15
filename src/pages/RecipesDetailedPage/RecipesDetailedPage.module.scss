@@ -1,0 +1,144 @@
+@import 'styles/variables.scss';
+@import 'styles/styles.scss';
+
+.detailed {
+    &__page {
+        width: 100%;
+        height: 100vh;
+        overflow: auto;
+    }
+
+    &__wrapper {
+        max-width: 1240px;
+        width: 100%;
+        margin: 0 auto;
+        margin-top: 113px;
+        margin-bottom: 55px;
+    }
+}
+
+.content__title-flex {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 37px;
+}
+
+.content__title {
+    color: $text-primary;
+    font-size: 44px;
+    line-height: 48px;
+}
+
+.back__button {
+    cursor: pointer;
+}
+
+.main__info {
+    display: flex;
+    align-items: center;
+    gap: 166px;
+    margin-bottom: 50px;
+
+    &-image {
+        max-width: 450px;
+    }
+
+    &-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        column-gap: 100px;
+        row-gap: 50px;
+        max-height: 150px;
+        width: auto;
+
+        &-item {
+            width: auto;
+            display: flex;
+            flex-direction: column;
+            gap: $space-xxs;
+        }
+    }
+}
+
+.features {
+    display: flex;
+    margin-top: 55px;
+    margin-bottom: 50px;
+
+    &__item {
+        width: 48%;
+
+        &-title {
+            margin-bottom: $space-xl;
+        }
+    }
+}
+
+.separator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &__line {
+        width: 1px;
+        height: 100%;
+        background-color: $brand;
+        content: '';
+        margin: 3px 53px 0 53px;
+    }
+
+    &__dot {
+        position: relative;
+        width: 7px;
+        height: 7px;
+
+        &::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            background-color: $brand;
+            width: 100%;
+            height: 100%
+        }
+    }
+}
+
+.features__ingredients-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 80px;
+    row-gap: 10px;
+}
+
+.features__equipment-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 80px;
+    row-gap: 10px;
+}
+
+.loader__wrapper {
+    width: 100%;
+    height: 100vh;
+    margin-top: 113px;
+    display: flex;
+    justify-content: center;
+}
+
+.loader {
+    animation: rotate 1s infinite linear;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg) scale(1);
+    }
+
+    to {
+        transform: rotate((360deg)) scale(1.4);
+    }
+}

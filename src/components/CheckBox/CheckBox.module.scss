@@ -1,0 +1,42 @@
+@import 'styles/variables.scss';
+@import 'styles/styles.scss';
+
+.custom-checkbox {
+    &_enable {
+        position: relative;
+        display: block;
+        width: 40px;
+        height: 40px;
+        background: $default-color;
+        border: 1px solid $default-color;
+        border-radius: $border-radius;
+
+        &:hover {
+            border: 1px solid $brand;
+        }
+    }
+
+    &_disable {
+        position: relative;
+        display: block;
+        width: 40px;
+        height: 40px;
+        border-radius: 0px;
+        border: 1px solid $text-primary;
+        background: $checkbox-disabled;
+    }
+
+}
+
+.checkbox {
+    display: none;
+}
+
+.fake {
+    position: absolute;
+    bottom: -1px;
+    right: -1px;
+    height: 40px;
+    width: 40px;
+    display: inline-block;
+}
