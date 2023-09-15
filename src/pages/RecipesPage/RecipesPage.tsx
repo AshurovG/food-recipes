@@ -46,9 +46,13 @@ type Option = {
     value: string;
 };
 
+type DropdownCounts = {
+    [key: string]: number
+}
+
 const RecipesPage: React.FC = () => {
     const [recipesArr, setRecipesArr] = useState<RecipeData[]>([])
-    const [value, setValue] = useState<Option[]>([]);
+    const [dropdownValue, setDropdownValue] = useState<Option[]>([]);
     const [inputValue, setInputValue] = useState('');
     // const [filterArr, setFilterArr] = useState<RecipeData[]>([])
     // const [isfilterArrEmpty, setIsfilterArrEmpty] = useState<Boolean>(false)
@@ -114,6 +118,33 @@ const RecipesPage: React.FC = () => {
         return newArr.slice(0, newArr.length - 1).join(' + ') + ' ' + newArr[newArr.length - 1];
     }
 
+
+
+    const options = [
+        { key: '1', value: 'Категория 1' },
+        { key: '2', value: 'Категория 2' },
+        { key: '3', value: 'Категория 3' }
+    ];
+
+    const handleChange = React.useCallback((options: Option[]) => {
+        const counts: DropdownCounts = {};
+        options.forEach(option => {
+            counts[option.value] = (counts[option.value] || 0) + 1;
+        });
+
+        const filteredOptions = options.filter(option => counts[option.value] === 1);
+
+        setDropdownValue(filteredOptions);
+    }, []);
+
+    const getTitle = React.useCallback(
+        (options: Option[]) => {
+            return options.map((option) => option.value).join(', ') || 'Filter';
+        },
+        [],
+    );
+
+
     return (
         <div className={styles.recipes__page}>
             <Header></Header>
@@ -130,14 +161,10 @@ const RecipesPage: React.FC = () => {
 
                     <MultiDropdown
                         className={styles.selection__block}
-                        options={[
-                            { key: '1', value: 'Категория 1' },
-                            { key: '2', value: 'Категория 2' },
-                            { key: '3', value: 'Категория 3' }
-                        ]}
-                        value={value}
-                        onChange={setValue}
-                        getTitle={(values: Option[]) => values.length === 0 ? 'Categories' : values.map(({ value }) => value).join(', ')}
+                        options={options}
+                        value={dropdownValue}
+                        onChange={handleChange}
+                        getTitle={getTitle}
                     />
                 </div>
 

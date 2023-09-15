@@ -57,7 +57,19 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
         setIsTyping(true)
     }, [disabled])
 
+    //     selectedSet.forEach((item) => {
+    //         if (item.key === selectedOption.key) {
+    //             console.log(11111)
+    //             onChange(value.filter((o) => o.key !== selectedOption.key))
+    //             return
+    //         }
+    //     });
+    // }
+
     const onClickOption = (selectedOption: Option) => () => {
+        console.log(selectedSet)
+        console.log(selectedOption)
+        console.log(value)
         if (disabled) {
             return
         }
@@ -65,6 +77,7 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
         setIsTyping(false)
 
         if (selectedSet.has(selectedOption)) {
+            console.log(1)
             onChange(value.filter((o) => o.key !== selectedOption.key))
             return
         }
