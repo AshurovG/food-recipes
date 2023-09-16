@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { apiKey } from '../../../consts.config.ts';
+import { observer } from 'mobx-react-lite';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import styles from './RecipesPage.module.scss';
 import Header from 'components/Header';
@@ -12,6 +13,8 @@ import SearchIcon from 'components/icons/SearchIcon';
 import Button from 'components/Button';
 import Loader from 'components/Loader';
 import RecipesList from 'components/RecipesList';
+import { useLocalStore } from 'utils/useLocalStore.ts';
+import RecipesStore from '../../Store/RecipesStore'
 
 export type IngredientData = {
     name: string,
@@ -51,61 +54,15 @@ type DropdownCounts = {
 }
 
 const RecipesPage: React.FC = () => {
-    const [recipesArr, setRecipesArr] = useState<RecipeData[]>([])
+    const recipesStore = useLocalStore(() => new RecipesStore());
     const [dropdownValue, setDropdownValue] = useState<Option[]>([]);
     const [inputValue, setInputValue] = useState('');
-    const [offset, setOffset] = useState(0);
-    const [hasMore, setHasMore] = useState(true);
-    const [isFirstCards, setIsFirstCards] = useState<boolean>(true)
-    const [isFirstCardsLoading, setIsFirstCardsLoading] = useState<boolean>(true)
-
 
     React.useEffect(() => {
-        if (isFirstCards) {
-            setIsFirstCardsLoading(true)
-        }
-        const getAllCards = async (): Promise<void> => {
-            if (recipesArr.length >= 24) {
-                setHasMore(false)
-                return
-            }
-            const result = await axios({
-                method: 'get',
-                url: `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&addRecipeNutrition=true&offset=${offset}&number=6`
-            });
-
-            const newRecipesArr = result.data.results.map((raw: ReceivedRecipeData) => ({
-                id: raw.id,
-                image: raw.image,
-                title: raw.title,
-                readyInMinutes: raw.readyInMinutes,
-                ingredients: getIngredientsString(raw.nutrition.ingredients),
-                caloricContent: raw.nutrition.nutrients[0].amount
-            }))
-            setRecipesArr([...recipesArr, ...newRecipesArr]);
-            if (isFirstCards) {
-                setIsFirstCardsLoading(true)
-                setIsFirstCards(false)
-            }
-
-        }
-        getAllCards()
-
-    }, [offset])
-
-    const loadMore = () => {
-        setOffset(prevOffset => prevOffset + 6);
-    };
-
-    const getIngredientsString = (ingredients: Array<IngredientData>): string => {
-        let newArr: Array<string> = ingredients.map((ingredient: IngredientData) => {
-            return ingredient.name
-        })
-
-        return newArr.slice(0, newArr.length - 1).join(' + ') + ' ' + newArr[newArr.length - 1];
-    }
-
-
+        recipesStore.getRecipesData();
+        console.log(recipesStore)
+        console.log(recipesStore.list.length)
+    }, [recipesStore.offset])
 
     const options = [
         { key: '1', value: 'Категория 1' },
@@ -131,6 +88,11 @@ const RecipesPage: React.FC = () => {
         [],
     );
 
+    const loadMore = () => {
+        recipesStore.setOffset(recipesStore.offset + 6)
+        console.log(recipesStore.offset)
+    }
+
 
     return (
         <div className={styles.recipes__page}>
@@ -154,17 +116,17 @@ const RecipesPage: React.FC = () => {
                     />
                 </div>
 
-                {isFirstCards
-                    ? <div><RecipesList cards={recipesArr} />
-                        {isFirstCardsLoading && <div className={styles.loader__wrapper}>
+                {recipesStore.isFirstCards
+                    ? <div><RecipesList cards={recipesStore.list} />
+                        {recipesStore.isFirstCardsLoading && <div className={styles.loader__wrapper}>
                             <Loader className={styles.loader} size='xl' />
                         </div>}
                     </div>
                     : <InfiniteScroll
                         className={styles.infinite__scroll}
-                        dataLength={recipesArr.length}
-                        next={loadMore}
-                        hasMore={hasMore}
+                        dataLength={recipesStore.list.length}
+                        next={recipesStore._loadMore}
+                        hasMore={recipesStore.hasMore}
                         loader={
                             <div className={styles.loader__wrapper}>
                                 <Loader className={styles.loader} size='xl' />
@@ -172,11 +134,11 @@ const RecipesPage: React.FC = () => {
                         }
                         endMessage={<Text view='p-20' weight='medium' className={styles['end__list-message']}>There are no more recipes.</Text>}
                     >
-                        <RecipesList cards={recipesArr} />
+                        <RecipesList cards={recipesStore.list} />
                     </InfiniteScroll>}
             </div>
         </div>
     )
 };
 
-export default RecipesPage;
+export default observer(RecipesPage);
