@@ -54,8 +54,6 @@ const RecipesPage: React.FC = () => {
     const [recipesArr, setRecipesArr] = useState<RecipeData[]>([])
     const [dropdownValue, setDropdownValue] = useState<Option[]>([]);
     const [inputValue, setInputValue] = useState('');
-    // const [filterArr, setFilterArr] = useState<RecipeData[]>([])
-    // const [isfilterArrEmpty, setIsfilterArrEmpty] = useState<Boolean>(false)
     const [offset, setOffset] = useState(0);
     const [hasMore, setHasMore] = useState(true);
     const [isFirstCards, setIsFirstCards] = useState<boolean>(true)
@@ -98,17 +96,6 @@ const RecipesPage: React.FC = () => {
     const loadMore = () => {
         setOffset(prevOffset => prevOffset + 6);
     };
-
-    // Код для поиска
-    // const onSearchButtonClick = (): void => {
-    //     const newArr = searchTitle(inputValue)
-    //     if (newArr.length === 0) {
-    //         setIsfilterArrEmpty(true)
-    //     } else {
-    //         setIsfilterArrEmpty(false)
-    //     }
-    //     setFilterArr(newArr)
-    // }
 
     const getIngredientsString = (ingredients: Array<IngredientData>): string => {
         let newArr: Array<string> = ingredients.map((ingredient: IngredientData) => {
@@ -157,7 +144,6 @@ const RecipesPage: React.FC = () => {
                     <div className={styles['search__input-block']}>
                         <Input value={inputValue} onChange={setInputValue}></Input> <Button onClick={() => 'onSearchButtonClick'}><SearchIcon /></Button>
                     </div>
-                    {/* {isfilterArrEmpty && <Text className={styles['filter__error-title']} tag='h4' view='p-20' weight='medium'>No such dish was found !</Text>} */}
 
                     <MultiDropdown
                         className={styles.selection__block}

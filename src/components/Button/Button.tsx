@@ -5,9 +5,7 @@ import Text from '../Text/Text';
 import styles from './Button.module.scss'
 
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-    /** Состояние загрузки */
     loading?: boolean;
-    /** Текст кнопки */
     children: React.ReactNode;
 };
 

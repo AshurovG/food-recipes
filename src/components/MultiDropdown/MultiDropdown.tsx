@@ -50,9 +50,6 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
     }, [disabled])
 
     const onClickOption = (selectedOption: Option) => () => {
-        console.log(selectedSet)
-        console.log(selectedOption)
-        console.log(value)
         if (disabled) {
             return
         }
@@ -60,7 +57,6 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
         setIsTyping(false)
 
         if (selectedSet.has(selectedOption)) {
-            console.log(1)
             onChange(value.filter((o) => o.key !== selectedOption.key))
             return
         }
