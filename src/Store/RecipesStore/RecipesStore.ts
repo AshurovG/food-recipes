@@ -7,10 +7,10 @@ import { Meta } from 'utils/meta.ts';
 
 
 export interface IRecipesStore {
-    getRecipesData(): Promise<void>;
+    getRecipesData(isSearch?: boolean): Promise<void>;
 }
 
-export type PrivateFields = '_list' | '_meta' | '_offset' | '_hasMore' | '_isFirstCards' | '_isFirstCardsLoading' | '_inputValue';
+export type PrivateFields = '_list' | '_meta' | '_offset' | '_hasMore' | '_isFirstCards' | '_isFirstCardsLoading' | '_inputValue' | '_isOnSearchClick';
 
 export default class RecipesStore implements IRecipesStore, ILocalStore {
 
@@ -21,6 +21,7 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
     private _isFirstCards = true;
     private _isFirstCardsLoading = true;
     private _inputValue = '';
+    private _isOnSearchClick = false;
 
     public setOffset(offset: number): void {
         this._offset = offset;
@@ -32,6 +33,13 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
         console.log('has more: ', this._hasMore)
         console.log('store:', this._offset)
     };
+
+    public setIsOnSearchClick = (): void => {
+        this._isOnSearchClick = true;
+        this._list = []
+        this._offset = 0
+        console.log(this._isOnSearchClick)
+    }
 
     public setInputValue = (value: string): void => {
         this._inputValue = value;
@@ -47,6 +55,7 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
             _isFirstCards: observable,
             _isFirstCardsLoading: observable,
             _inputValue: observable,
+            _isOnSearchClick: observable,
             list: computed,
             meta: computed,
             hasMore: computed,
@@ -54,6 +63,7 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
             isFirstCardsLoading: computed,
             offset: computed,
             inputValue: computed,
+            isOnSearchClick: computed
         })
     }
 
@@ -85,6 +95,10 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
         return this._inputValue
     }
 
+    get isOnSearchClick(): boolean {
+        return this._isOnSearchClick
+    }
+
     getIngredientsString = (ingredients: Array<IngredientData>): string => {
         let newArr: Array<string> = ingredients.map((ingredient: IngredientData) => {
             return ingredient.name
@@ -92,16 +106,30 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
         return newArr.slice(0, newArr.length - 1).join(' + ') + ' ' + newArr[newArr.length - 1];
     }
 
-    async getRecipesData(): Promise<void> {
+    async getRecipesData(isSearch?: boolean): Promise<void> {
         this._meta = Meta.loading;
         if (this.list.length >= 24) {
             this._hasMore = false;
             return;
         }
+        let newValue = '';
+        if (this._isOnSearchClick == true) {
+            console.log("Поиск по названию", this._inputValue)
+            newValue = this._inputValue;
+            // const response = await axios({
+            //     method: 'get',
+            //     url: `https://api.spoonacular.com/recipes/complexSearch?query=${this._inputValue}&apiKey=${apiKey}&addRecipeNutrition=true&offset=${this._offset}&number=6`
+            // });
+        }
+
+        // const response = await axios({
+        //     method: 'get',
+        //     url: `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&addRecipeNutrition=true&offset=${this._offset}&number=6`
+        // });
 
         const response = await axios({
             method: 'get',
-            url: `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&addRecipeNutrition=true&offset=${this._offset}&number=6`
+            url: `https://api.spoonacular.com/recipes/complexSearch?query=${newValue}&apiKey=${apiKey}&addRecipeNutrition=true&offset=${this._offset}&number=6`
         });
 
         const newRecipesArr = response.data.results.map((raw: ReceivedRecipeData, index: number) => ({

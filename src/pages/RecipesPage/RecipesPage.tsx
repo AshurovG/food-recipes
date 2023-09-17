@@ -54,12 +54,10 @@ type DropdownCounts = {
 const RecipesPage: React.FC = () => {
     const recipesStore = useLocalStore(() => new RecipesStore());
     const [dropdownValue, setDropdownValue] = useState<Option[]>([]);
-    const [inputValue, setInputValue] = useState('');
-    const memoizedInputValue = useMemo(() => inputValue, [inputValue]);
 
     React.useEffect(() => {
         recipesStore.getRecipesData();
-    }, [recipesStore.offset])
+    }, [recipesStore.offset, recipesStore.isOnSearchClick])
 
     React.useEffect(() => {
         console.log(11111111111)
@@ -99,7 +97,7 @@ const RecipesPage: React.FC = () => {
                 </Text>
                 <div className={styles['search__info-block']}>
                     <div className={styles['search__input-block']}>
-                        <Input value={recipesStore.inputValue} onChange={recipesStore.setInputValue}></Input> <Button onClick={() => 'onSearchButtonClick'}><SearchIcon /></Button>
+                        <Input value={recipesStore.inputValue} onChange={recipesStore.setInputValue}></Input> <Button onClick={() => recipesStore.setIsOnSearchClick()}><SearchIcon /></Button>
                     </div>
 
                     <MultiDropdown
