@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import { apiKey } from '../../../consts.config.ts';
 import { observer } from 'mobx-react-lite';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import styles from './RecipesPage.module.scss';

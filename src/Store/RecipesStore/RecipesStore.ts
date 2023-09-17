@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { computed, makeObservable, observable, runInAction } from 'mobx';
-// import { computed, makeObservable, observable } from 'mobx/dist/internal';
 import { apiKey } from '../../../consts.config.ts';
 import { ILocalStore } from 'utils/useLocalStore';
 import { ReceivedRecipeData, IngredientData, RecipeData } from './types'
@@ -102,22 +101,18 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
             key: raw.id.toString()
         }))
 
-        // if (response.status === 200) {
-
-
         runInAction(() => {
-            this._meta = Meta.success;
-            this._list = [...this._list, ...newRecipesArr]
-            if (this.isFirstCards) {
-                this._isFirstCards = false;
-                this._isFirstCardsLoading = false;
+            if (response.status === 200) {
+                this._meta = Meta.success;
+                this._list = [...this._list, ...newRecipesArr]
+                if (this.isFirstCards) {
+                    this._isFirstCards = false;
+                    this._isFirstCardsLoading = false;
+                }
+                return
             }
+            this._meta = Meta.error
         })
-
-        //     return
-        // }
-
-        // this._meta = Meta.error
     }
 
     destroy(): void {
