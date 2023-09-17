@@ -88,12 +88,6 @@ const RecipesPage: React.FC = () => {
         [],
     );
 
-    const loadMore = () => {
-        recipesStore.setOffset(recipesStore.offset + 6)
-        console.log(recipesStore.offset)
-    }
-
-
     return (
         <div className={styles.recipes__page}>
             <Header></Header>

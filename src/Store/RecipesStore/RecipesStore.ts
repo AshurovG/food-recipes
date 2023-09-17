@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { computed, makeObservable, observable } from 'mobx';
+import { computed, makeObservable, observable, runInAction } from 'mobx';
 // import { computed, makeObservable, observable } from 'mobx/dist/internal';
 import { apiKey } from '../../../consts.config.ts';
 import { ILocalStore } from 'utils/useLocalStore';
@@ -92,22 +92,27 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
             url: `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&addRecipeNutrition=true&offset=${this._offset}&number=6`
         });
 
-        const newRecipesArr = response.data.results.map((raw: ReceivedRecipeData) => ({
+        const newRecipesArr = response.data.results.map((raw: ReceivedRecipeData, index: number) => ({
             id: raw.id,
             image: raw.image,
             title: raw.title,
             readyInMinutes: raw.readyInMinutes,
             ingredients: this.getIngredientsString(raw.nutrition.ingredients),
-            caloricContent: raw.nutrition.nutrients[0].amount
+            caloricContent: raw.nutrition.nutrients[0].amount,
+            key: raw.id.toString()
         }))
 
         // if (response.status === 200) {
-        this._meta = Meta.success;
-        this._list = [...this._list, ...newRecipesArr]
-        if (this.isFirstCards) {
-            this._isFirstCards = false;
-            this._isFirstCardsLoading = false;
-        }
+
+
+        runInAction(() => {
+            this._meta = Meta.success;
+            this._list = [...this._list, ...newRecipesArr]
+            if (this.isFirstCards) {
+                this._isFirstCards = false;
+                this._isFirstCardsLoading = false;
+            }
+        })
 
         //     return
         // }
