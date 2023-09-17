@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import styles from './RecipesPage.module.scss';
@@ -55,12 +55,15 @@ const RecipesPage: React.FC = () => {
     const recipesStore = useLocalStore(() => new RecipesStore());
     const [dropdownValue, setDropdownValue] = useState<Option[]>([]);
     const [inputValue, setInputValue] = useState('');
+    const memoizedInputValue = useMemo(() => inputValue, [inputValue]);
 
     React.useEffect(() => {
         recipesStore.getRecipesData();
-        console.log(recipesStore)
-        console.log(recipesStore.list.length)
     }, [recipesStore.offset])
+
+    React.useEffect(() => {
+        console.log(11111111111)
+    }, [])
 
     const options = [
         { key: '1', value: 'Категория 1' },
@@ -96,7 +99,7 @@ const RecipesPage: React.FC = () => {
                 </Text>
                 <div className={styles['search__info-block']}>
                     <div className={styles['search__input-block']}>
-                        <Input value={inputValue} onChange={setInputValue}></Input> <Button onClick={() => 'onSearchButtonClick'}><SearchIcon /></Button>
+                        <Input value={recipesStore.inputValue} onChange={recipesStore.setInputValue}></Input> <Button onClick={() => 'onSearchButtonClick'}><SearchIcon /></Button>
                     </div>
 
                     <MultiDropdown

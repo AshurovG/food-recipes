@@ -10,7 +10,7 @@ export interface IRecipesStore {
     getRecipesData(): Promise<void>;
 }
 
-export type PrivateFields = '_list' | '_meta' | '_offset' | '_hasMore' | '_isFirstCards' | '_isFirstCardsLoading';
+export type PrivateFields = '_list' | '_meta' | '_offset' | '_hasMore' | '_isFirstCards' | '_isFirstCardsLoading' | '_inputValue';
 
 export default class RecipesStore implements IRecipesStore, ILocalStore {
 
@@ -20,8 +20,22 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
     private _hasMore = true;
     private _isFirstCards = true;
     private _isFirstCardsLoading = true;
+    private _inputValue = '';
+
     public setOffset(offset: number): void {
         this._offset = offset;
+    }
+
+    public _loadMore = (): void => {
+        this._offset += 6
+        console.log('list-length', this._list.length)
+        console.log('has more: ', this._hasMore)
+        console.log('store:', this._offset)
+    };
+
+    public setInputValue = (value: string): void => {
+        this._inputValue = value;
+        console.log(this.inputValue)
     }
 
     constructor() {
@@ -32,12 +46,14 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
             _hasMore: observable,
             _isFirstCards: observable,
             _isFirstCardsLoading: observable,
+            _inputValue: observable,
             list: computed,
             meta: computed,
             hasMore: computed,
             isFirstCards: computed,
             isFirstCardsLoading: computed,
-            offset: computed
+            offset: computed,
+            inputValue: computed,
         })
     }
 
@@ -65,12 +81,9 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
         return this._offset
     }
 
-    public _loadMore = (): void => {
-        this._offset += 6
-        console.log('list-length', this._list.length)
-        console.log('has more: ', this._hasMore)
-        console.log('store:', this._offset)
-    };
+    get inputValue(): string {
+        return this._inputValue
+    }
 
     getIngredientsString = (ingredients: Array<IngredientData>): string => {
         let newArr: Array<string> = ingredients.map((ingredient: IngredientData) => {
