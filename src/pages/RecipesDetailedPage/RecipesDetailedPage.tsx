@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { useParams } from 'react-router-dom'
-import axios from 'axios';
+import React from 'react';
+import { observer } from 'mobx-react-lite';
 import { Link } from 'react-router-dom'
-import { apiKey } from '../../../consts.config.ts';
+import { useLocalStore } from 'utils/useLocalStore.ts';
+import { Meta } from 'utils/meta';
+import RecipeDetailedStore from '../../Store/RecipeDetailedStore';
 import styles from './RecipesDetailedPage.module.scss';
 import Header from 'components/Header';
 import Сharacteristic from 'components/Сharacteristic'
@@ -13,56 +14,20 @@ import DirectionsList from 'components/DirectionsList';
 import Text from 'components/Text';
 import Loader from 'components/Loader';
 
-type RecipeData = {
-    id: number;
-    preparationMinutes: string;
-    cookingMinutes: string;
-    image: string;
-    aggregateLikes: string;
-    readyMinutes: string;
-    servings: string;
-    title: string;
-    summary: any;
-    extendedIngredients: [];
-    equipment: [];
-}
 
 const RecipesDetailedPage: React.FC = () => {
-    const [recipe, setRecipe] = useState<RecipeData>();
-    const { id } = useParams();
-    const [isDetailedPageLoading, setIsDetailedPageLoading] = useState(true)
+    const recipeDetailedStore = useLocalStore(() => new RecipeDetailedStore)
 
     React.useEffect(() => {
-        const fetch = async () => {
-            setIsDetailedPageLoading(true)
-            const result = await axios({
-                method: 'get',
-                url: `https://api.spoonacular.com/recipes/${id}/information?apiKey=${apiKey}&addRecipeInformation=true&instructionsRequired=true&includeEquipment=true`
-            })
-            setRecipe({
-                id: result.data.id,
-                title: result.data.title,
-                image: result.data.image,
-                preparationMinutes: result.data.preparationMinutes,
-                cookingMinutes: result.data.cookingMinutes,
-                aggregateLikes: result.data.aggregateLikes,
-                servings: result.data.servings,
-                readyMinutes: result.data.readyInMinutes,
-                summary: result.data.summary,
-                extendedIngredients: result.data.extendedIngredients,
-                equipment: result.data.analyzedInstructions[0].steps,
-            });
-            setIsDetailedPageLoading(false)
-        }
-        fetch()
+        recipeDetailedStore.getRecipeData();
+        console.log(recipeDetailedStore.recipe)
+    }, [recipeDetailedStore])
 
-    }, [])
-
-    if (isDetailedPageLoading) {
+    if (recipeDetailedStore.meta === Meta.loading) {
         return <div className={styles.loader__wrapper}><Loader className={styles.loader} size='xl'></Loader></div>;
     }
 
-    if (!recipe) {
+    if (!recipeDetailedStore.recipe) {
         return null
     }
 
@@ -71,30 +36,30 @@ const RecipesDetailedPage: React.FC = () => {
             <Header />
             <div className={styles.detailed__wrapper}>
                 <div className={styles['content__title-flex']}>
-                    <Link to='/'><BackIcon className={styles.back__button} /></Link><h1 className={styles.content__title} >{recipe?.title}</h1>
+                    <Link to='/'><BackIcon className={styles.back__button} /></Link><h1 className={styles.content__title} >{recipeDetailedStore.recipe?.title}</h1>
                 </div>
 
                 <div className={styles.main__info}>
-                    <img className={styles['main__info-image']} src={recipe?.image} alt={recipe?.title} />
+                    <img className={styles['main__info-image']} src={recipeDetailedStore.recipe?.image} alt={recipeDetailedStore.recipe?.title} />
                     <div className={styles['main__info-content']}>
-                        <Сharacteristic title={'Preparation'} value={`${recipe?.preparationMinutes} minutes`} />
-                        <Сharacteristic title={'Cooking'} value={`${recipe?.cookingMinutes} minutes`} />
-                        <Сharacteristic title={'Total'} value={`${recipe?.readyMinutes} minutes`} />
-                        <Сharacteristic title={'Rating'} value={`${recipe?.aggregateLikes} likes`} />
-                        <Сharacteristic title={'Servings'} value={`${recipe?.servings} servings`} />
+                        <Сharacteristic title={'Preparation'} value={`${recipeDetailedStore.recipe?.preparationMinutes} minutes`} />
+                        <Сharacteristic title={'Cooking'} value={`${recipeDetailedStore.recipe?.cookingMinutes} minutes`} />
+                        <Сharacteristic title={'Total'} value={`${recipeDetailedStore.recipe?.readyMinutes} minutes`} />
+                        <Сharacteristic title={'Rating'} value={`${recipeDetailedStore.recipe?.aggregateLikes} likes`} />
+                        <Сharacteristic title={'Servings'} value={`${recipeDetailedStore.recipe?.servings} servings`} />
 
                     </div>
                 </div>
 
                 <RecipeDescription>
-                    <div dangerouslySetInnerHTML={{ __html: recipe?.summary }}></div>
+                    <div dangerouslySetInnerHTML={{ __html: recipeDetailedStore.recipe?.summary }}></div>
                 </RecipeDescription>
 
                 <div className={styles.features}>
                     <div className={styles.features__item}>
                         <Text className={styles['features__item-title']} view='p-20' weight='bold'>Ingredients</Text>
                         <div className={`${styles['features__ingredients-content']} ${styles['features__item-content']}`}>
-                            {recipe?.extendedIngredients.map((item: any) =>
+                            {recipeDetailedStore.recipe?.extendedIngredients.map((item: any) =>
                                 <DetailedInfo key={item.original} type='ingredients'> {item.original}</DetailedInfo>
                             )}
                         </div>
@@ -107,7 +72,7 @@ const RecipesDetailedPage: React.FC = () => {
                     <div className={styles.features__item}>
                         <Text className={styles['features__item-title']} view='p-20' weight='bold'>Equipment</Text>
                         <div className={`${styles['features__equipment-content']} ${styles['features__item-content']}`}>
-                            {recipe?.equipment.map((item: any, index) =>
+                            {recipeDetailedStore.recipe?.equipment.map((item: any, index) =>
                                 item.equipment.length > 0 &&
                                 <DetailedInfo key={index} type='equipment'> {item.equipment[0].name}</DetailedInfo>
                             )}
@@ -115,7 +80,7 @@ const RecipesDetailedPage: React.FC = () => {
                     </div>
                 </div>
                 <Text className={styles['features__item-title']} view='p-20' weight='bold'>Directions</Text>
-                <DirectionsList steps={recipe?.equipment.map((item: any) => {
+                <DirectionsList steps={recipeDetailedStore.recipe?.equipment.map((item: any) => {
                     return {
                         title: `step ${item.number}`,
                         text: `${item.step}`
@@ -127,4 +92,4 @@ const RecipesDetailedPage: React.FC = () => {
     )
 };
 
-export default RecipesDetailedPage;
+export default observer(RecipesDetailedPage);

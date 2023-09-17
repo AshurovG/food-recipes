@@ -38,6 +38,9 @@
       ],
       "utils": [
         "utils/*"
+      ],
+      "store": [
+        "Store/*"
       ]
     }
   },
