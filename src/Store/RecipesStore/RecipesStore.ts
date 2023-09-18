@@ -36,9 +36,12 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
     };
 
     public setIsOnSearchClick = (): void => {
-        this._isOnSearchClick = true;
         this._list = []
         this._offset = 0
+        this._isOnSearchClick = true;
+        this._isFirstCardsLoading = true;
+        this._isFirstCards = true;
+        this.getRecipesData();
     }
 
     public setInputValue = (value: string): void => {
@@ -119,6 +122,7 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
         this._meta = Meta.loading;
         if (this.list.length >= 24) {
             this._hasMore = false;
+            console.log('первая проверка')
             return;
         }
         let newValue = '';
@@ -149,6 +153,13 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
                 if (this.isFirstCards) {
                     this._isFirstCards = false;
                     this._isFirstCardsLoading = false;
+                }
+                // if (this._list.length < 6) {
+                //     this._hasMore = false
+                // }
+                if (this.list.length % 6 !== 0) {
+                    this._hasMore = false
+                    console.log('изменили hasmore из за длины')
                 }
                 return
             }

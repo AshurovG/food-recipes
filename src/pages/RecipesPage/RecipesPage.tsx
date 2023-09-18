@@ -117,7 +117,7 @@ const RecipesPage: React.FC = () => {
 
                 {recipesStore.isFirstCards
                     ? <div><RecipesList cards={recipesStore.list} />
-                        {recipesStore.isFirstCardsLoading && <div className={styles.loader__wrapper}>
+                        {recipesStore.offset === 0 && <div className={styles.loader__wrapper}>
                             <Loader className={styles.loader} size='xl' />
                         </div>}
                     </div>
