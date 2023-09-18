@@ -14,7 +14,7 @@ import Loader from 'components/Loader';
 import RecipesList from 'components/RecipesList';
 import { useLocalStore } from 'utils/useLocalStore.ts';
 import RecipesStore from '../../Store/RecipesStore'
-import QueryParamsStore from '../../Store/RootStore/QueryParamsStore';
+// import QueryParamsStore from '../../Store/RootStore/QueryParamsStore';
 import { useQueryParamsStoreInit } from '../../Store/RootStore/hooks/useQueryParamsStoreInit';
 
 export type IngredientData = {
@@ -70,11 +70,11 @@ const RecipesPage: React.FC = () => {
         recipesStore.setIsOnSearchClick();
     };
 
-    const options = [
-        { key: '1', value: 'Категория 1' },
-        { key: '2', value: 'Категория 2' },
-        { key: '3', value: 'Категория 3' }
-    ];
+    // const options = [
+    //     { key: '1', value: 'Категория 1' },
+    //     { key: '2', value: 'Категория 2' },
+    //     { key: '3', value: 'Категория 3' }
+    // ];
 
     // const handleChange = React.useCallback((options: Option[]) => {
     //     const counts: DropdownCounts = {};
@@ -109,7 +109,7 @@ const RecipesPage: React.FC = () => {
 
                     <MultiDropdown
                         className={styles.selection__block}
-                        options={options}
+                        options={recipesStore.options}
                         value={recipesStore.dropdownValue}
                         onChange={recipesStore.handleDropdownChange}
                         getTitle={recipesStore.getDropdownTitle}

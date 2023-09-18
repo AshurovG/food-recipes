@@ -5,7 +5,6 @@ import { ILocalStore } from 'utils/useLocalStore';
 import { ReceivedRecipeData, IngredientData, RecipeData, Option, DropdownCounts } from './types'
 import { Meta } from 'utils/meta.ts';
 import rootStore from '../RootStore/instance';
-import React from 'react';
 
 
 export interface IRecipesStore {
@@ -23,10 +22,26 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
     private _inputValue = '';
     private _isOnSearchClick = false;
     private _dropdownValue: Option[] = []
+    private _options: Option[] = [
+        { key: '1', value: 'main course' },
+        { key: '2', value: 'side dish' },
+        { key: '3', value: 'dessert' },
+        { key: '4', value: 'appetizer' },
+        { key: '5', value: 'salad' },
+        { key: '6', value: 'bread' },
+        { key: '7', value: 'breakfast' },
+        { key: '8', value: 'soup' },
+        { key: '9', value: 'beverage' },
+        { key: '10', value: 'souce' },
+        { key: '11', value: 'marinade' },
+        { key: '12', value: 'fingerfood' },
+        { key: '13', value: 'snack' },
+        { key: '14', value: 'drink' },
+    ];
 
     public setOffset(offset: number): void {
         this._offset = offset;
-    }
+    };
 
     public _loadMore = (): void => {
         this._offset += 6
@@ -37,11 +52,11 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
         this._offset = 0
         this._isOnSearchClick = true;
         this.getRecipesData();
-    }
+    };
 
     public setInputValue = (value: string): void => {
         this._inputValue = value;
-    }
+    };
 
     public handleDropdownChange = (options: Option[]) => {
         const counts: DropdownCounts = {};
@@ -56,7 +71,7 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
 
     public getDropdownTitle = (options: Option[]) => {
         return options.map((option) => option.value).join(', ') || 'Filter';
-    }
+    };
 
     constructor() {
         makeObservable<RecipesStore, PrivateFields>(this, {
@@ -73,7 +88,8 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
             offset: computed,
             inputValue: computed,
             isOnSearchClick: computed,
-            dropdownValue: computed
+            dropdownValue: computed,
+            options: computed
         })
 
         const searchParam = rootStore.query.getParam('search')
@@ -82,41 +98,45 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
             this._inputValue = searchParam;
         }
     }
-
+    ;
     get list(): RecipeData[] {
         return this._list;
-    }
+    };
 
     get meta(): Meta {
         return this._meta
-    }
+    };
 
     get hasMore(): boolean {
         return this._hasMore
-    }
+    };
 
     get offset(): number {
-        return this._offset
-    }
+        return this._offset;
+    };
 
     get inputValue(): string {
-        return this._inputValue
-    }
+        return this._inputValue;
+    };
 
     get isOnSearchClick(): boolean {
-        return this._isOnSearchClick
-    }
+        return this._isOnSearchClick;
+    };
 
     get dropdownValue(): Option[] {
-        return this._dropdownValue
-    }
+        return this._dropdownValue;
+    };
+
+    get options(): Option[] {
+        return this._options;
+    };
 
     getIngredientsString = (ingredients: Array<IngredientData>): string => {
         let newArr: Array<string> = ingredients.map((ingredient: IngredientData) => {
-            return ingredient.name
+            return ingredient.name;
         })
         return newArr.slice(0, newArr.length - 1).join(' + ') + ' ' + newArr[newArr.length - 1];
-    }
+    };
 
     async getRecipesData(): Promise<void> {
         this._meta = Meta.loading;
