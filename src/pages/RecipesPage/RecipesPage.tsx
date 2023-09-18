@@ -45,54 +45,19 @@ export type ReceivedRecipeData = {
     };
 }
 
-type Option = {
-    key: string;
-    value: string;
-};
-
-type DropdownCounts = {
-    [key: string]: number
-}
-
 const RecipesPage: React.FC = () => {
     useQueryParamsStoreInit();
     const recipesStore = useLocalStore(() => new RecipesStore());
-    const [dropdownValue, setDropdownValue] = useState<Option[]>([]);
 
     React.useEffect(() => {
         recipesStore.getRecipesData();
-        console.log(dropdownValue)
     }, [recipesStore.offset, recipesStore.isOnSearchClick])
 
     const navigate = useNavigate();
     const handleFormSubmit = () => {
-        navigate(`?search=${recipesStore.inputValue}`);
+        navigate(`?search=${recipesStore.inputValue}&type=${recipesStore.getDropdownTitle(recipesStore.dropdownValue)}`);
         recipesStore.setIsOnSearchClick();
     };
-
-    // const options = [
-    //     { key: '1', value: 'Категория 1' },
-    //     { key: '2', value: 'Категория 2' },
-    //     { key: '3', value: 'Категория 3' }
-    // ];
-
-    // const handleChange = React.useCallback((options: Option[]) => {
-    //     const counts: DropdownCounts = {};
-    //     options.forEach(option => {
-    //         counts[option.value] = (counts[option.value] || 0) + 1;
-    //     });
-
-    //     const filteredOptions = options.filter(option => counts[option.value] === 1);
-    //     setDropdownValue(filteredOptions);
-    // }, []);
-
-    // const getTitle = React.useCallback(
-    //     (options: Option[]) => {
-    //         console.log(111111)
-    //         return options.map((option) => option.value).join(', ') || 'Filter';
-    //     },
-    //     []
-    // );
 
     return (
         <div className={styles.recipes__page}>
