@@ -7,7 +7,7 @@ import { Meta } from 'utils/meta.ts';
 
 
 export interface IRecipesStore {
-    getRecipesData(isSearch?: boolean): Promise<void>;
+    getRecipesData(): Promise<void>;
 }
 
 export type PrivateFields = '_list' | '_meta' | '_offset' | '_hasMore' | '_isFirstCards' | '_isFirstCardsLoading' | '_inputValue' | '_isOnSearchClick';
@@ -106,7 +106,7 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
         return newArr.slice(0, newArr.length - 1).join(' + ') + ' ' + newArr[newArr.length - 1];
     }
 
-    async getRecipesData(isSearch?: boolean): Promise<void> {
+    async getRecipesData(): Promise<void> {
         this._meta = Meta.loading;
         if (this.list.length >= 24) {
             this._hasMore = false;
@@ -116,16 +116,7 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
         if (this._isOnSearchClick == true) {
             console.log("Поиск по названию", this._inputValue)
             newValue = this._inputValue;
-            // const response = await axios({
-            //     method: 'get',
-            //     url: `https://api.spoonacular.com/recipes/complexSearch?query=${this._inputValue}&apiKey=${apiKey}&addRecipeNutrition=true&offset=${this._offset}&number=6`
-            // });
         }
-
-        // const response = await axios({
-        //     method: 'get',
-        //     url: `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&addRecipeNutrition=true&offset=${this._offset}&number=6`
-        // });
 
         const response = await axios({
             method: 'get',
