@@ -76,24 +76,23 @@ const RecipesPage: React.FC = () => {
         { key: '3', value: 'Категория 3' }
     ];
 
-    const handleChange = React.useCallback((options: Option[]) => {
-        const counts: DropdownCounts = {};
-        options.forEach(option => {
-            counts[option.value] = (counts[option.value] || 0) + 1;
-        });
+    // const handleChange = React.useCallback((options: Option[]) => {
+    //     const counts: DropdownCounts = {};
+    //     options.forEach(option => {
+    //         counts[option.value] = (counts[option.value] || 0) + 1;
+    //     });
 
-        const filteredOptions = options.filter(option => counts[option.value] === 1);
-        setDropdownValue(filteredOptions);
-        console.log(dropdownValue)
-    }, []);
+    //     const filteredOptions = options.filter(option => counts[option.value] === 1);
+    //     setDropdownValue(filteredOptions);
+    // }, []);
 
-    const getTitle = React.useCallback(
-        (options: Option[]) => {
-            console.log(111111)
-            return options.map((option) => option.value).join(', ') || 'Filter';
-        },
-        []
-    );
+    // const getTitle = React.useCallback(
+    //     (options: Option[]) => {
+    //         console.log(111111)
+    //         return options.map((option) => option.value).join(', ') || 'Filter';
+    //     },
+    //     []
+    // );
 
     return (
         <div className={styles.recipes__page}>
@@ -111,9 +110,9 @@ const RecipesPage: React.FC = () => {
                     <MultiDropdown
                         className={styles.selection__block}
                         options={options}
-                        value={dropdownValue}
-                        onChange={handleChange}
-                        getTitle={getTitle}
+                        value={recipesStore.dropdownValue}
+                        onChange={recipesStore.handleDropdownChange}
+                        getTitle={recipesStore.getDropdownTitle}
                     />
                 </div>
 

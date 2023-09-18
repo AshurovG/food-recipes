@@ -2,9 +2,10 @@ import axios from 'axios';
 import { IReactionDisposer, computed, makeObservable, observable, reaction, runInAction } from 'mobx';
 import { apiKey } from '../../../consts.config.ts';
 import { ILocalStore } from 'utils/useLocalStore';
-import { ReceivedRecipeData, IngredientData, RecipeData } from './types'
+import { ReceivedRecipeData, IngredientData, RecipeData, Option, DropdownCounts } from './types'
 import { Meta } from 'utils/meta.ts';
 import rootStore from '../RootStore/instance';
+import React from 'react';
 
 
 export interface IRecipesStore {
@@ -21,11 +22,11 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
     private _hasMore = true;
     private _inputValue = '';
     private _isOnSearchClick = false;
-    private _dropdownValue =
+    private _dropdownValue: Option[] = []
 
-        public setOffset(offset: number): void {
-            this._offset = offset;
-        }
+    public setOffset(offset: number): void {
+        this._offset = offset;
+    }
 
     public _loadMore = (): void => {
         this._offset += 6
@@ -42,6 +43,21 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
         this._inputValue = value;
     }
 
+    public handleDropdownChange = (options: Option[]) => {
+        const counts: DropdownCounts = {};
+        options.forEach(option => {
+            counts[option.value] = (counts[option.value] || 0) + 1;
+        });
+
+        const filteredOptions = options.filter(option => counts[option.value] === 1);
+        this._dropdownValue = filteredOptions;
+        console.log(this._dropdownValue)
+    };
+
+    public getDropdownTitle = (options: Option[]) => {
+        return options.map((option) => option.value).join(', ') || 'Filter';
+    }
+
     constructor() {
         makeObservable<RecipesStore, PrivateFields>(this, {
             _list: observable,
@@ -50,12 +66,14 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
             _hasMore: observable,
             _inputValue: observable,
             _isOnSearchClick: observable,
+            _dropdownValue: observable,
             list: computed,
             meta: computed,
             hasMore: computed,
             offset: computed,
             inputValue: computed,
-            isOnSearchClick: computed
+            isOnSearchClick: computed,
+            dropdownValue: computed
         })
 
         const searchParam = rootStore.query.getParam('search')
@@ -87,6 +105,10 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
 
     get isOnSearchClick(): boolean {
         return this._isOnSearchClick
+    }
+
+    get dropdownValue(): Option[] {
+        return this._dropdownValue
     }
 
     getIngredientsString = (ingredients: Array<IngredientData>): string => {
