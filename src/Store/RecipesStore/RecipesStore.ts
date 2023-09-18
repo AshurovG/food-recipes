@@ -11,7 +11,7 @@ export interface IRecipesStore {
     getRecipesData(): Promise<void>;
 }
 
-export type PrivateFields = '_list' | '_meta' | '_offset' | '_hasMore' | '_isFirstCards' | '_isFirstCardsLoading' | '_inputValue' | '_isOnSearchClick';
+export type PrivateFields = '_list' | '_meta' | '_offset' | '_hasMore' | '_inputValue' | '_isOnSearchClick' | '_dropdownValue';
 
 export default class RecipesStore implements IRecipesStore, ILocalStore {
 
@@ -19,14 +19,13 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
     private _meta: Meta = Meta.initial;
     private _offset = 0;
     private _hasMore = true;
-    private _isFirstCards = true;
-    private _isFirstCardsLoading = true;
     private _inputValue = '';
     private _isOnSearchClick = false;
+    private _dropdownValue =
 
-    public setOffset(offset: number): void {
-        this._offset = offset;
-    }
+        public setOffset(offset: number): void {
+            this._offset = offset;
+        }
 
     public _loadMore = (): void => {
         this._offset += 6
@@ -36,8 +35,6 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
         this._list = []
         this._offset = 0
         this._isOnSearchClick = true;
-        this._isFirstCardsLoading = true;
-        this._isFirstCards = true;
         this.getRecipesData();
     }
 
@@ -51,24 +48,16 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
             _meta: observable,
             _offset: observable,
             _hasMore: observable,
-            _isFirstCards: observable,
-            _isFirstCardsLoading: observable,
             _inputValue: observable,
             _isOnSearchClick: observable,
             list: computed,
             meta: computed,
             hasMore: computed,
-            isFirstCards: computed,
-            isFirstCardsLoading: computed,
             offset: computed,
             inputValue: computed,
             isOnSearchClick: computed
         })
 
-        // const urlParams = new URLSearchParams(window.location.search);
-        // console.log(`1 ${urlParams}`)
-        // const searchParam = urlParams.get('search');
-        // console.log(`2 ${searchParam}`)
         const searchParam = rootStore.query.getParam('search')
         if (searchParam && typeof searchParam === 'string') {
             this._isOnSearchClick = true;
@@ -86,14 +75,6 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
 
     get hasMore(): boolean {
         return this._hasMore
-    }
-
-    get isFirstCards(): boolean {
-        return this._isFirstCards
-    }
-
-    get isFirstCardsLoading(): boolean {
-        return this._isFirstCardsLoading
     }
 
     get offset(): number {
@@ -147,13 +128,6 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
             if (response.status === 200) {
                 this._meta = Meta.success;
                 this._list = [...this._list, ...newRecipesArr]
-                if (this.isFirstCards) {
-                    this._isFirstCards = false;
-                    this._isFirstCardsLoading = false;
-                }
-                // if (this._list.length < 6) {
-                //     this._hasMore = false
-                // }
                 if (this.list.length % 6 !== 0) {
                     this._hasMore = false
                     console.log('изменили hasmore из за длины')

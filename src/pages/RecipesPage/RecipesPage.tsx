@@ -61,6 +61,7 @@ const RecipesPage: React.FC = () => {
 
     React.useEffect(() => {
         recipesStore.getRecipesData();
+        console.log(dropdownValue)
     }, [recipesStore.offset, recipesStore.isOnSearchClick])
 
     const navigate = useNavigate();
@@ -82,15 +83,16 @@ const RecipesPage: React.FC = () => {
         });
 
         const filteredOptions = options.filter(option => counts[option.value] === 1);
-
         setDropdownValue(filteredOptions);
+        console.log(dropdownValue)
     }, []);
 
     const getTitle = React.useCallback(
         (options: Option[]) => {
+            console.log(111111)
             return options.map((option) => option.value).join(', ') || 'Filter';
         },
-        [],
+        []
     );
 
     return (
