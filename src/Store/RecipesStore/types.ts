@@ -25,3 +25,8 @@ export type RecipeData = {
     caloricContent?: string;
     ingredients: string
 }
+
+export type Option = {
+    key: string;
+    value: string;
+};
