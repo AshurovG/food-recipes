@@ -30,9 +30,6 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
 
     public _loadMore = (): void => {
         this._offset += 6
-        console.log('list-length', this._list.length)
-        console.log('has more: ', this._hasMore)
-        console.log('store:', this._offset)
     };
 
     public setIsOnSearchClick = (): void => {
@@ -160,6 +157,10 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
                 if (this.list.length % 6 !== 0) {
                     this._hasMore = false
                     console.log('изменили hasmore из за длины')
+                }
+
+                if (this._offset === 0) {
+                    this._offset += 6
                 }
                 return
             }
