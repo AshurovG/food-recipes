@@ -1,9 +1,10 @@
 import axios from 'axios';
-import { computed, makeObservable, observable, runInAction } from 'mobx';
+import { IReactionDisposer, computed, makeObservable, observable, reaction, runInAction } from 'mobx';
 import { apiKey } from '../../../consts.config.ts';
 import { ILocalStore } from 'utils/useLocalStore';
 import { ReceivedRecipeData, IngredientData, RecipeData } from './types'
 import { Meta } from 'utils/meta.ts';
+import rootStore from '../RootStore/instance';
 
 
 export interface IRecipesStore {
@@ -38,12 +39,10 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
         this._isOnSearchClick = true;
         this._list = []
         this._offset = 0
-        console.log(this._isOnSearchClick)
     }
 
     public setInputValue = (value: string): void => {
         this._inputValue = value;
-        console.log(this.inputValue)
     }
 
     constructor() {
@@ -65,6 +64,16 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
             inputValue: computed,
             isOnSearchClick: computed
         })
+
+        // const urlParams = new URLSearchParams(window.location.search);
+        // console.log(`1 ${urlParams}`)
+        // const searchParam = urlParams.get('search');
+        // console.log(`2 ${searchParam}`)
+        const searchParam = rootStore.query.getParam('search')
+        if (searchParam && typeof searchParam === 'string') {
+            this._isOnSearchClick = true;
+            this._inputValue = searchParam;
+        }
     }
 
     get list(): RecipeData[] {
@@ -146,6 +155,18 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
             this._meta = Meta.error
         })
     }
+
+    private readonly _qpReaction: IReactionDisposer = reaction(
+        () => rootStore.query.getParam('search'),
+        (search) => {
+            console.log('asasasa', this._inputValue)
+            if (typeof search == 'string') {
+                this._inputValue = search
+                console.log(this._inputValue)
+            }
+            console.log("search value change", search);
+        }
+    );
 
     destroy(): void {
 

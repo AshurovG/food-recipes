@@ -1,5 +1,6 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { observer } from 'mobx-react-lite';
+import { useNavigate } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import styles from './RecipesPage.module.scss';
 import Header from 'components/Header';
@@ -13,6 +14,8 @@ import Loader from 'components/Loader';
 import RecipesList from 'components/RecipesList';
 import { useLocalStore } from 'utils/useLocalStore.ts';
 import RecipesStore from '../../Store/RecipesStore'
+import QueryParamsStore from '../../Store/RootStore/QueryParamsStore';
+import { useQueryParamsStoreInit } from '../../Store/RootStore/hooks/useQueryParamsStoreInit';
 
 export type IngredientData = {
     name: string,
@@ -52,6 +55,7 @@ type DropdownCounts = {
 }
 
 const RecipesPage: React.FC = () => {
+    useQueryParamsStoreInit();
     const recipesStore = useLocalStore(() => new RecipesStore());
     const [dropdownValue, setDropdownValue] = useState<Option[]>([]);
 
@@ -59,9 +63,11 @@ const RecipesPage: React.FC = () => {
         recipesStore.getRecipesData();
     }, [recipesStore.offset, recipesStore.isOnSearchClick])
 
-    React.useEffect(() => {
-        console.log(11111111111)
-    }, [])
+    const navigate = useNavigate();
+    const handleFormSubmit = () => {
+        navigate(`?search=${recipesStore.inputValue}`);
+        recipesStore.setIsOnSearchClick();
+    };
 
     const options = [
         { key: '1', value: 'Категория 1' },
@@ -97,7 +103,7 @@ const RecipesPage: React.FC = () => {
                 </Text>
                 <div className={styles['search__info-block']}>
                     <div className={styles['search__input-block']}>
-                        <Input value={recipesStore.inputValue} onChange={recipesStore.setInputValue}></Input> <Button onClick={() => recipesStore.setIsOnSearchClick()}><SearchIcon /></Button>
+                        <Input value={recipesStore.inputValue} onChange={recipesStore.setInputValue}></Input> <Button onClick={handleFormSubmit}><SearchIcon /></Button>
                     </div>
 
                     <MultiDropdown
