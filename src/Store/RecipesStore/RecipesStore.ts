@@ -66,11 +66,10 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
 
         const filteredOptions = options.filter(option => counts[option.value] === 1);
         this._dropdownValue = filteredOptions;
-        console.log(this._dropdownValue)
     };
 
     public getDropdownTitle = (options: Option[]) => {
-        return options.map((option) => option.value).join(', ') || 'Filter';
+        return options.map((option) => option.value).join(', ') || 'Choose a category of dishes';
     };
 
     constructor() {
@@ -145,15 +144,17 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
             console.log('первая проверка')
             return;
         }
-        let newValue = '';
+        let newInputValue = '';
+        let newTypesValue = '';
         if (this._isOnSearchClick == true) {
-            console.log("Поиск по названию", this._inputValue)
-            newValue = this._inputValue;
+            newInputValue = this._inputValue;
+            newTypesValue = this.getDropdownTitle(this._dropdownValue)
+            console.log(newTypesValue)
         }
 
         const response = await axios({
             method: 'get',
-            url: `https://api.spoonacular.com/recipes/complexSearch?query=${newValue}&apiKey=${apiKey}&addRecipeNutrition=true&offset=${this._offset}&number=6`
+            url: `https://api.spoonacular.com/recipes/complexSearch?query=${newInputValue}&apiKey=${apiKey}&addRecipeNutrition=true&offset=${this._offset}&number=6&type=${newTypesValue}`
         });
 
         const newRecipesArr = response.data.results.map((raw: ReceivedRecipeData, index: number) => ({
@@ -172,7 +173,6 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
                 this._list = [...this._list, ...newRecipesArr]
                 if (this.list.length % 6 !== 0) {
                     this._hasMore = false
-                    console.log('изменили hasmore из за длины')
                 }
 
                 if (this._offset === 0) {
