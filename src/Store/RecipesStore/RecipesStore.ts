@@ -91,10 +91,22 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
             options: computed
         })
 
-        const searchParam = rootStore.query.getParam('search')
+        let searchParam = rootStore.query.getParam('search')
         if (searchParam && typeof searchParam === 'string') {
             this._isOnSearchClick = true;
             this._inputValue = searchParam;
+        }
+
+        searchParam = rootStore.query.getParam('type')
+        if (searchParam && typeof searchParam === 'string') {
+            this._isOnSearchClick = true;
+            let substrings = searchParam.split(', ');
+            this._dropdownValue = substrings.map((substring: string) => {
+                return {
+                    key: substring,
+                    value: substring,
+                };
+            });
         }
     }
     ;
@@ -148,7 +160,9 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
         let newTypesValue = '';
         if (this._isOnSearchClick == true) {
             newInputValue = this._inputValue;
-            newTypesValue = this.getDropdownTitle(this._dropdownValue)
+            if (this.getDropdownTitle(this._dropdownValue) !== 'Choose a category of dishes') {
+                newTypesValue = this.getDropdownTitle(this._dropdownValue)
+            }
             console.log(newTypesValue)
         }
 
@@ -171,7 +185,7 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
             if (response.status === 200) {
                 this._meta = Meta.success;
                 this._list = [...this._list, ...newRecipesArr]
-                if (this.list.length % 6 !== 0) {
+                if (this.list.length % 6 !== 0 || this.list.length === 0) {
                     this._hasMore = false
                 }
 
@@ -185,14 +199,23 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
     }
 
     private readonly _qpReaction: IReactionDisposer = reaction(
-        () => rootStore.query.getParam('search'),
-        (search) => {
-            console.log('asasasa', this._inputValue)
-            if (typeof search == 'string') {
-                this._inputValue = search
-                console.log(this._inputValue)
+        () => ({
+            search: rootStore.query.getParam('search'),
+            type: rootStore.query.getParam('type')
+        }),
+        ({ search, type }) => {
+            if (typeof search === 'string') {
+                this._inputValue = search;
             }
-            console.log("search value change", search);
+            if (typeof type === 'string') {
+                let substrings = type.split(', ');
+                this._dropdownValue = substrings.map((substring: string) => {
+                    return {
+                        key: substring,
+                        value: substring,
+                    };
+                });
+            }
         }
     );
 
