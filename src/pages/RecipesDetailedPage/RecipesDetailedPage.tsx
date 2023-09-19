@@ -3,8 +3,8 @@ import { observer } from 'mobx-react-lite';
 import { Link } from 'react-router-dom'
 import { useLocalStore } from 'utils/useLocalStore.ts';
 import { Meta } from 'utils/meta';
-import RecipesStore from '../../Store/RecipesStore';
-import RecipeDetailedStore from '../../Store/RecipeDetailedStore';
+import RecipesStore from 'Store/RecipesStore';
+import RecipeDetailedStore from 'Store/RecipeDetailedStore';
 import styles from './RecipesDetailedPage.module.scss';
 import Header from 'components/Header';
 import Сharacteristic from 'components/Сharacteristic'
@@ -21,9 +21,7 @@ const RecipesDetailedPage: React.FC = () => {
     const recipesStore = useLocalStore(() => new RecipesStore)
 
     React.useEffect(() => {
-        console.log('url', recipesStore.currentUrl)
         recipeDetailedStore.getRecipeData();
-        console.log(recipeDetailedStore.recipe)
     }, [recipeDetailedStore])
 
     if (recipeDetailedStore.meta === Meta.loading) {

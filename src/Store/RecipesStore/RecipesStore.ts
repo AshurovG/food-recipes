@@ -3,7 +3,7 @@ import { IReactionDisposer, computed, makeObservable, observable, reaction, runI
 import { apiKey } from '../../../consts.config.ts';
 import { ILocalStore } from 'utils/useLocalStore';
 import { ReceivedRecipeData, IngredientData, RecipeData, Option, DropdownCounts } from './types'
-import rootStore from '../RootStore/instance';
+import rootStore from 'Store/RootStore/instance';
 
 export interface IRecipesStore {
     getRecipesData(): Promise<void>;
@@ -88,10 +88,6 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
             currentUrl: computed
         })
 
-        // const currentPath = window.location.pathname;
-        // const currentUrl = currentPath.substring(currentPath.lastIndexOf('/') + 1);
-        // console.log(currentUrl)
-
         // Обрабатываем первый рендер при перезагрузки страницы
         let searchParam = rootStore.query.getParam('search')
         if (searchParam && typeof searchParam === 'string') {
@@ -102,7 +98,6 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
 
         searchParam = rootStore.query.getParam('type')
         if (searchParam && typeof searchParam === 'string') {
-            console.log(searchParam)
             this._isOnSearchClick = true;
             let substrings = searchParam.split(', ');
             this._dropdownValue = substrings.map((substring: string) => {
@@ -113,7 +108,6 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
             });
             this._currentUrl += `&type=${searchParam}`
         }
-        console.log(this._currentUrl)
     }
     ;
     get list(): RecipeData[] {

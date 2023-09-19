@@ -6,7 +6,7 @@ import Input from 'components/Input';
 import Text from 'components/Text';
 import ArrowDownIcon from 'components/icons/ArrowDownIcon';
 import { useLocalStore } from 'utils/useLocalStore.ts';
-import DropdownStore from '../../Store/DropdownStore';
+import DropdownStore from 'Store/DropdownStore';
 
 export type Option = {
     key: string;
