@@ -1,9 +1,12 @@
-import React, { HtmlHTMLAttributes, useState } from 'react';
+import React from 'react';
+import { observer } from 'mobx-react-lite';
 import styles from './MultiDropdown.module.scss'
 import cn from 'classnames'
 import Input from 'components/Input';
 import Text from 'components/Text';
 import ArrowDownIcon from 'components/icons/ArrowDownIcon';
+import { useLocalStore } from 'utils/useLocalStore.ts';
+import DropdownStore from '../../Store/DropdownStore';
 
 export type Option = {
     key: string;
@@ -27,26 +30,29 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
     disabled,
     getTitle,
 }) => {
+    const dropdownStore = useLocalStore(() => new DropdownStore());
     const rootRef = React.useRef<HTMLDivElement | null>(null)
-    const [isOpen, setIsOpen] = React.useState(false);
-    const [isTyping, setIsTyping] = React.useState(false);
-    const [filter, setFilter] = React.useState('')
+    // const [isOpen, setIsOpen] = React.useState(false);
+    // const [isTyping, setIsTyping] = React.useState(false);
+    // const [filter, setFilter] = React.useState('')
 
     const selectedSet = React.useMemo(() => new Set(value), [value])
 
     const filteredOptions = React.useMemo(
         () =>
-            options.filter((o) => o.value.toLowerCase().includes(filter.toLowerCase())
+            options.filter((o) => o.value.toLowerCase().includes(dropdownStore.filter.toLowerCase())
             ),
-        [options, filter]
+        [options, dropdownStore.filter]
     )
 
     const onClickDropdown = React.useCallback(() => {
         if (disabled) {
             return
         }
-        setIsOpen(true)
-        setIsTyping(true)
+        // setIsOpen(true)
+        // setIsTyping(true)
+        dropdownStore.setIsOpen(true)
+        dropdownStore.setIsTyping(true)
     }, [disabled])
 
     const onClickOption = (selectedOption: Option) => () => {
@@ -54,7 +60,8 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
             return
         }
 
-        setIsTyping(false)
+        // setIsTyping(false)
+        dropdownStore.setIsTyping(false)
 
         if (selectedSet.has(selectedOption)) {
             onChange(value.filter((o) => o.key !== selectedOption.key))
@@ -66,9 +73,12 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
     React.useEffect(() => {
         const onDocumetClick = (e: MouseEvent) => {
             if (!rootRef.current?.contains(e.target as Element)) {
-                setIsOpen(false)
-                setIsTyping(false)
-                setFilter('')
+                // setIsOpen(false)
+                // setIsTyping(false)
+                // setFilter('')
+                dropdownStore.setIsOpen(false)
+                dropdownStore.setIsTyping(false)
+                dropdownStore.setFilter('')
             }
         }
 
@@ -81,16 +91,19 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
 
     React.useEffect(() => {
         if (disabled) {
-            setIsOpen(false)
-            setIsTyping(false)
-            setFilter('')
+            // setIsOpen(false)
+            // setIsTyping(false)
+            // setFilter('')
+            dropdownStore.setIsOpen(false)
+            dropdownStore.setIsTyping(false)
+            dropdownStore.setFilter('')
         }
     }, [disabled])
 
     const title = React.useMemo(() => getTitle(value), [getTitle, value])
 
     const inputValue = React.useMemo(() => {
-        if (!isOpen) {
+        if (!dropdownStore.isOpen) {
             if (value.length === 0) {
                 return ''
             }
@@ -98,18 +111,18 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
             return title
         }
 
-        if (isTyping) {
-            return filter
+        if (dropdownStore.isTyping) {
+            return dropdownStore.filter
         }
 
         return ''
-    }, [isOpen, isTyping, , value.length, title, filter])
+    }, [dropdownStore.isOpen, dropdownStore.isTyping, , value.length, title, dropdownStore.filter])
 
     return (
         <div
             className={cn(
                 styles.dropdown,
-                isOpen && styles.dropdown_open,
+                dropdownStore.isOpen && styles.dropdown_open,
                 disabled && styles.dropdown_disabled,
                 className
             )}
@@ -119,11 +132,11 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
                 className={styles.dropdown__input}
                 value={inputValue}
                 placeholder={title}
-                onChange={setFilter}
+                onChange={dropdownStore.setFilter}
                 onClick={onClickDropdown}
                 afterSlot={<ArrowDownIcon color='secondary' width={24} height={24} />}
             />
-            {isOpen && (
+            {dropdownStore.isOpen && (
                 <div className={styles.dropdown__options}>
                     {filteredOptions.map((o) => (
                         <button
@@ -143,4 +156,4 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
     )
 };
 
-export default MultiDropdown;
+export default observer(MultiDropdown);
