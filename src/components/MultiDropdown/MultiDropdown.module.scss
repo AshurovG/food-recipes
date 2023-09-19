@@ -1,6 +1,10 @@
 @import 'styles/variables.scss';
 @import 'styles/styles.scss';
 
+button {
+    border: none
+}
+
 .dropdown {
     position: relative;
 
@@ -26,7 +30,7 @@
     &__option {
         appearance: none;
         background: none;
-        outline: none;
+        outline-width: none;
         border: none;
 
         width: 100%;
@@ -42,8 +46,14 @@
             color: $text-secondary;
         }
 
+        &:active {
+            border: none;
+            outline: none;
+        }
+
         &_selected {
-            color: red;
+            color: $brand;
+            border: none;
         }
     }
 }

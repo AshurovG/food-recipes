@@ -32,7 +32,7 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
 }) => {
     const dropdownStore = useLocalStore(() => new DropdownStore());
     const rootRef = React.useRef<HTMLDivElement | null>(null)
-    const selectedSet = React.useMemo(() => new Set(value), [value])
+    const selectedSet = React.useMemo(() => new Set(value.map((o) => o.key)), [value]);
     const filteredOptions = React.useMemo(
         () =>
             options.filter((o) => o.value.toLowerCase().includes(dropdownStore.filter.toLowerCase())
@@ -50,17 +50,17 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
 
     const onClickOption = (selectedOption: Option) => () => {
         if (disabled) {
-            return
+            return;
         }
 
-        dropdownStore.setIsTyping(false)
+        dropdownStore.setIsTyping(false);
 
-        if (selectedSet.has(selectedOption)) {
-            onChange(value.filter((o) => o.key !== selectedOption.key))
-            return
+        if (selectedSet.has(selectedOption.key)) {
+            onChange(value.filter((o) => o.key !== selectedOption.key));
+            return;
         }
-        onChange([...value, selectedOption])
-    }
+        onChange([...value, selectedOption]);
+    };
 
     React.useEffect(() => {
         const onDocumetClick = (e: MouseEvent) => {
@@ -129,7 +129,7 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
                             key={o.key}
                             className={cn(
                                 styles.dropdown__option,
-                                selectedSet.has(o) && styles.dropdown__option_selected
+                                selectedSet.has(o.key) && styles.dropdown__option_selected
                             )}
                             onClick={onClickOption(o)}
                         >
