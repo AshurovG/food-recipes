@@ -4,9 +4,9 @@ import { ILocalStore } from 'utils/useLocalStore';
 export type PrivateFields = '_isOpen' | '_isTyping' | '_filter';
 
 export default class DropdownStore implements ILocalStore {
-    private _isOpen = false
-    private _isTyping = false
-    private _filter = ''
+    private _isOpen = false;
+    private _isTyping = false;
+    private _filter = '';
 
     public setIsOpen = (value: boolean): void => {
         this._isOpen = value;
@@ -28,7 +28,7 @@ export default class DropdownStore implements ILocalStore {
             _filter: observable,
             isOpen: computed,
             isTyping: computed,
-            filter: computed
+            filter: computed,
         })
     };
 
@@ -43,9 +43,6 @@ export default class DropdownStore implements ILocalStore {
     get filter(): string {
         return this._filter;
     };
-
-
-
 
     destroy(): void {
 

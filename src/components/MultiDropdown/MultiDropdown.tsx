@@ -32,12 +32,7 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
 }) => {
     const dropdownStore = useLocalStore(() => new DropdownStore());
     const rootRef = React.useRef<HTMLDivElement | null>(null)
-    // const [isOpen, setIsOpen] = React.useState(false);
-    // const [isTyping, setIsTyping] = React.useState(false);
-    // const [filter, setFilter] = React.useState('')
-
     const selectedSet = React.useMemo(() => new Set(value), [value])
-
     const filteredOptions = React.useMemo(
         () =>
             options.filter((o) => o.value.toLowerCase().includes(dropdownStore.filter.toLowerCase())
@@ -49,8 +44,6 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
         if (disabled) {
             return
         }
-        // setIsOpen(true)
-        // setIsTyping(true)
         dropdownStore.setIsOpen(true)
         dropdownStore.setIsTyping(true)
     }, [disabled])
@@ -60,7 +53,6 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
             return
         }
 
-        // setIsTyping(false)
         dropdownStore.setIsTyping(false)
 
         if (selectedSet.has(selectedOption)) {
@@ -73,9 +65,6 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
     React.useEffect(() => {
         const onDocumetClick = (e: MouseEvent) => {
             if (!rootRef.current?.contains(e.target as Element)) {
-                // setIsOpen(false)
-                // setIsTyping(false)
-                // setFilter('')
                 dropdownStore.setIsOpen(false)
                 dropdownStore.setIsTyping(false)
                 dropdownStore.setFilter('')
@@ -91,9 +80,6 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
 
     React.useEffect(() => {
         if (disabled) {
-            // setIsOpen(false)
-            // setIsTyping(false)
-            // setFilter('')
             dropdownStore.setIsOpen(false)
             dropdownStore.setIsTyping(false)
             dropdownStore.setFilter('')
