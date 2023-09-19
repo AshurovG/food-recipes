@@ -6,7 +6,6 @@ import { ReceivedRecipeData, IngredientData, RecipeData, Option, DropdownCounts 
 import { Meta } from 'utils/meta.ts';
 import rootStore from '../RootStore/instance';
 
-
 export interface IRecipesStore {
     getRecipesData(): Promise<void>;
 }
@@ -23,25 +22,21 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
     private _isOnSearchClick = false;
     private _dropdownValue: Option[] = []
     private _options: Option[] = [
-        { key: '1', value: 'main course' },
-        { key: '2', value: 'side dish' },
-        { key: '3', value: 'dessert' },
-        { key: '4', value: 'appetizer' },
-        { key: '5', value: 'salad' },
-        { key: '6', value: 'bread' },
-        { key: '7', value: 'breakfast' },
-        { key: '8', value: 'soup' },
-        { key: '9', value: 'beverage' },
-        { key: '10', value: 'souce' },
-        { key: '11', value: 'marinade' },
-        { key: '12', value: 'fingerfood' },
-        { key: '13', value: 'snack' },
-        { key: '14', value: 'drink' },
+        { key: 'main course', value: 'main course' },
+        { key: 'side dish', value: 'side dish' },
+        { key: 'dessert', value: 'dessert' },
+        { key: 'appetizer', value: 'appetizer' },
+        { key: 'salad', value: 'salad' },
+        { key: 'bread', value: 'bread' },
+        { key: 'breakfast', value: 'breakfast' },
+        { key: 'soup', value: 'soup' },
+        { key: 'beverage', value: 'beverage' },
+        { key: 'souce', value: 'souce' },
+        { key: 'marinade', value: 'marinade' },
+        { key: 'fingerfood', value: 'fingerfood' },
+        { key: 'snack', value: 'snack' },
+        { key: 'drink', value: 'drink' },
     ];
-
-    public setOffset(offset: number): void {
-        this._offset = offset;
-    };
 
     public _loadMore = (): void => {
         this._offset += 6
@@ -94,6 +89,7 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
             options: computed
         })
 
+        // Обрабатываем первый рендер при перезагрузки страницы
         let searchParam = rootStore.query.getParam('search')
         if (searchParam && typeof searchParam === 'string') {
             this._isOnSearchClick = true;
@@ -194,12 +190,7 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
                     this._hasMore = false
                 }
 
-                // if (this._offset === 0) {
-                //     this._offset += 6
-                // }
-                // if (this._isFirstPage === true) {
                 this._isFirstPage = false;
-                // }
                 return
             }
             this._meta = Meta.error
@@ -215,6 +206,7 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
             if (typeof search === 'string') {
                 this._inputValue = search;
             }
+            // Преобразовываем полученную строку в массив Option[]
             if (typeof type === 'string') {
                 let substrings = type.split(', ');
                 this._dropdownValue = substrings.map((substring: string) => {
