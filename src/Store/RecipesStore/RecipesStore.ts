@@ -3,18 +3,16 @@ import { IReactionDisposer, computed, makeObservable, observable, reaction, runI
 import { apiKey } from '../../../consts.config.ts';
 import { ILocalStore } from 'utils/useLocalStore';
 import { ReceivedRecipeData, IngredientData, RecipeData, Option, DropdownCounts } from './types'
-import { Meta } from 'utils/meta.ts';
 import rootStore from '../RootStore/instance';
 
 export interface IRecipesStore {
     getRecipesData(): Promise<void>;
 }
 
-export type PrivateFields = '_list' | '_meta' | '_offset' | '_hasMore' | '_inputValue' | '_isOnSearchClick' | '_dropdownValue' | '_isFirstPage';
+export type PrivateFields = '_list' | '_offset' | '_hasMore' | '_inputValue' | '_isOnSearchClick' | '_dropdownValue' | '_isFirstPage';
 
 export default class RecipesStore implements IRecipesStore, ILocalStore {
     private _list: RecipeData[] = []
-    private _meta: Meta = Meta.initial;
     private _offset = 0;
     private _isFirstPage = true;
     private _hasMore = true;
@@ -71,7 +69,6 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
     constructor() {
         makeObservable<RecipesStore, PrivateFields>(this, {
             _list: observable,
-            _meta: observable,
             _offset: observable,
             _isFirstPage: observable,
             _hasMore: observable,
@@ -79,7 +76,6 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
             _isOnSearchClick: observable,
             _dropdownValue: observable,
             list: computed,
-            meta: computed,
             hasMore: computed,
             offset: computed,
             isFirstPage: computed,
@@ -111,10 +107,6 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
     ;
     get list(): RecipeData[] {
         return this._list;
-    };
-
-    get meta(): Meta {
-        return this._meta
     };
 
     get hasMore(): boolean {
@@ -153,7 +145,6 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
     };
 
     async getRecipesData(): Promise<void> {
-        this._meta = Meta.loading;
         if (this.list.length >= 24) {
             this._hasMore = false;
             return;
@@ -184,7 +175,6 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
 
         runInAction(() => {
             if (response.status === 200) {
-                this._meta = Meta.success;
                 this._list = [...this._list, ...newRecipesArr]
                 if (this.list.length % 6 !== 0 || this.list.length === 0) {
                     this._hasMore = false
@@ -193,7 +183,6 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
                 this._isFirstPage = false;
                 return
             }
-            this._meta = Meta.error
         })
     }
 
@@ -220,6 +209,12 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
     );
 
     destroy(): void {
-
+        this._list = []
+        this._offset = 0;
+        this._isFirstPage = true;
+        this._hasMore = true;
+        this._inputValue = '';
+        this._isOnSearchClick = false;
+        this._dropdownValue = []
     }
 }

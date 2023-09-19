@@ -1,4 +1,4 @@
-export const apiKey = '5612ded2c55f4a42aafe5dd7fdec9f3f';
+export const apiKey = '5884e4538ade47a3bee00a8bed3eb378';
 
 //5612ded2c55f4a42aafe5dd7fdec9f3f
 //0fc912ddd61f4f4c8c54be7a4e564f78
