@@ -209,12 +209,6 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
     );
 
     destroy(): void {
-        this._list = []
-        this._offset = 0;
-        this._isFirstPage = true;
-        this._hasMore = true;
-        this._inputValue = '';
-        this._isOnSearchClick = false;
-        this._dropdownValue = []
+
     }
 }
