@@ -1,5 +1,6 @@
-export const apiKey = 'f9504a4e01dc4ded9e9ce434792cac15';
+export const apiKey = '5612ded2c55f4a42aafe5dd7fdec9f3f';
 
+//5612ded2c55f4a42aafe5dd7fdec9f3f
 //0fc912ddd61f4f4c8c54be7a4e564f78
 //33b12c924c4c433aa2e4eab585cbc6e7
 //f9504a4e01dc4ded9e9ce434792cac15

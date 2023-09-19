@@ -11,13 +11,13 @@ export interface IRecipesStore {
     getRecipesData(): Promise<void>;
 }
 
-export type PrivateFields = '_list' | '_meta' | '_offset' | '_hasMore' | '_inputValue' | '_isOnSearchClick' | '_dropdownValue';
+export type PrivateFields = '_list' | '_meta' | '_offset' | '_hasMore' | '_inputValue' | '_isOnSearchClick' | '_dropdownValue' | '_isFirstPage';
 
 export default class RecipesStore implements IRecipesStore, ILocalStore {
-
     private _list: RecipeData[] = []
     private _meta: Meta = Meta.initial;
     private _offset = 0;
+    private _isFirstPage = true;
     private _hasMore = true;
     private _inputValue = '';
     private _isOnSearchClick = false;
@@ -51,6 +51,7 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
         this._list = []
         this._offset = 0
         this._isOnSearchClick = true;
+        this._isFirstPage = true;
         this.getRecipesData();
     };
 
@@ -77,6 +78,7 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
             _list: observable,
             _meta: observable,
             _offset: observable,
+            _isFirstPage: observable,
             _hasMore: observable,
             _inputValue: observable,
             _isOnSearchClick: observable,
@@ -85,6 +87,7 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
             meta: computed,
             hasMore: computed,
             offset: computed,
+            isFirstPage: computed,
             inputValue: computed,
             isOnSearchClick: computed,
             dropdownValue: computed,
@@ -142,6 +145,10 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
         return this._options;
     };
 
+    get isFirstPage(): boolean {
+        return this._isFirstPage
+    }
+
     getIngredientsString = (ingredients: Array<IngredientData>): string => {
         let newArr: Array<string> = ingredients.map((ingredient: IngredientData) => {
             return ingredient.name;
@@ -153,7 +160,6 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
         this._meta = Meta.loading;
         if (this.list.length >= 24) {
             this._hasMore = false;
-            console.log('первая проверка')
             return;
         }
         let newInputValue = '';
@@ -163,7 +169,6 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
             if (this.getDropdownTitle(this._dropdownValue) !== 'Choose a category of dishes') {
                 newTypesValue = this.getDropdownTitle(this._dropdownValue)
             }
-            console.log(newTypesValue)
         }
 
         const response = await axios({
@@ -189,9 +194,12 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
                     this._hasMore = false
                 }
 
-                if (this._offset === 0) {
-                    this._offset += 6
-                }
+                // if (this._offset === 0) {
+                //     this._offset += 6
+                // }
+                // if (this._isFirstPage === true) {
+                this._isFirstPage = false;
+                // }
                 return
             }
             this._meta = Meta.error

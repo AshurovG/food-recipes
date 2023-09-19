@@ -14,36 +14,7 @@ import Loader from 'components/Loader';
 import RecipesList from 'components/RecipesList';
 import { useLocalStore } from 'utils/useLocalStore.ts';
 import RecipesStore from '../../Store/RecipesStore'
-// import QueryParamsStore from '../../Store/RootStore/QueryParamsStore';
 import { useQueryParamsStoreInit } from '../../Store/RootStore/hooks/useQueryParamsStoreInit';
-
-export type IngredientData = {
-    name: string,
-}
-
-export type NutrientsData = {
-    amount: number,
-}
-
-export type RecipeData = {
-    id: number;
-    image: string;
-    title: string;
-    readyInMinutes?: string;
-    caloricContent?: string;
-    ingredients: string
-}
-
-export type ReceivedRecipeData = {
-    id: number;
-    title: string;
-    image: string;
-    readyInMinutes: string;
-    nutrition: {
-        nutrients: NutrientsData[];
-        ingredients: IngredientData[];
-    };
-}
 
 const RecipesPage: React.FC = () => {
     useQueryParamsStoreInit();
@@ -86,9 +57,9 @@ const RecipesPage: React.FC = () => {
                     />
                 </div>
 
-                {recipesStore.offset === 0
+                {recipesStore.isFirstPage
                     ? <div><RecipesList cards={recipesStore.list} />
-                        {recipesStore.offset === 0 && <div className={styles.loader__wrapper}>
+                        {<div className={styles.loader__wrapper}>
                             <Loader className={styles.loader} size='xl' />
                         </div>}
                     </div>
