@@ -39,7 +39,7 @@
       "utils": [
         "utils/*"
       ],
-      "store": [
+      "Store": [
         "Store/*"
       ]
     }

@@ -3,6 +3,7 @@ import { observer } from 'mobx-react-lite';
 import { Link } from 'react-router-dom'
 import { useLocalStore } from 'utils/useLocalStore.ts';
 import { Meta } from 'utils/meta';
+import RecipesStore from '../../Store/RecipesStore';
 import RecipeDetailedStore from '../../Store/RecipeDetailedStore';
 import styles from './RecipesDetailedPage.module.scss';
 import Header from 'components/Header';
@@ -17,8 +18,10 @@ import Loader from 'components/Loader';
 
 const RecipesDetailedPage: React.FC = () => {
     const recipeDetailedStore = useLocalStore(() => new RecipeDetailedStore)
+    const recipesStore = useLocalStore(() => new RecipesStore)
 
     React.useEffect(() => {
+        console.log('url', recipesStore.currentUrl)
         recipeDetailedStore.getRecipeData();
         console.log(recipeDetailedStore.recipe)
     }, [recipeDetailedStore])
@@ -36,7 +39,7 @@ const RecipesDetailedPage: React.FC = () => {
             <Header />
             <div className={styles.detailed__wrapper}>
                 <div className={styles['content__title-flex']}>
-                    <Link to='/'><BackIcon className={styles.back__button} /></Link><h1 className={styles.content__title} >{recipeDetailedStore.recipe?.title}</h1>
+                    <Link to={recipesStore.currentUrl}><BackIcon className={styles.back__button} /></Link><h1 className={styles.content__title} >{recipeDetailedStore.recipe?.title}</h1>
                 </div>
 
                 <div className={styles.main__info}>

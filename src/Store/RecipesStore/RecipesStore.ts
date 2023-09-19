@@ -9,7 +9,7 @@ export interface IRecipesStore {
     getRecipesData(): Promise<void>;
 }
 
-export type PrivateFields = '_list' | '_offset' | '_hasMore' | '_inputValue' | '_isOnSearchClick' | '_dropdownValue' | '_isFirstPage';
+export type PrivateFields = '_list' | '_offset' | '_hasMore' | '_inputValue' | '_isOnSearchClick' | '_dropdownValue' | '_isFirstPage' | '_currentUrl';
 
 export default class RecipesStore implements IRecipesStore, ILocalStore {
     private _list: RecipeData[] = []
@@ -35,6 +35,7 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
         { key: 'snack', value: 'snack' },
         { key: 'drink', value: 'drink' },
     ];
+    private _currentUrl = '/';
 
     public _loadMore = (): void => {
         this._offset += 6
@@ -75,6 +76,7 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
             _inputValue: observable,
             _isOnSearchClick: observable,
             _dropdownValue: observable,
+            _currentUrl: observable,
             list: computed,
             hasMore: computed,
             offset: computed,
@@ -82,18 +84,25 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
             inputValue: computed,
             isOnSearchClick: computed,
             dropdownValue: computed,
-            options: computed
+            options: computed,
+            currentUrl: computed
         })
+
+        // const currentPath = window.location.pathname;
+        // const currentUrl = currentPath.substring(currentPath.lastIndexOf('/') + 1);
+        // console.log(currentUrl)
 
         // Обрабатываем первый рендер при перезагрузки страницы
         let searchParam = rootStore.query.getParam('search')
         if (searchParam && typeof searchParam === 'string') {
             this._isOnSearchClick = true;
             this._inputValue = searchParam;
+            this._currentUrl += `?search=${searchParam}`
         }
 
         searchParam = rootStore.query.getParam('type')
         if (searchParam && typeof searchParam === 'string') {
+            console.log(searchParam)
             this._isOnSearchClick = true;
             let substrings = searchParam.split(', ');
             this._dropdownValue = substrings.map((substring: string) => {
@@ -102,7 +111,9 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
                     value: substring,
                 };
             });
+            this._currentUrl += `&type=${searchParam}`
         }
+        console.log(this._currentUrl)
     }
     ;
     get list(): RecipeData[] {
@@ -135,6 +146,10 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
 
     get isFirstPage(): boolean {
         return this._isFirstPage
+    }
+
+    get currentUrl(): string {
+        return this._currentUrl
     }
 
     getIngredientsString = (ingredients: Array<IngredientData>): string => {
