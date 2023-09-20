@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { IReactionDisposer, computed, makeObservable, observable, reaction, runInAction } from 'mobx';
+import { IReactionDisposer, action, computed, makeObservable, observable, reaction, runInAction } from 'mobx';
 import { apiKey } from '../../../consts.config.ts';
 import { ILocalStore } from 'utils/useLocalStore';
 import { ReceivedRecipeData, IngredientData, RecipeData, Option, DropdownCounts } from './types'
@@ -9,7 +9,7 @@ export interface IRecipesStore {
     getRecipesData(): Promise<void>;
 }
 
-export type PrivateFields = '_list' | '_offset' | '_hasMore' | '_inputValue' | '_isOnSearchClick' | '_dropdownValue' | '_isFirstPage' | '_currentUrl';
+export type PrivateFields = '_list' | '_offset' | '_hasMore' | '_inputValue' | '_isOnSearchClick' | '_dropdownValue' | '_isFirstPage' | '_currentUrl' | '_isBurgerMenuOpen';
 
 export default class RecipesStore implements IRecipesStore, ILocalStore {
     private _list: RecipeData[] = []
@@ -36,14 +36,15 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
         { key: 'drink', value: 'drink' },
     ];
     private _currentUrl = '/';
+    private _isBurgerMenuOpen = false;
 
     public _loadMore = (): void => {
-        this._offset += 6
+        this._offset += 6;
     };
 
     public setIsOnSearchClick = (): void => {
-        this._list = []
-        this._offset = 0
+        this._list = [];
+        this._offset = 0;
         this._isOnSearchClick = true;
         this._isFirstPage = true;
         this.getRecipesData();
@@ -67,6 +68,11 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
         return options.map((option) => option.value).join(', ') || 'Choose a category of dishes';
     };
 
+    public setIsBurgerMenuOpen = () => {
+        this._isBurgerMenuOpen = !this._isBurgerMenuOpen;
+        console.log(this._isBurgerMenuOpen)
+    }
+
     constructor() {
         makeObservable<RecipesStore, PrivateFields>(this, {
             _list: observable,
@@ -77,6 +83,7 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
             _isOnSearchClick: observable,
             _dropdownValue: observable,
             _currentUrl: observable,
+            _isBurgerMenuOpen: observable,
             list: computed,
             hasMore: computed,
             offset: computed,
@@ -85,7 +92,9 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
             isOnSearchClick: computed,
             dropdownValue: computed,
             options: computed,
-            currentUrl: computed
+            currentUrl: computed,
+            isBurgerMenuOpen: computed,
+            setIsBurgerMenuOpen: action
         })
 
         // Обрабатываем первый рендер при перезагрузки страницы
@@ -146,11 +155,15 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
     };
 
     get isFirstPage(): boolean {
-        return this._isFirstPage
+        return this._isFirstPage;
     }
 
     get currentUrl(): string {
-        return this._currentUrl
+        return this._currentUrl;
+    }
+
+    get isBurgerMenuOpen(): boolean {
+        return this._isBurgerMenuOpen;
     }
 
     getIngredientsString = (ingredients: Array<IngredientData>): string => {

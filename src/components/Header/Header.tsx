@@ -1,5 +1,6 @@
 import React from 'react';
 import cn from 'classnames';
+import { observer } from 'mobx-react-lite';
 import Text from '../Text/Text';
 import LogoIcon from 'components/icons/LogoIcon';
 import styles from './Header.module.scss';
@@ -14,6 +15,10 @@ const Header: React.FC = () => {
 
     const blockNames: Array<string> = ['Recipes', 'Ingradients', 'Products', 'Menu Items', 'Meal Planning']
 
+    React.useEffect(() => {
+
+    }, [recipesStore.isBurgerMenuOpen])
+
     return (
         <div className={styles.header}>
             <div className={styles.header__wrapper}>
@@ -26,7 +31,11 @@ const Header: React.FC = () => {
                 </Text>
 
                 <div className={styles.icons}>
-                    <FavoritesIcon className={cn(styles.favorite__icon, styles.icons__item)} /> <AccountIcon className={styles.icons__item} /><BurgerIcon className={styles.burger__icon} color='accent' />
+                    <FavoritesIcon className={cn(styles.favorite__icon, styles.icons__item)} />
+                    <AccountIcon className={styles.icons__item} />
+                    {recipesStore.isBurgerMenuOpen === false
+                        ? <BurgerIcon className={styles.burger__icon} color='accent' onClick={() => recipesStore.setIsBurgerMenuOpen()} />
+                        : <div className={styles.cancel__icon} onClick={() => recipesStore.setIsBurgerMenuOpen()}></div>}
                 </div>
 
             </div>
@@ -34,4 +43,4 @@ const Header: React.FC = () => {
     )
 };
 
-export default Header;
+export default observer(Header);
