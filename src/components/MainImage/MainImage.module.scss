@@ -18,3 +18,11 @@
         transform: translateX(-50%)
     }
 }
+
+
+
+@media(max-height: 700px) {
+    .main__image {
+        height: 400px;
+    }
+}

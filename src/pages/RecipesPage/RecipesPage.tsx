@@ -22,7 +22,7 @@ const RecipesPage: React.FC = () => {
 
     React.useEffect(() => {
         recipesStore.getRecipesData();
-    }, [recipesStore.offset, recipesStore.isOnSearchClick])
+    }, [recipesStore.offset, recipesStore.isOnSearchClick]);
 
     const navigate = useNavigate();
     const handleFormSubmit = () => {
@@ -60,7 +60,7 @@ const RecipesPage: React.FC = () => {
                 {recipesStore.isFirstPage
                     ? <div><RecipesList cards={recipesStore.list} />
                         {<div className={styles.loader__wrapper}>
-                            <Loader className={styles.loader} size='xl' />
+                            <Loader className={styles.loader} size='l' />
                         </div>}
                     </div>
                     : <InfiniteScroll

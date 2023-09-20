@@ -106,9 +106,7 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
                     value: substring,
                 };
             });
-            // if (this._currentUrl) {
-            //     this._currentUrl += `&type=${typeParam}`
-            // }
+
             if (this._currentUrl) {
                 if (searchParam) {
                     this._currentUrl += `&type=${typeParam}`

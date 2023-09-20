@@ -5,10 +5,15 @@ import LogoIcon from 'components/icons/LogoIcon';
 import styles from './Header.module.scss';
 import FavoritesIcon from 'components/icons/FavoritesIcon';
 import AccountIcon from 'components/icons/AccountIcon';
-import classNames from 'classnames';
+import BurgerIcon from 'components/icons/BurgerIcon';
+import { useLocalStore } from 'utils/useLocalStore.ts';
+import RecipesStore from 'Store/RecipesStore'
 
 const Header: React.FC = () => {
+    const recipesStore = useLocalStore(() => new RecipesStore());
+
     const blockNames: Array<string> = ['Recipes', 'Ingradients', 'Products', 'Menu Items', 'Meal Planning']
+
     return (
         <div className={styles.header}>
             <div className={styles.header__wrapper}>
@@ -21,8 +26,9 @@ const Header: React.FC = () => {
                 </Text>
 
                 <div className={styles.icons}>
-                    <FavoritesIcon className={cn(styles.favorite__icon, styles.icons__item)} /> <AccountIcon className={styles.icons__item} />
+                    <FavoritesIcon className={cn(styles.favorite__icon, styles.icons__item)} /> <AccountIcon className={styles.icons__item} /><BurgerIcon className={styles.burger__icon} color='accent' />
                 </div>
+
             </div>
         </div>
     )

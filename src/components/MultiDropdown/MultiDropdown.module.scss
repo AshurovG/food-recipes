@@ -12,8 +12,6 @@ button {
         pointer-events: none;
     }
 
-    &_open {}
-
     &__options {
         position: absolute;
         top: calc(100% + 8px);
@@ -60,4 +58,22 @@ button {
 
 .dropdown_open .dropdown__input {
     border: 1px solid $brand;
+}
+
+
+
+@media(max-width: 460px) {
+    .dropdown {
+        width: 60%;
+    }
+}
+
+@media(max-width: 390px) {
+    .dropdown {
+        width: 100%;
+
+        &__options {
+            max-height: 200px;
+        }
+    }
 }
