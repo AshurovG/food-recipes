@@ -96,17 +96,26 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
             this._currentUrl += `?search=${searchParam}`
         }
 
-        searchParam = rootStore.query.getParam('type')
-        if (searchParam && typeof searchParam === 'string') {
+        let typeParam = rootStore.query.getParam('type')
+        if (typeParam && typeof typeParam === 'string') {
             this._isOnSearchClick = true;
-            let substrings = searchParam.split(', ');
+            let substrings = typeParam.split(', ');
             this._dropdownValue = substrings.map((substring: string) => {
                 return {
                     key: substring,
                     value: substring,
                 };
             });
-            this._currentUrl += `&type=${searchParam}`
+            // if (this._currentUrl) {
+            //     this._currentUrl += `&type=${typeParam}`
+            // }
+            if (this._currentUrl) {
+                if (searchParam) {
+                    this._currentUrl += `&type=${typeParam}`
+                } else {
+                    this._currentUrl += `?type=${typeParam}`
+                }
+            }
         }
     }
     ;
