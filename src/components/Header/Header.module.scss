@@ -53,13 +53,18 @@
     }
 }
 
-// .burger__icon {
-//     display: none;
-// }
+.burger__icon {
+    display: none;
+}
 
 .cancel__icon {
     display: none;
 }
+
+.burger__menu {
+    display: none;
+}
+
 
 
 
@@ -122,7 +127,35 @@
     .header__block {
         display: none;
     }
+
+    .burger__menu {
+        display: block;
+        z-index: 1000;
+        position: absolute;
+        top: calc(100% + 10px);
+        right: 0;
+        width: 200px;
+        height: auto;
+        background-color: $brand;
+        display: flex;
+        flex-direction: column;
+        box-shadow: $box-shadow;
+        border-radius: $border-radius;
+
+        &-item {
+            padding: $space-m;
+            color: $default-color;
+            cursor: pointer;
+            transition: color .2s ease;
+
+            &:hover {
+                color: $text-secondary;
+            }
+        }
+    }
 }
+
+
 
 @media(max-width: 750px) {
     .header__wrapper {

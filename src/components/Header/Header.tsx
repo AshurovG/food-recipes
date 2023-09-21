@@ -1,6 +1,7 @@
 import React from 'react';
 import cn from 'classnames';
 import { observer } from 'mobx-react-lite';
+import { CSSTransition } from 'react-transition-group';
 import Text from '../Text/Text';
 import LogoIcon from 'components/icons/LogoIcon';
 import styles from './Header.module.scss';
@@ -38,8 +39,14 @@ const Header: React.FC = () => {
                         : <div className={styles.cancel__icon} onClick={() => recipesStore.setIsBurgerMenuOpen()}></div>}
                 </div>
 
+
+                {recipesStore.isBurgerMenuOpen && <div className={styles.burger__menu}>{blockNames.map(blockName => (
+                    <Text key={blockName} className={styles['burger__menu-item']} tag='span' view='p-16'>{blockName}</Text>
+                ))}</div>}
             </div>
-        </div>
+
+
+        </div >
     )
 };
 
