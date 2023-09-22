@@ -104,6 +104,12 @@ const MultiDropdown: React.FC<MultiDropdownProps> = ({
         return ''
     }, [dropdownStore.isOpen, dropdownStore.isTyping, , value.length, title, dropdownStore.filter])
 
+    React.useEffect(() => {
+        return () => {
+            dropdownStore.reset();
+        };
+    }, []);
+
     return (
         <div
             className={cn(

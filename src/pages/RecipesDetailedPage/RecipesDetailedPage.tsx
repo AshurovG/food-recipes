@@ -22,6 +22,9 @@ const RecipesDetailedPage: React.FC = () => {
 
     React.useEffect(() => {
         recipeDetailedStore.getRecipeData();
+            return () => {
+                recipeDetailedStore.reset();
+            };
     }, [recipeDetailedStore])
 
     if (recipeDetailedStore.meta === Meta.loading) {

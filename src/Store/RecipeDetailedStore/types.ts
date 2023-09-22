@@ -10,4 +10,4 @@ export type RecipeData = {
     summary: any;
     extendedIngredients: [];
     equipment: [];
-}
+} | null;

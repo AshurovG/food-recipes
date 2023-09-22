@@ -17,19 +17,7 @@ export type PrivateFields = '_recipe' | '_meta';
 
 export default class RecipeDetailedStore implements IRecipeDetailedStore, ILocalStore {
 
-    private _recipe: RecipeData = {
-        id: 0,
-        preparationMinutes: "",
-        cookingMinutes: "",
-        image: "",
-        aggregateLikes: "",
-        readyMinutes: "",
-        servings: "",
-        title: "",
-        summary: null,
-        extendedIngredients: [],
-        equipment: [],
-    };
+    private _recipe: RecipeData = null;
     private _meta: Meta = Meta.initial;
 
     private _id: any = useParams().id;
@@ -83,19 +71,9 @@ export default class RecipeDetailedStore implements IRecipeDetailedStore, ILocal
         })
     }
 
-    destroy(): void {
-        this._recipe = {
-            id: 0,
-            preparationMinutes: "",
-            cookingMinutes: "",
-            image: "",
-            aggregateLikes: "",
-            readyMinutes: "",
-            servings: "",
-            title: "",
-            summary: null,
-            extendedIngredients: [],
-            equipment: [],
-        };
+    reset(): void {
+        this._recipe = null;
     }
+
+    destroy(): void { }
 }
