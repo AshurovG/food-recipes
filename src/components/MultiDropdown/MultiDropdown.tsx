@@ -5,7 +5,7 @@ import cn from 'classnames'
 import Input from 'components/Input';
 import Text from 'components/Text';
 import ArrowDownIcon from 'components/icons/ArrowDownIcon';
-import { useLocalStore } from 'utils/useLocalStore.ts';
+import { useLocalStore } from 'utils/useLocalStore';
 import DropdownStore from 'Store/DropdownStore';
 
 export type Option = {

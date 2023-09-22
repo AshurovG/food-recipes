@@ -1,14 +1,13 @@
 import React from 'react';
 import cn from 'classnames';
 import { observer } from 'mobx-react-lite';
-import { CSSTransition } from 'react-transition-group';
 import Text from '../Text/Text';
 import LogoIcon from 'components/icons/LogoIcon';
 import styles from './Header.module.scss';
 import FavoritesIcon from 'components/icons/FavoritesIcon';
 import AccountIcon from 'components/icons/AccountIcon';
 import BurgerIcon from 'components/icons/BurgerIcon';
-import { useLocalStore } from 'utils/useLocalStore.ts';
+import { useLocalStore } from 'utils/useLocalStore';
 import RecipesStore from 'Store/RecipesStore'
 
 const Header: React.FC = () => {

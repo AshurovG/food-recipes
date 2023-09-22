@@ -12,7 +12,7 @@ import SearchIcon from 'components/icons/SearchIcon';
 import Button from 'components/Button';
 import Loader from 'components/Loader';
 import RecipesList from 'components/RecipesList';
-import { useLocalStore } from 'utils/useLocalStore.ts';
+import { useLocalStore } from 'utils/useLocalStore';
 import RecipesStore from 'Store/RecipesStore'
 import { useQueryParamsStoreInit } from 'Store/RootStore/hooks/useQueryParamsStoreInit';
 

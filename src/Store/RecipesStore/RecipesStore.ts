@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { IReactionDisposer, action, computed, makeObservable, observable, reaction, runInAction } from 'mobx';
 import { apiKey } from '../../../consts.config.ts';
-import { ILocalStore } from 'utils/useLocalStore';
+import { ILocalStore } from 'utils/useLocalStore.ts';
 import { ReceivedRecipeData, IngredientData, RecipeData, Option, DropdownCounts } from './types'
 import rootStore from 'Store/RootStore/instance';
 
@@ -237,7 +237,5 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
         }
     );
 
-    destroy(): void {
-
-    }
+    destroy(): void {}
 }

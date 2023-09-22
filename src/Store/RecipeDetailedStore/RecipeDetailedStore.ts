@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { computed, makeObservable, observable, runInAction } from 'mobx';
 import { apiKey } from '../../../consts.config.ts';
-import { ILocalStore } from 'utils/useLocalStore';
+import { ILocalStore } from 'utils/useLocalStore.ts';
 import { RecipeData } from './types.ts'
 import { Meta } from 'utils/meta.ts';
 

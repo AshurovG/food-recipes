@@ -1,7 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
 import { Link } from 'react-router-dom'
-import { useLocalStore } from 'utils/useLocalStore.ts';
+import { useLocalStore } from 'utils/useLocalStore';
 import { Meta } from 'utils/meta';
 import RecipesStore from 'Store/RecipesStore';
 import RecipeDetailedStore from 'Store/RecipeDetailedStore';

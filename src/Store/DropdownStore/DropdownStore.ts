@@ -44,9 +44,5 @@ export default class DropdownStore implements ILocalStore {
         return this._filter;
     };
 
-    destroy(): void {
-        this._isOpen = false
-        this._isTyping = false;
-        this._filter = '';
-    }
+    destroy(): void {}
 }
