@@ -7,7 +7,11 @@ export type RecipeData = {
     readyMinutes: string;
     servings: string;
     title: string;
-    summary: any;
+    summary: string | TrustedHTML;
     extendedIngredients: [];
     equipment: [];
 } | null;
+
+export type Params = {
+    id: string;
+};

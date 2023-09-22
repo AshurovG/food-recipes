@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { useLocalStore } from 'utils/useLocalStore';
 import { Meta } from 'utils/meta';
 import RecipesStore from 'Store/RecipesStore';
@@ -16,9 +16,13 @@ import Text from 'components/Text';
 import Loader from 'components/Loader';
 
 
+
 const RecipesDetailedPage: React.FC = () => {
-    const recipeDetailedStore = useLocalStore(() => new RecipeDetailedStore)
+    const params = useParams();
+    const id = params.id === undefined ? '' : params.id;
+    const recipeDetailedStore = useLocalStore(() => new RecipeDetailedStore({ id: id }));
     const recipesStore = useLocalStore(() => new RecipesStore)
+    
 
     React.useEffect(() => {
         recipeDetailedStore.getRecipeData();

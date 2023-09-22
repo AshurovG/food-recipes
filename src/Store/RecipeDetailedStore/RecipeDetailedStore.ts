@@ -1,9 +1,8 @@
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
 import { computed, makeObservable, observable, runInAction } from 'mobx';
 import { apiKey } from '../../../consts.config.ts';
 import { ILocalStore } from 'utils/useLocalStore.ts';
-import { RecipeData } from './types.ts'
+import { RecipeData, Params } from './types.ts'
 import { Meta } from 'utils/meta.ts';
 
 
@@ -19,10 +18,11 @@ export default class RecipeDetailedStore implements IRecipeDetailedStore, ILocal
 
     private _recipe: RecipeData = null;
     private _meta: Meta = Meta.initial;
+    private _id:string = '';
 
-    private _id: any = useParams().id;
 
-    constructor() {
+    constructor(params: Params) {
+        this._id = params.id;
         makeObservable<RecipeDetailedStore, PrivateFields>(this, {
             _recipe: observable,
             _meta: observable,
