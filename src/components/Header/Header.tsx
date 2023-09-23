@@ -10,14 +10,10 @@ import BurgerIcon from 'components/icons/BurgerIcon';
 import { useLocalStore } from 'utils/useLocalStore';
 import RecipesStore from 'Store/RecipesStore'
 
+const blockNames: Array<string> = ['Recipes', 'Ingradients', 'Products', 'Menu Items', 'Meal Planning']
+
 const Header: React.FC = () => {
     const recipesStore = useLocalStore(() => new RecipesStore());
-
-    const blockNames: Array<string> = ['Recipes', 'Ingradients', 'Products', 'Menu Items', 'Meal Planning']
-
-    React.useEffect(() => {
-
-    }, [recipesStore.isBurgerMenuOpen])
 
     return (
         <div className={styles.header}>
@@ -34,8 +30,8 @@ const Header: React.FC = () => {
                     <FavoritesIcon className={cn(styles.favorite__icon, styles.icons__item)} />
                     <AccountIcon className={styles.icons__item} />
                     {recipesStore.isBurgerMenuOpen === false
-                        ? <BurgerIcon className={styles.burger__icon} color='accent' onClick={() => recipesStore.setIsBurgerMenuOpen()} />
-                        : <div className={styles.cancel__icon} onClick={() => recipesStore.setIsBurgerMenuOpen()}></div>}
+                        ? <BurgerIcon className={styles.burger__icon} color='accent' onClick={recipesStore.setIsBurgerMenuOpen} />
+                        : <div className={styles.cancel__icon} onClick={recipesStore.setIsBurgerMenuOpen}></div>}
                 </div>
 
 
