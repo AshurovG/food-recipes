@@ -37,6 +37,27 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
     ];
     private _currentUrl = '/';
     private _isBurgerMenuOpen = false;
+    private readonly _qpReaction: IReactionDisposer = reaction(
+        () => ({
+            search: rootStore.query.getParam('search'),
+            type: rootStore.query.getParam('type')
+        }),
+        ({ search, type }) => {
+            if (typeof search === 'string') {
+                this._inputValue = search;
+            }
+            // Преобразовываем полученную строку в массив Option[]
+            if (typeof type === 'string') {
+                let substrings = type.split(', ');
+                this._dropdownValue = substrings.map((substring: string) => {
+                    return {
+                        key: substring,
+                        value: substring,
+                    };
+                });
+            }
+        }
+    );
 
     public _loadMore = (): void => {
         this._offset += 6;
@@ -56,16 +77,23 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
 
     public handleDropdownChange = (options: Option[]) => {
         const counts: DropdownCounts = {};
-        options.forEach(option => {
-            counts[option.value] = (counts[option.value] || 0) + 1;
-        });
-
-        const filteredOptions = options.filter(option => counts[option.value] === 1);
+        const filteredOptions: Option[] = [];
+      
+        for (const option of options) {
+            if (!counts[option.value]) {
+                counts[option.value] = false;
+              }
+              counts[option.value] = true;
+          if (counts[option.value] === true) {
+            filteredOptions.push(option);
+          }
+        }
+      
         this._dropdownValue = filteredOptions;
-    };
+      };
 
     public getDropdownTitle = (options: Option[]) => {
-        return options.map((option) => option.value).join(', ') || 'Choose a category of dishes';
+        return options.map((option) => option.value).join(', ') || 'Choose a category';
     };
 
     public setIsBurgerMenuOpen = () => {
@@ -215,27 +243,7 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
         })
     }
 
-    private readonly _qpReaction: IReactionDisposer = reaction(
-        () => ({
-            search: rootStore.query.getParam('search'),
-            type: rootStore.query.getParam('type')
-        }),
-        ({ search, type }) => {
-            if (typeof search === 'string') {
-                this._inputValue = search;
-            }
-            // Преобразовываем полученную строку в массив Option[]
-            if (typeof type === 'string') {
-                let substrings = type.split(', ');
-                this._dropdownValue = substrings.map((substring: string) => {
-                    return {
-                        key: substring,
-                        value: substring,
-                    };
-                });
-            }
-        }
-    );
-
-    destroy(): void {}
+    destroy(): void {
+        this._qpReaction();
+    }
 }

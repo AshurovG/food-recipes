@@ -32,5 +32,5 @@ export type Option = {
 };
 
 export type DropdownCounts = {
-    [key: string]: number
+    [key: string]: boolean
 }
