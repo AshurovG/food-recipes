@@ -8,8 +8,18 @@ export type RecipeData = {
     servings: string;
     title: string;
     summary: string | TrustedHTML;
-    extendedIngredients: [];
-    equipment: [];
+    extendedIngredients: [{
+        original: string
+    }];
+    equipment: [
+        {
+            equipment: {
+                name: string
+            }[],
+            number: number,
+            step: string
+        }
+    ];
 } | null;
 
 export type Params = {
