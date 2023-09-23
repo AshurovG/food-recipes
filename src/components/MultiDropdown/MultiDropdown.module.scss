@@ -1,4 +1,5 @@
 @import 'styles/variables.scss';
+@import 'styles/mixins.scss';
 @import 'styles/styles.scss';
 
 button {
@@ -62,13 +63,13 @@ button {
 
 
 
-@media(max-width: 460px) {
+@include extraSmallMobile {
     .dropdown {
         width: 60%;
     }
 }
 
-@media(max-width: 390px) {
+@include ultraSmallMobile {
     .dropdown {
         width: 100%;
 

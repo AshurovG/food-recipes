@@ -1,4 +1,5 @@
 @import 'styles/variables.scss';
+@import 'styles/mixins.scss';
 @import 'styles/styles.scss';
 
 .recipes__page {
@@ -77,62 +78,62 @@
 
 
 
-@media(max-width: 1300px) {
+@include tablet {
     .recipes__page-wrapper {
         max-width: 1100px;
     }
 }
 
-@media(max-width: 1150px) {
+@include largeTablet {
     .recipes__page-wrapper {
-        max-width: 900px;
+      max-width: 900px;
     }
 }
-
-@media(max-width: 950px) {
+  
+@include mediumTablet {
     .recipes__page-wrapper {
-        max-width: 800px;
+      max-width: 800px;
     }
 }
-
-@media(max-width: 850px) {
+  
+@include smallTablet {
     .recipes__page-wrapper {
-        max-width: 700px;
+      max-width: 700px;
     }
 }
-
-@media(max-width: 750px) {
+  
+@include mobileLandscape {
     .recipes__page-wrapper {
-        max-width: 600px;
+      max-width: 600px;
     }
 }
-
-@media(max-width: 620px) {
+  
+@include mobile {
     .recipes__page-wrapper {
-        max-width: 500px;
+      max-width: 500px;
     }
 }
-
-@media(max-width: 520px) {
+  
+@include smallMobile {
     .recipes__page-wrapper {
-        max-width: 450px;
+      max-width: 450px;
     }
 }
-
-@media(max-width: 460px) {
+  
+@include extraSmallMobile {
     .recipes__page-wrapper {
-        max-width: 380px;
+      max-width: 380px;
     }
 }
-
-@media(max-width: 390px) {
+  
+@include ultraSmallMobile {
     .recipes__page-wrapper {
-        max-width: 330px;
+      max-width: 330px;
     }
 }
-
-@media(max-width: 340px) {
+  
+@include tinyMobile {
     .recipes__page-wrapper {
-        max-width: 290px;
+      max-width: 290px;
     }
 }
