@@ -10,7 +10,7 @@ export interface IRecipeDetailedStore {
     getRecipeData(): Promise<void>;
 }
 
-export type PrivateFields = '_recipe' | '_meta';
+export type PrivateFields = '_recipe' | '_meta' | '_previousUrl';
 
 
 
@@ -19,6 +19,7 @@ export default class RecipeDetailedStore implements IRecipeDetailedStore, ILocal
     private _recipe: RecipeData = null;
     private _meta: Meta = Meta.initial;
     private _id:string = '';
+    private _previousUrl = '/'
 
 
     constructor(params: Params) {
@@ -26,8 +27,10 @@ export default class RecipeDetailedStore implements IRecipeDetailedStore, ILocal
         makeObservable<RecipeDetailedStore, PrivateFields>(this, {
             _recipe: observable,
             _meta: observable,
+            _previousUrl: observable,
             recipe: computed,
             meta: computed,
+            previousUrl: computed
         })
     }
 
@@ -38,6 +41,10 @@ export default class RecipeDetailedStore implements IRecipeDetailedStore, ILocal
 
     get meta(): Meta {
         return this._meta
+    }
+
+    get previousUrl(): string {
+        return this._previousUrl
     }
 
     async getRecipeData(): Promise<void> {

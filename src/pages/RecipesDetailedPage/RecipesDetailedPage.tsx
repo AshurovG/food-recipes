@@ -19,7 +19,7 @@ const RecipesDetailedPage: React.FC = () => {
     const params = useParams();
     const id = params.id === undefined ? '' : params.id;
     const recipeDetailedStore = useLocalStore(() => new RecipeDetailedStore({ id: id }));
-    const recipesStore = useLocalStore(() => new RecipesStore)
+    const recipesStore = useLocalStore(() => new RecipesStore())
     
 
     React.useEffect(() => {

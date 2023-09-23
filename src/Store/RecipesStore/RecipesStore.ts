@@ -220,7 +220,7 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
             url: `https://api.spoonacular.com/recipes/complexSearch?query=${newInputValue}&apiKey=${apiKey}&addRecipeNutrition=true&offset=${this._offset}&number=6&type=${newTypesValue}`
         });
 
-        const newRecipesArr = response.data.results.map((raw: ReceivedRecipeData, index: number) => ({
+        const newRecipesArr = response.data.results.map((raw: ReceivedRecipeData) => ({
             id: raw.id,
             image: raw.image,
             title: raw.title,
