@@ -4,6 +4,7 @@ import { apiKey } from '../../../consts.config.ts';
 import { ILocalStore } from 'utils/useLocalStore.ts';
 import { RecipeData, Params } from './types.ts'
 import { Meta } from 'utils/meta.ts';
+import rootStore from 'Store/RootStore';
 
 
 export interface IRecipeDetailedStore {
@@ -24,6 +25,7 @@ export default class RecipeDetailedStore implements IRecipeDetailedStore, ILocal
 
     constructor(params: Params) {
         this._id = params.id;
+        // Получаем url предыдущей страницы из глобального store
         makeObservable<RecipeDetailedStore, PrivateFields>(this, {
             _recipe: observable,
             _meta: observable,
@@ -44,6 +46,7 @@ export default class RecipeDetailedStore implements IRecipeDetailedStore, ILocal
     }
 
     get previousUrl(): string {
+        this._previousUrl = rootStore.prevUrl.previousUrl
         return this._previousUrl
     }
 

@@ -3,7 +3,6 @@ import { observer } from 'mobx-react-lite';
 import { Link, useParams } from 'react-router-dom'
 import { useLocalStore } from 'utils/useLocalStore';
 import { Meta } from 'utils/meta';
-import RecipesStore from 'Store/RecipesStore';
 import RecipeDetailedStore from 'Store/RecipeDetailedStore';
 import styles from './RecipesDetailedPage.module.scss';
 import Header from 'components/Header';
@@ -19,7 +18,6 @@ const RecipesDetailedPage: React.FC = () => {
     const params = useParams();
     const id = params.id === undefined ? '' : params.id;
     const recipeDetailedStore = useLocalStore(() => new RecipeDetailedStore({ id: id }));
-    const recipesStore = useLocalStore(() => new RecipesStore())
     
 
     React.useEffect(() => {
@@ -42,7 +40,7 @@ const RecipesDetailedPage: React.FC = () => {
             <Header />
             <div className={styles.detailed__wrapper}>
                 <div className={styles['content__title-flex']}>
-                    <Link to={recipesStore.currentUrl}><BackIcon className={styles.back__button} /></Link><h1 className={styles.content__title} >{recipeDetailedStore.recipe?.title}</h1>
+                    <Link to={recipeDetailedStore.previousUrl}><BackIcon className={styles.back__button} /></Link><h1 className={styles.content__title} >{recipeDetailedStore.recipe?.title}</h1>
                 </div>
 
                 <div className={styles.main__info}>

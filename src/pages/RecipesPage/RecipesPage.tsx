@@ -26,7 +26,7 @@ const RecipesPage: React.FC = () => {
 
     const navigate = useNavigate();
     const handleFormSubmit = () => {
-        if (recipesStore.getDropdownTitle(recipesStore.dropdownValue) === 'Choose a category of dishes') {
+        if (recipesStore.getDropdownTitle(recipesStore.dropdownValue) === 'Choose a category') {
             navigate(`?search=${recipesStore.inputValue}`)
         }
         else {

@@ -18,7 +18,9 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
     private _hasMore = true;
     private _inputValue = '';
     private _isOnSearchClick = false;
-    private _dropdownValue: Option[] = []
+    private _dropdownValue: Option[] = [];
+    private _currentUrl = '/';
+    private _isBurgerMenuOpen = false;
     private _options: Option[] = [
         { key: 'main course', value: 'main course' },
         { key: 'side dish', value: 'side dish' },
@@ -35,8 +37,6 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
         { key: 'snack', value: 'snack' },
         { key: 'drink', value: 'drink' },
     ];
-    private _currentUrl = '/';
-    private _isBurgerMenuOpen = false;
     private readonly _qpReaction: IReactionDisposer = reaction(
         () => ({
             search: rootStore.query.getParam('search'),
@@ -58,6 +58,36 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
             }
         }
     );
+    private _firstLoad = (): void => {
+        let searchParam = rootStore.query.getParam('search')
+        if (searchParam && typeof searchParam === 'string') {
+            this._isOnSearchClick = true;
+            this._inputValue = searchParam;
+            this._currentUrl += `?search=${searchParam}`
+        }
+
+        let typeParam = rootStore.query.getParam('type')
+        if (typeParam && typeof typeParam === 'string') {
+            this._isOnSearchClick = true;
+            let substrings = typeParam.split(', ');
+            this._dropdownValue = substrings.map((substring: string) => {
+                return {
+                    key: substring,
+                    value: substring,
+                };
+            });
+
+            if (this._currentUrl) {
+                if (searchParam) {
+                    this._currentUrl += `&type=${typeParam}`
+                } else {
+                    this._currentUrl += `?type=${typeParam}`
+                }
+            }
+        }
+
+        rootStore.prevUrl.setPreviousUrl(this._currentUrl)
+    }
 
     public _loadMore = (): void => {
         this._offset += 6;
@@ -69,6 +99,23 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
         this._isOnSearchClick = true;
         this._isFirstPage = true;
         this.getRecipesData();
+        this._currentUrl = '/';
+        let searchParam = rootStore.query.getParam('search')
+        if (searchParam && typeof searchParam === 'string') {
+            this._currentUrl += `?search=${searchParam}`
+        }
+
+        let typeParam = rootStore.query.getParam('type')
+        if (typeParam && typeof typeParam === 'string') {
+            if (this._currentUrl) {
+                if (searchParam) {
+                    this._currentUrl += `&type=${typeParam}`
+                } else {
+                    this._currentUrl += `?type=${typeParam}`
+                }
+            }
+        }
+        rootStore.prevUrl.setPreviousUrl(this._currentUrl)
     };
 
     public setInputValue = (value: string): void => {
@@ -98,7 +145,6 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
 
     public setIsBurgerMenuOpen = () => {
         this._isBurgerMenuOpen = !this._isBurgerMenuOpen;
-        console.log(this._isBurgerMenuOpen)
     }
 
     constructor() {
@@ -126,34 +172,9 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
         })
 
         // Обрабатываем первый рендер при перезагрузки страницы
-        let searchParam = rootStore.query.getParam('search')
-        if (searchParam && typeof searchParam === 'string') {
-            this._isOnSearchClick = true;
-            this._inputValue = searchParam;
-            this._currentUrl += `?search=${searchParam}`
-        }
+        this._firstLoad()
+    };
 
-        let typeParam = rootStore.query.getParam('type')
-        if (typeParam && typeof typeParam === 'string') {
-            this._isOnSearchClick = true;
-            let substrings = typeParam.split(', ');
-            this._dropdownValue = substrings.map((substring: string) => {
-                return {
-                    key: substring,
-                    value: substring,
-                };
-            });
-
-            if (this._currentUrl) {
-                if (searchParam) {
-                    this._currentUrl += `&type=${typeParam}`
-                } else {
-                    this._currentUrl += `?type=${typeParam}`
-                }
-            }
-        }
-    }
-    ;
     get list(): RecipeData[] {
         return this._list;
     };
@@ -210,7 +231,7 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
         let newTypesValue = '';
         if (this._isOnSearchClick == true) {
             newInputValue = this._inputValue;
-            if (this.getDropdownTitle(this._dropdownValue) !== 'Choose a category of dishes') {
+            if (this.getDropdownTitle(this._dropdownValue) !== 'Choose a category') {
                 newTypesValue = this.getDropdownTitle(this._dropdownValue)
             }
         }
