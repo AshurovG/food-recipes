@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { IReactionDisposer, action, computed, makeObservable, observable, reaction, runInAction } from 'mobx';
-import { apiKey } from '../../../consts.config.ts';
-import { ILocalStore } from 'utils/useLocalStore.ts';
+import { apiKey } from '../../../consts.config';
+import { ILocalStore } from 'utils/useLocalStore';
 import { ReceivedRecipeData, IngredientData, RecipeData, Option, DropdownCounts } from './types'
 import rootStore from 'Store/RootStore/instance';
 

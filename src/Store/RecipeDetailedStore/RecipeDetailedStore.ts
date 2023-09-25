@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { computed, makeObservable, observable, runInAction } from 'mobx';
-import { apiKey } from '../../../consts.config.ts';
-import { ILocalStore } from 'utils/useLocalStore.ts';
-import { RecipeData, Params } from './types.ts'
-import { Meta } from 'utils/meta.ts';
+import { apiKey } from '../../../consts.config';
+import { ILocalStore } from 'utils/useLocalStore';
+import { RecipeData, Params } from './types'
+import { Meta } from 'utils/meta';
 import rootStore from 'Store/RootStore';
 
 
