@@ -32,13 +32,18 @@
     }
 
     &__block {
-        margin-left: $space-m;
-        cursor: pointer;
-        transition: color .2s ease;
+      color: $text-primary;
+      margin-left: $space-m;
+      cursor: pointer;
+      transition: color .2s ease;
 
-        &:hover {
-            color: $brand;
-        }
+      &:hover {
+          color: $brand;
+      }
+    }
+
+    &__block {
+      color: $brand;
     }
 }
 
