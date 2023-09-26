@@ -18,7 +18,7 @@ button {
         top: calc(100% + 8px);
         left: 0;
         width: 100%;
-        max-height: 400px;
+        max-height: 200px;
         overflow: auto;
 
         background-color: $default-color;
@@ -72,9 +72,5 @@ button {
 @include ultraSmallMobile {
     .dropdown {
         width: 100%;
-
-        &__options {
-            max-height: 200px;
-        }
     }
 }
