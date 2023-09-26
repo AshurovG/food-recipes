@@ -137,7 +137,7 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
         }
       
         this._dropdownValue = filteredOptions;
-      };
+    };
 
     public getDropdownTitle = (options: Option[]) => {
         return options.map((option) => option.value).join(', ') || 'Choose a category';

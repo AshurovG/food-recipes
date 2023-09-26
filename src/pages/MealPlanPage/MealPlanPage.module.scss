@@ -10,7 +10,15 @@
     }
 
     &__wrapper {
-
+        max-width: 1240px;
+        width: 100%;
+        margin: 0 auto;
+        margin-top: 113px;
+        margin-bottom: 55px;
     }
 
+    &__form {
+        width: 50%;
+        padding-top: 20px;
+    }
 }
