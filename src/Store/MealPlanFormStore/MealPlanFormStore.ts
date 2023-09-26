@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { computed, makeObservable, observable, runInAction } from 'mobx';
+import { action, computed, makeObservable, observable, runInAction } from 'mobx';
 import { apiKey } from '../../../consts.config';
 import { ILocalStore } from 'utils/useLocalStore';
 import { Option, DropdownCounts } from './types'
@@ -11,27 +11,12 @@ export interface IRecipeDetailedStore {
     getRecipeData(): Promise<void>;
 }
 
-export type PrivateFields = '_dietsValue' | '_excludedIngredientsValue';
+export type PrivateFields = '_dietsValue' | '_excludedIngredientsValue' | '_checkboxValue';
 
 export default class MealPlanFormStore implements IRecipeDetailedStore, ILocalStore {
     private _dietsValue: Option[] = [];
     private _excludedIngredientsValue: Option[] = [];
-    private _getFilteredrOptions = (options: Option[]) => {
-        const counts: DropdownCounts = {};
-        const filteredOptions: Option[] = [];
-      
-        for (const option of options) {
-            if (!counts[option.value]) {
-                counts[option.value] = false;
-              }
-              counts[option.value] = true;
-          if (counts[option.value] === true) {
-            filteredOptions.push(option);
-          }
-        }
-      
-        return filteredOptions;
-    };
+    private _checkboxValue = false;
 
     private _dietsOptions: Option[] = [
         { key: 'Gluten Free', value: 'Gluten Free' },
@@ -98,8 +83,6 @@ export default class MealPlanFormStore implements IRecipeDetailedStore, ILocalSt
         this._excludedIngredientsValue = filteredOptions;
     };
 
-
-
     public handleDietsChange = (options: Option[]) => {
         const counts: DropdownCounts = {};
         const filteredOptions: Option[] = [];
@@ -127,14 +110,22 @@ export default class MealPlanFormStore implements IRecipeDetailedStore, ILocalSt
         return options.map((option) => option.value).join(', ') || 'Choose a diet';
     };
 
+    public setCheckboxValue() {
+        this._checkboxValue = !this._checkboxValue;
+        console.log(1111)
+    }
+
     constructor() {
         makeObservable<MealPlanFormStore, PrivateFields>(this, {
             _dietsValue: observable,
             _excludedIngredientsValue: observable,
+            _checkboxValue: observable,
             dietsOptions: computed,
             dietsValue: computed,
             excludedIngredientsValue: computed,
-            excludedIngredientsOptions: computed
+            excludedIngredientsOptions: computed,
+            checkboxValue: computed,
+            setCheckboxValue: action
         })
     }
 
@@ -152,6 +143,11 @@ export default class MealPlanFormStore implements IRecipeDetailedStore, ILocalSt
 
     get excludedIngredientsOptions(): Option[] {
         return this._excludedIngredientsOptions;
+    }
+
+    get checkboxValue(): boolean {
+        console.log('get')
+        return this._checkboxValue;
     }
 
     async getRecipeData(): Promise<void> {

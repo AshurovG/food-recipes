@@ -16,7 +16,7 @@ const MealPlanPage: React.FC = () => {
         <div className={styles.plan__page}>
             <Header />
             <div className={styles.plan__wrapper}>
-                <Text className={styles.plan__header} view='title' color='primary' tag='h1'>You can choose a meal plan especially for yourself ! <br/>To do this, fill out the form:</Text>
+                <Text className={styles.plan__title} view='title' color='primary' tag='h1'>You can choose a meal plan especially for yourself ! <br/>To do this, fill out the form:</Text>
                 <MealPlanForm className={styles.plan__form}></MealPlanForm>
             </div>
         </div>

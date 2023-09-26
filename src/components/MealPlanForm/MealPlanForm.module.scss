@@ -2,6 +2,14 @@
 @import 'styles/variables.scss';
 @import 'styles/mixins.scss';
 
-.selection__block {
-    margin-bottom: 15px;
+.checkbox__block {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.plan__form-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
