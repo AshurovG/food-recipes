@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
 import './App.scss'
 import RecipesPage from 'pages/RecipesPage'
 import RecipesDetailedPage from 'pages/RecipesDetailedPage'
@@ -8,7 +8,7 @@ import MealPlanPage from 'pages/MealPlanPage';
 function App() {
     return (
         <div>
-            <BrowserRouter>
+            <HashRouter>
                 <Routes>
                     <Route path='/' element={<RecipesPage />} />
 
@@ -20,7 +20,7 @@ function App() {
 
                     <Route path='*' element={<Navigate to="/" replace />} />
                 </Routes>
-            </BrowserRouter>
+            </HashRouter>
         </div>
     )
 }

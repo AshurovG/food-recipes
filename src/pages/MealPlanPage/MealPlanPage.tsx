@@ -8,12 +8,15 @@ import Header from 'components/Header';
 import Text from 'components/Text';
 import Loader from 'components/Loader';
 
-const RecipesDetailedPage: React.FC = () => {
+const MealPlanPage: React.FC = () => {
     return (
-        <div className={styles.detailed__page}>
+        <div className={styles.plan__page}>
             <Header />
+            <div className={styles.plan__wrapper}>
+                странца индивидуального плана!!!
+            </div>
         </div>
     )
 };
 
-export default observer(RecipesDetailedPage);
+export default observer(MealPlanPage);
