@@ -27,3 +27,31 @@
     }
     
 }
+
+.checkbox__block {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.plan__form {
+    &-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    &-button {
+        margin-top: 15px;
+    }
+}
+
+.slider__block {
+    display: flex;
+    flex-direction: column;
+}
+
+.slider__item {
+    width: 100%;
+    margin-top: 40px;
+}
