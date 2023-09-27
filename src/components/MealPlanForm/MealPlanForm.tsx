@@ -18,6 +18,36 @@ export type MealPlanFormProps = React.ButtonHTMLAttributes<HTMLButtonElement> & 
 
 const MealPlanForm: React.FC<MealPlanFormProps> = ({className}) => {
     const mealPlanFormStore = useLocalStore(() => new MealPlanFormStore());
+    const outputRef = React.useRef<HTMLOutputElement>(null);
+    const sliderRef = React.useRef<HTMLInputElement>(null);
+    const minValue = 0;
+    const maxValue = 10000;
+
+    React.useEffect(() => {
+        const outputElement = outputRef.current;
+        const sliderElement = sliderRef.current;
+    
+        if (outputElement && sliderElement) {
+          // Ширина ползунка
+          const sliderWidth = sliderElement.getBoundingClientRect().width;
+          // Ширина элемента output
+          const outputWidth = outputElement.getBoundingClientRect().width;
+          // Новая позиция для элемента output
+          const newPosition = ((mealPlanFormStore.sliderValue - minValue) / (maxValue - minValue)) * (sliderWidth - outputWidth);
+    
+          const newOutputStyle = {
+            left: newPosition - 20 + 'px'
+          };
+          mealPlanFormStore.setOutputStyle(newOutputStyle)
+        }
+    }, [mealPlanFormStore.sliderValue, minValue, maxValue]);
+
+    const Sliderhandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
+        const newValueString = event.target.value;
+        const newValue = parseInt(newValueString, 10);
+        mealPlanFormStore.setSliderValue(newValue)
+      };
+
     return (
         <form className={cn(styles.plan__form, className)}>
             <div className={styles['plan__form-wrapper']}>
@@ -28,7 +58,7 @@ const MealPlanForm: React.FC<MealPlanFormProps> = ({className}) => {
 
             <div className={styles.slider__block}>
                 <Text tag='p' view='p-18'>How many calories would you like to consume per day?</Text> 
-                <Slider className={styles.slider__item} minValue={0} maxValue={10000} value={0}/>
+                <Slider onChange={Sliderhandler} className={styles.slider__item} minValue={0} maxValue={10000} sliderValue={mealPlanFormStore.sliderValue} outputStyle={mealPlanFormStore.outputStyle} sliderRef={sliderRef} outputRef={outputRef}/>
             </div>
 
             <MultiDropdown

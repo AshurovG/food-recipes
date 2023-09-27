@@ -1,53 +1,27 @@
-import React, { useRef, useState } from 'react';
-import styles from './Slider.module.scss'
+import React from 'react';
 import cn from 'classnames'
+import { toJS } from 'mobx';
+import { observer } from 'mobx-react-lite';
+import styles from './Slider.module.scss'
 
-export type CheckBoxProps = Omit<
+export type SliderProps = Omit<
     React.InputHTMLAttributes<HTMLInputElement>,
     'onChange'
 > & {
-    // onChange: (checked: boolean) => void;
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     className?: string;
+    sliderValue: number;
+    outputStyle: {left: string};
     minValue: number;
     maxValue: number;
-    value: number;
+    sliderRef: React.RefObject<HTMLInputElement>;
+    outputRef: React.RefObject<HTMLOutputElement>;
 };
 
-const Slider: React.FC<CheckBoxProps> = ({ minValue, maxValue, value, className }) => {
-    const [sliderValue, setSliderValue] = useState(value);
-    const [outputStyle, setOutputStyle] = useState({});
-    const outputRef = useRef<HTMLOutputElement>(null);
-    const sliderRef = useRef<HTMLInputElement>(null);
-  
-    React.useEffect(() => {
-      const outputElement = outputRef.current;
-      const sliderElement = sliderRef.current;
-  
-      if (outputElement && sliderElement) {
-        // Ширина ползунка
-        const sliderWidth = sliderElement.getBoundingClientRect().width;
-        // Ширина элемента output
-        const outputWidth = outputElement.getBoundingClientRect().width;
-        // Новая позиция для элемента output
-        const newPosition = ((sliderValue - minValue) / (maxValue - minValue)) * (sliderWidth - outputWidth);
-  
-        const newOutputStyle = {
-          left: newPosition - 20 + 'px'
-        };
-  
-        setOutputStyle(newOutputStyle);
-      }
-    }, [sliderValue, minValue, maxValue]);
-  
-    const handler = (event: React.ChangeEvent<HTMLInputElement>): void => {
-      const newValueString = event.target.value;
-      const newValue = parseInt(newValueString, 10);
-      setSliderValue(newValue);
-    };
-  
+const Slider: React.FC<SliderProps> = ({ minValue, sliderValue, outputStyle, maxValue, className, sliderRef, outputRef, onChange }) => {
     return (
       <div className={cn(styles.slider, className)}>
-        <output htmlFor="fader" id="volume" style={outputStyle} ref={outputRef}>
+        <output htmlFor="fader" id="volume" style={toJS(outputStyle)} ref={outputRef}>
           {sliderValue}
         </output>
         <input
@@ -57,12 +31,12 @@ const Slider: React.FC<CheckBoxProps> = ({ minValue, maxValue, value, className 
           min={minValue}
           max={maxValue}
           value={sliderValue}
-          onChange={handler}
+          onChange={onChange}
           step="1"
           ref={sliderRef}
         />
       </div>
     );
-  };
+};
 
-export default Slider;
+export default observer(Slider);

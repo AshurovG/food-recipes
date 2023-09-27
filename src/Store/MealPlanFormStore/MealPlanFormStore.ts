@@ -11,12 +11,14 @@ export interface IRecipeDetailedStore {
     getRecipeData(): Promise<void>;
 }
 
-export type PrivateFields = '_dietsValue' | '_excludedIngredientsValue' | '_checkboxValue';
+export type PrivateFields = '_dietsValue' | '_excludedIngredientsValue' | '_checkboxValue' | '_sliderValue' | '_outputStyle';
 
 export default class MealPlanFormStore implements IRecipeDetailedStore, ILocalStore {
     private _dietsValue: Option[] = [];
     private _excludedIngredientsValue: Option[] = [];
     private _checkboxValue = false;
+    private _sliderValue = 0;
+    private _outputStyle: {left: string} = {left: '0'}
 
     private _dietsOptions: Option[] = [
         { key: 'Gluten Free', value: 'Gluten Free' },
@@ -115,17 +117,31 @@ export default class MealPlanFormStore implements IRecipeDetailedStore, ILocalSt
         console.log(1111)
     }
 
+    public setSliderValue(value: number) {
+        this._sliderValue = value;
+    }
+
+    public setOutputStyle(value: {left: string}) {
+        this._outputStyle = value;
+    }
+
     constructor() {
         makeObservable<MealPlanFormStore, PrivateFields>(this, {
             _dietsValue: observable,
             _excludedIngredientsValue: observable,
             _checkboxValue: observable,
+            _sliderValue: observable,
+            _outputStyle: observable,
             dietsOptions: computed,
             dietsValue: computed,
             excludedIngredientsValue: computed,
             excludedIngredientsOptions: computed,
             checkboxValue: computed,
-            setCheckboxValue: action
+            sliderValue: computed,
+            outputStyle: computed,
+            setCheckboxValue: action,
+            setSliderValue: action,
+            setOutputStyle: action
         })
     }
 
@@ -148,6 +164,14 @@ export default class MealPlanFormStore implements IRecipeDetailedStore, ILocalSt
     get checkboxValue(): boolean {
         console.log('get')
         return this._checkboxValue;
+    }
+
+    get sliderValue(): number {
+        return this._sliderValue;
+    }
+
+    get outputStyle(): {left: string} {
+        return this._outputStyle;
     }
 
     async getRecipeData(): Promise<void> {
