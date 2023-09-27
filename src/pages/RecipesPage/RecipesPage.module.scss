@@ -1,4 +1,5 @@
 @import 'styles/variables.scss';
+@import 'styles/mixins.scss';
 @import 'styles/styles.scss';
 
 .recipes__page {
@@ -9,14 +10,6 @@
         max-width: 1240px;
         width: 100%;
         margin: 0 auto;
-    }
-
-    &-cards {
-        margin-top: 48px;
-
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: 75px;
     }
 }
 
@@ -81,4 +74,66 @@
     width: 100%;
     text-align: center;
     margin-top: $space-xl;
+}
+
+
+
+@include tablet {
+    .recipes__page-wrapper {
+        max-width: 1100px;
+    }
+}
+
+@include largeTablet {
+    .recipes__page-wrapper {
+      max-width: 900px;
+    }
+}
+  
+@include mediumTablet {
+    .recipes__page-wrapper {
+      max-width: 800px;
+    }
+}
+  
+@include smallTablet {
+    .recipes__page-wrapper {
+      max-width: 700px;
+    }
+}
+  
+@include mobileLandscape {
+    .recipes__page-wrapper {
+      max-width: 600px;
+    }
+}
+  
+@include mobile {
+    .recipes__page-wrapper {
+      max-width: 500px;
+    }
+}
+  
+@include smallMobile {
+    .recipes__page-wrapper {
+      max-width: 450px;
+    }
+}
+  
+@include extraSmallMobile {
+    .recipes__page-wrapper {
+      max-width: 380px;
+    }
+}
+  
+@include ultraSmallMobile {
+    .recipes__page-wrapper {
+      max-width: 330px;
+    }
+}
+  
+@include tinyMobile {
+    .recipes__page-wrapper {
+      max-width: 290px;
+    }
 }

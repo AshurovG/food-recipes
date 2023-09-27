@@ -3,14 +3,6 @@ import { IconProps } from '../Icon';
 import Icon from '../Icon'
 
 const LogoIcon: React.FC<IconProps> = ({ className, color, width, height }) => {
-    let colorResult: string = ''
-    if (color === 'primary') {
-        colorResult = "#000"
-    } else if (color === 'secondary') {
-        colorResult = "#AFADB5"
-    } else if (color = "accent") {
-        colorResult = "#518581"
-    }
     return <Icon viewBox="0 0 36 36" color={color} width={width ? width : 36} height={height ? height : 36} className={'icon_wrapper' + ` ${className}`} >
         <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36" fill="none">
             <g clipPath="url(#clip0_508_1449)">

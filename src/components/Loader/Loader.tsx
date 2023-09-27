@@ -1,5 +1,4 @@
 import React from 'react';
-// import path from '../../images/loader.svg'
 
 export type LoaderProps = {
     size?: 's' | 'm' | 'l' | 'xl';

@@ -1,5 +1,6 @@
 @import 'styles/styles.scss';
 @import 'styles/variables.scss';
+@import 'styles/mixins.scss';
 
 .recipes__page-cards {
     margin-top: 48px;
@@ -7,4 +8,35 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 75px;
+}
+
+
+
+@include largeTablet {
+    .recipes__page-cards {
+      gap: 30px;
+    }
+}
+
+@include smallTablet {
+    .recipes__page-cards {
+        grid-template-columns: 1fr 1fr;
+        gap: 50px
+    }
+}
+
+@include mobile {
+    .recipes__page-cards {
+        grid-template-columns: 1fr 1fr;
+        gap: 20px
+    }
+}
+
+@include smallMobile {
+    .recipes__page-cards {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px
+    }
 }
