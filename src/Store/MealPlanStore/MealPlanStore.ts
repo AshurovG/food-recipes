@@ -2,23 +2,34 @@ import axios from 'axios';
 import { action, computed, makeObservable, observable, runInAction } from 'mobx';
 import { apiKey } from '../../../consts.config';
 import { ILocalStore } from 'utils/useLocalStore';
-import { Option, DropdownCounts } from './types'
+import { Option, DropdownCounts, OneDayPlan, WeekPlan, Nutrients } from './types'
 import { Meta } from 'utils/meta';
 import rootStore from 'Store/RootStore';
 
 
-export interface IRecipeDetailedStore {
-    getRecipeData(): Promise<void>;
+export interface IMealPlanStore {
+    getMealPlanData(): Promise<void>;
 }
 
-export type PrivateFields = '_dietsValue' | '_excludedIngredientsValue' | '_checkboxValue' | '_sliderValue' | '_outputStyle';
+export type PrivateFields = '_dietsValue' | '_excludedIngredientsValue' | '_checkboxValue' | '_sliderValue' | '_outputStyle' | '_dayPlanList' | '_weekPlanList';
 
-export default class MealPlanFormStore implements IRecipeDetailedStore, ILocalStore {
+export default class MealPlanStore implements IMealPlanStore, ILocalStore {
     private _dietsValue: Option[] = [];
     private _excludedIngredientsValue: Option[] = [];
     private _checkboxValue = false;
-    private _sliderValue = 0;
-    private _outputStyle: {left: string} = {left: '0'}
+    private _sliderValue = 1000;
+    private _outputStyle: {left: string} = {left: '0'};
+    private _dayPlanList: OneDayPlan[] = [];
+    private _weekPlanList: WeekPlan = {
+        sunday: null,
+        monday: null,
+        tuesday: null,
+        wednesday: null,
+        thursday: null,
+        friday: null,
+        saturday: null
+    };
+    
 
     private _dietsOptions: Option[] = [
         { key: 'Gluten Free', value: 'Gluten Free' },
@@ -103,12 +114,10 @@ export default class MealPlanFormStore implements IRecipeDetailedStore, ILocalSt
     };
 
     public getExcludedIngredientsitle = (options: Option[]) => {
-        console.log('gettitle')
         return options.map((option) => option.value).join(', ') || 'Which ingredients should be excluded?';
     };
 
     public getDietsTitle = (options: Option[]) => {
-        console.log('gettitle')
         return options.map((option) => option.value).join(', ') || 'Choose a diet';
     };
 
@@ -126,12 +135,14 @@ export default class MealPlanFormStore implements IRecipeDetailedStore, ILocalSt
     }
 
     constructor() {
-        makeObservable<MealPlanFormStore, PrivateFields>(this, {
+        makeObservable<MealPlanStore, PrivateFields>(this, {
             _dietsValue: observable,
             _excludedIngredientsValue: observable,
             _checkboxValue: observable,
             _sliderValue: observable,
             _outputStyle: observable,
+            _dayPlanList: observable,
+            _weekPlanList: observable,
             dietsOptions: computed,
             dietsValue: computed,
             excludedIngredientsValue: computed,
@@ -139,6 +150,8 @@ export default class MealPlanFormStore implements IRecipeDetailedStore, ILocalSt
             checkboxValue: computed,
             sliderValue: computed,
             outputStyle: computed,
+            dayPlanList: computed,
+            weekPlanList: computed,
             setCheckboxValue: action,
             setSliderValue: action,
             setOutputStyle: action
@@ -174,8 +187,84 @@ export default class MealPlanFormStore implements IRecipeDetailedStore, ILocalSt
         return this._outputStyle;
     }
 
-    async getRecipeData(): Promise<void> {
+    get dayPlanList(): OneDayPlan[] {
+        return this._dayPlanList
+    }
 
+    get weekPlanList(): WeekPlan {
+        return this._weekPlanList
+    }
+
+    // https://api.spoonacular.com/mealplanner/generate?timeFrame=day&apiKey=0fc912ddd61f4f4c8c54be7a4e564f78
+    async getMealPlanData(): Promise<void> {
+        let timeFrame = ''
+        if (this._checkboxValue) {
+            timeFrame = 'day'
+        } else {
+            timeFrame = 'week'
+        }
+
+        const response = await axios({
+            method: 'get',
+            url: `https://api.spoonacular.com/mealplanner/generate?apiKey=${apiKey}&timeFrame=${timeFrame}&targetCalories=${this._sliderValue}&diet=${this.getDietsTitle(this._dietsValue)}&exclude=${this.getExcludedIngredientsitle(this._excludedIngredientsValue)}`
+        });
+
+        console.log(response.data)
+
+        if (this._checkboxValue) {
+            this._dayPlanList = response.data.meals.map((raw: OneDayPlan) => ({
+                title: raw.title,
+                readyInMinutes: raw.readyInMinutes,
+                servings: raw.servings,
+                sourceUrl: raw.sourceUrl
+            }))
+        } else {
+            const daysOfWeek = Object.keys(response.data.week);
+            console.log(daysOfWeek)
+
+            daysOfWeek.forEach(day => {
+                // Получите массив meals и объект nutrients для текущего дня недели
+                const { meals, nutrients } = response.data.week[day];
+                if (this._weekPlanList) {
+                    this._weekPlanList[day] = {
+                        meals: meals,
+                        nutrients: nutrients
+                    };
+                }
+            });
+
+            console.log(this._weekPlanList)
+
+            // this._weekPlanList = response.data.week.map((raw: OneDayPlan) => ({
+            //     title: raw.title,
+            //     readyInMinutes: raw.readyInMinutes,
+            //     servings: raw.servings,
+            //     sourceUrl: raw.sourceUrl
+            // }))
+        }
+
+
+        // const newRecipesArr = response.data.results.map((raw: ReceivedRecipeData) => ({
+        //     id: raw.id,
+        //     image: raw.image,
+        //     title: raw.title,
+        //     readyInMinutes: raw.readyInMinutes,
+        //     ingredients: this.getIngredientsString(raw.nutrition.ingredients),
+        //     caloricContent: raw.nutrition.nutrients[0].amount,
+        //     key: raw.id.toString()
+        // }))
+
+        // runInAction(() => {
+        //     if (response.status === 200) {
+        //         this._list = [...this._list, ...newRecipesArr]
+        //         if (this.list.length % 6 !== 0 || this.list.length === 0) {
+        //             this._hasMore = false
+        //         }
+
+        //         this._isFirstPage = false;
+        //         return
+        //     }
+        // })
     }
 
     reset(): void {

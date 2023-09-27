@@ -12,14 +12,14 @@ import Button from 'components/Button';
 import MultiDropdown from 'components/MultiDropdown';
 import CheckBox from 'components/CheckBox';
 import Slider from 'components/Slider';
-import MealPlanFormStore from 'Store/MealPlanFormStore';
+import MealPlanFormStore from 'Store/MealPlanStore';
 
 
 const MealPlanPage: React.FC = () => {
     const mealPlanFormStore = useLocalStore(() => new MealPlanFormStore());
     const outputRef = React.useRef<HTMLOutputElement>(null);
     const sliderRef = React.useRef<HTMLInputElement>(null);
-    const minValue = 0;
+    const minValue = 1000;
     const maxValue = 10000;
 
     React.useEffect(() => {
@@ -61,7 +61,7 @@ const MealPlanPage: React.FC = () => {
 
             <div className={styles.slider__block}>
                 <Text tag='p' view='p-18'>How many calories would you like to consume per day?</Text> 
-                <Slider onChange={Sliderhandler} className={styles.slider__item} minValue={0} maxValue={10000} sliderValue={mealPlanFormStore.sliderValue} outputStyle={mealPlanFormStore.outputStyle} sliderRef={sliderRef} outputRef={outputRef}/>
+                <Slider onChange={Sliderhandler} className={styles.slider__item} minValue={minValue} maxValue={maxValue} sliderValue={mealPlanFormStore.sliderValue} outputStyle={mealPlanFormStore.outputStyle} sliderRef={sliderRef} outputRef={outputRef}/>
             </div>
 
             <MultiDropdown
@@ -79,7 +79,7 @@ const MealPlanPage: React.FC = () => {
                 getTitle={mealPlanFormStore.getExcludedIngredientsitle}/>
             </div>
 
-            <Button className={styles['plan__form-button']}>Choose</Button>
+            <Button className={styles['plan__form-button']} onClick={() => mealPlanFormStore.getMealPlanData()}>Choose</Button>
             
         </form>
             </div>
