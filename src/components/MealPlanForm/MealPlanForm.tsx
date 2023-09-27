@@ -7,6 +7,7 @@ import Button from 'components/Button';
 import Text from 'components/Text';
 import MultiDropdown from 'components/MultiDropdown';
 import CheckBox from 'components/CheckBox';
+import Slider from 'components/Slider';
 import { useLocalStore } from 'utils/useLocalStore';
 import MealPlanFormStore from 'Store/MealPlanFormStore';
 
@@ -23,6 +24,11 @@ const MealPlanForm: React.FC<MealPlanFormProps> = ({className}) => {
             <div className={styles.checkbox__block}>
                 <Text tag='p' view='p-18'>Make a plan for only one day?</Text> 
                 <CheckBox checked={mealPlanFormStore.checkboxValue} onChange={() => mealPlanFormStore.setCheckboxValue()}/>
+            </div>
+
+            <div className={styles.slider__block}>
+                <Text tag='p' view='p-18'>How many calories would you like to consume per day?</Text> 
+                <Slider className={styles.slider__item} minValue={0} maxValue={10000} value={0}/>
             </div>
 
             <MultiDropdown
