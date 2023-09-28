@@ -8,10 +8,12 @@ export type DropdownCounts = {
 }
 
 export type OneDayPlan = {
+    id: number;
     title: string;
     readyInMinutes: number;
     servings: number;
     sourceUrl: string;
+    imageType: string;
 };
 
 export type WeekPlan = {
