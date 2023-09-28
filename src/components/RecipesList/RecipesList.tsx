@@ -10,7 +10,7 @@ export type RecipeData = {
     title: string;
     readyInMinutes?: string;
     caloricContent?: string;
-    ingredients: string
+    ingredients?: string
 }
 
 export type СharacteristicProps = {

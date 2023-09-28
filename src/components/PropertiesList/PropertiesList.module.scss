@@ -1,0 +1,54 @@
+@import 'styles/styles.scss';
+@import 'styles/variables.scss';
+@import 'styles/mixins.scss';
+
+%boxshadow {
+    box-shadow: 0.25rem 0.25rem 0.6rem rgba(0,0,0,0.05), 0 0.5rem 1.125rem rgba(75,0,0,0.05);
+}
+
+
+ol.plan__nutrients-list {
+    counter-reset: gradient-counter;
+    list-style: none;
+    margin: 28px 0;
+    padding-left: 16px;
+    > li {
+        font-size: 18px;
+        background: $default-color;
+        border-radius: 0 8px 8px 8px;
+        @extend %boxshadow;
+        counter-increment: gradient-counter;
+        margin-top: 16px;
+        min-height: 48px;
+        padding: 16px 16px 16px 64px;
+        position: relative;
+        &::before,
+        &::after {
+            background: $brand;
+            border-radius: 16px 16px 0 16px;
+            content: '';
+            height: 48px;
+            left: -16px;
+            overflow: hidden;
+            position: absolute;
+            top: -16px;
+            width: 48px;
+        }
+        &::before {
+            align-items: flex-end;
+            @extend %boxshadow;
+            content: counter(gradient-counter);
+            color: $default-color;
+            display: flex;
+            font-size: 18px;
+            font-weight: 700;
+            justify-content: flex-end;
+            padding: 0.125em 0.25em;
+            z-index: 1;
+        }
+        + li {
+            font-size: 18px;
+            margin-top: 32px;
+        }
+    }
+}
