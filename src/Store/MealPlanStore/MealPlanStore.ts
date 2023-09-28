@@ -211,60 +211,32 @@ export default class MealPlanStore implements IMealPlanStore, ILocalStore {
 
         console.log(response.data)
 
-        if (this._checkboxValue) {
-            this._dayPlanList = response.data.meals.map((raw: OneDayPlan) => ({
-                title: raw.title,
-                readyInMinutes: raw.readyInMinutes,
-                servings: raw.servings,
-                sourceUrl: raw.sourceUrl
-            }))
-        } else {
-            const daysOfWeek = Object.keys(response.data.week);
-            console.log(daysOfWeek)
-
-            daysOfWeek.forEach(day => {
-                // Получите массив meals и объект nutrients для текущего дня недели
-                const { meals, nutrients } = response.data.week[day];
-                if (this._weekPlanList) {
-                    this._weekPlanList[day] = {
-                        meals: meals,
-                        nutrients: nutrients
-                    };
+        runInAction(() => {
+            if (response.status === 200) {
+                if (this._checkboxValue) {
+                    this._dayPlanList = response.data.meals.map((raw: OneDayPlan) => ({
+                        title: raw.title,
+                        readyInMinutes: raw.readyInMinutes,
+                        servings: raw.servings,
+                        sourceUrl: raw.sourceUrl
+                    }))
+                } else {
+                    const daysOfWeek = Object.keys(response.data.week);
+                    console.log(daysOfWeek)
+        
+                    daysOfWeek.forEach(day => {
+                        const { meals, nutrients } = response.data.week[day];
+                        if (this._weekPlanList) {
+                            this._weekPlanList[day] = {
+                                meals: meals,
+                                nutrients: nutrients
+                            };
+                        }
+                    });
                 }
-            });
-
-            console.log(this._weekPlanList)
-
-            // this._weekPlanList = response.data.week.map((raw: OneDayPlan) => ({
-            //     title: raw.title,
-            //     readyInMinutes: raw.readyInMinutes,
-            //     servings: raw.servings,
-            //     sourceUrl: raw.sourceUrl
-            // }))
-        }
-
-
-        // const newRecipesArr = response.data.results.map((raw: ReceivedRecipeData) => ({
-        //     id: raw.id,
-        //     image: raw.image,
-        //     title: raw.title,
-        //     readyInMinutes: raw.readyInMinutes,
-        //     ingredients: this.getIngredientsString(raw.nutrition.ingredients),
-        //     caloricContent: raw.nutrition.nutrients[0].amount,
-        //     key: raw.id.toString()
-        // }))
-
-        // runInAction(() => {
-        //     if (response.status === 200) {
-        //         this._list = [...this._list, ...newRecipesArr]
-        //         if (this.list.length % 6 !== 0 || this.list.length === 0) {
-        //             this._hasMore = false
-        //         }
-
-        //         this._isFirstPage = false;
-        //         return
-        //     }
-        // })
+                console.log(this._weekPlanList)
+            }
+        })
     }
 
     reset(): void {
