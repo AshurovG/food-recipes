@@ -26,10 +26,13 @@ const RecipesPage: React.FC = () => {
 
     const navigate = useNavigate();
     const handleFormSubmit = () => {
-        if (recipesStore.getDropdownTitle(recipesStore.dropdownValue) === 'Choose a category') {
+        if (recipesStore.getDropdownTitle(recipesStore.dropdownValue) === 'Choose a category' && recipesStore.inputValue === '') {
+            navigate('');
+        } else if (recipesStore.getDropdownTitle(recipesStore.dropdownValue) === 'Choose a category' && recipesStore.inputValue) {
             navigate(`?search=${recipesStore.inputValue}`)
-        }
-        else {
+        } else if (recipesStore.getDropdownTitle(recipesStore.dropdownValue) !== 'Choose a category' && recipesStore.inputValue == ''){
+            navigate(`?type=${recipesStore.getDropdownTitle(recipesStore.dropdownValue)}`)
+        } else {
             navigate(`?search=${recipesStore.inputValue}&type=${recipesStore.getDropdownTitle(recipesStore.dropdownValue)}`);
         }
         recipesStore.setIsOnSearchClick();

@@ -1,5 +1,8 @@
+@import 'styles/variables.scss';
+
 #root {
   width: 100%;
   background-color: rgba(255, 192, 118, 0.23);
+  color: $text-primary;
   overflow: auto;
 }

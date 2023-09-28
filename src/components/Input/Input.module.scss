@@ -1,5 +1,5 @@
 @import 'styles/styles.scss';
-@import 'styles//variables.scss';
+@import 'styles/variables.scss';
 
 
 .input-wrapper {
@@ -17,6 +17,10 @@
         background: $default-color;
         color: $text-primary;
         border-color: $brand;
+    }
+
+    & > input {
+        color: $text-primary;
     }
 }
 
