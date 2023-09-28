@@ -51,6 +51,15 @@ const MealPlanPage: React.FC = () => {
         }
     }, [mealPlanFormStore.sliderValue, minValue, maxValue]);
 
+    // React.useEffect(() => {
+    //     if (mealPlanFormStore.isButtonClicked) {
+    //       // Update isbuttonclicked to false
+    //       console.log('dfjkdsjflkf')
+    //       mealPlanFormStore.setIsButtonClicked(false);
+    //     }
+    //   }, [mealPlanFormStore.isButtonClicked, mealPlanFormStore.weekPlanList]);
+
+
     const sliderhandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
         const newValueString = event.target.value;
         const newValue = parseInt(newValueString, 10);
@@ -59,7 +68,7 @@ const MealPlanPage: React.FC = () => {
 
     const buttonHandler = () => {
         mealPlanFormStore.getMealPlanData();
-        mealPlanFormStore.setIsButtonClicked();
+        mealPlanFormStore.setIsButtonClicked(true);
     }
     
     return (
@@ -71,7 +80,7 @@ const MealPlanPage: React.FC = () => {
                     <div className={styles['plan__form-wrapper']}>
                     <div className={styles.checkbox__block}>
                         <Text tag='p' view='p-18'>If you want to get a meal plan for only one day, click on</Text> 
-                        <CheckBox checked={mealPlanFormStore.checkboxValue} onChange={() => mealPlanFormStore.setCheckboxValue()}/>
+                        <CheckBox checked={mealPlanFormStore.checkboxValue} onChange={() => {mealPlanFormStore.setCheckboxValue(); console.log(`checkbox ${mealPlanFormStore.isButtonClicked}`)}}/>
                     </div>
 
                     <div className={styles.slider__block}>
@@ -97,7 +106,8 @@ const MealPlanPage: React.FC = () => {
                 </form>
                 {mealPlanFormStore.meta === Meta.loading
                 ? <div className={styles.loader__wrapper}><Loader className={styles.loader} size='xl'></Loader></div>
-                : mealPlanFormStore.isButtonClicked && <div className={styles.plan__info}>
+                : mealPlanFormStore.isButtonClicked && mealPlanFormStore.isOneDayPlan === true && mealPlanFormStore.meta === Meta.success
+                ? <div className={styles.plan__info}>
                     <div className={styles['plan__list-block']}>
                         <h2 className={styles['plan__list-block-title']}>One day meal plan:</h2>
                         <div className={styles.plan__list}>
@@ -118,7 +128,9 @@ const MealPlanPage: React.FC = () => {
                         <h2 className={styles['plan__list-block-title']}>list of nutrients</h2>
                         <PropertiesList nutrients={mealPlanFormStore.dayNutrients}/>
                     </div>
-                </div>}
+                </div>
+                : mealPlanFormStore.isButtonClicked && <div>fhdjkhfjklashfjkashfjklas </div> 
+                }
                 
             </div>
         </div>
