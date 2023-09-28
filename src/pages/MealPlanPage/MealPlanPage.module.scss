@@ -60,33 +60,14 @@
     display: flex;
     gap: 30px;
     justify-content: space-between;
+    align-items: flex-start;
 }
 
-.plan__list {
-    min-width: 40%;
-    margin-top: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-
-    &-block-title {
-        margin-top: 40px;
-        font-size: 34px;
-        color: $text-primary;
-        font-weight: bold;
-    }
-
-    &-title {
-        font-size: 30px;
-        line-height: 30px;
-        color: $text-primary;
-        margin-bottom: 5px;
-    }
-
-    &-info {
-        font-size: 22px;
-        color: $brand;
-    }
+.plan__list-block-title {
+    margin-top: 40px;
+    font-size: 30px;
+    color: $text-primary;
+    font-weight: bold;
 }
 
 .plan__nutrients {

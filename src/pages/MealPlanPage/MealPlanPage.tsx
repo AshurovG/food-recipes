@@ -14,14 +14,13 @@ import CheckBox from 'components/CheckBox';
 import Slider from 'components/Slider';
 import MealPlanFormStore from 'Store/MealPlanStore';
 import PropertiesList from 'components/PropertiesList';
+import PlanList from 'components/PlanList';
 
 export type OneDayPlan = {
     id: number;
     title: string;
     readyInMinutes: number;
     servings: number;
-    sourceUrl: string;
-    imageType: string;
 };
 
 
@@ -50,15 +49,6 @@ const MealPlanPage: React.FC = () => {
           mealPlanFormStore.setOutputStyle(newOutputStyle)
         }
     }, [mealPlanFormStore.sliderValue, minValue, maxValue]);
-
-    // React.useEffect(() => {
-    //     if (mealPlanFormStore.isButtonClicked) {
-    //       // Update isbuttonclicked to false
-    //       console.log('dfjkdsjflkf')
-    //       mealPlanFormStore.setIsButtonClicked(false);
-    //     }
-    //   }, [mealPlanFormStore.isButtonClicked, mealPlanFormStore.weekPlanList]);
-
 
     const sliderhandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
         const newValueString = event.target.value;
@@ -109,19 +99,8 @@ const MealPlanPage: React.FC = () => {
                 : mealPlanFormStore.isButtonClicked && mealPlanFormStore.isOneDayPlan === true && mealPlanFormStore.meta === Meta.success
                 ? <div className={styles.plan__info}>
                     <div className={styles['plan__list-block']}>
-                        <h2 className={styles['plan__list-block-title']}>One day meal plan:</h2>
-                        <div className={styles.plan__list}>
-                            {mealPlanFormStore.dayPlanList?.map((recipe: OneDayPlan) =>
-                                <Link className={styles['plan__list-link']} key={recipe.id} to={`/recipe/${recipe.id}`}>
-                                    <div className={styles['plan__list-text']}>
-                                        <p className={styles['plan__list-title']}>{recipe.title}:</p>
-                                        <Text view='p-20' color={'accent'} className='plan__list-info'>
-                                            Cooking time: {recipe.readyInMinutes}<br/>Number of servings: {recipe.servings}
-                                        </Text>
-                                    </div>
-                                </Link>
-                            )}
-                        </div>
+                        <h2 className={styles['plan__list-block-title']}>Your one-day meal plan:</h2>
+                        <PlanList oneDayPlanArr={mealPlanFormStore.dayPlanList}></PlanList>
                     </div>
                     
                     <div className={styles.plan__nutrients}>
@@ -129,8 +108,27 @@ const MealPlanPage: React.FC = () => {
                         <PropertiesList nutrients={mealPlanFormStore.dayNutrients}/>
                     </div>
                 </div>
-                : mealPlanFormStore.isButtonClicked && <div>fhdjkhfjklashfjkashfjklas </div> 
-                }
+                : mealPlanFormStore.isButtonClicked 
+                && <div>
+                    <h2 className={styles['plan__list-block-title']}>Your meal plan for the week:</h2>
+                        {mealPlanFormStore.weekPlanList && Object.entries(mealPlanFormStore.weekPlanList).map(([key, value]) => (
+                            value && (
+                                <div key={key}>
+                                    <div className={styles.plan__info}>
+                                        <div className={styles['plan__list-block']}>
+                                        <p className={styles['plan__list-block-title']}>{key.toUpperCase()}</p>
+                                            <PlanList oneDayPlanArr={value.meals}></PlanList>
+                                        </div>
+                                        
+                                        <div className={styles.plan__nutrients}>
+                                            <h2 className={styles['plan__list-block-title']}>List of nutrients:</h2>
+                                            <PropertiesList nutrients={value.nutrients}/>
+                                        </div>
+                                    </div>
+                                </div>
+                            )
+                            ))}
+                    </div>}
                 
             </div>
         </div>

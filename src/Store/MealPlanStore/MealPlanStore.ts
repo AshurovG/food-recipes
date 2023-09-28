@@ -258,8 +258,6 @@ export default class MealPlanStore implements IMealPlanStore, ILocalStore {
                         title: raw.title,
                         readyInMinutes: raw.readyInMinutes,
                         servings: raw.servings,
-                        sourceUrl: raw.sourceUrl,
-                        imageType: raw.imageType
                     }))
 
                     this._dayNutrients = response.data.nutrients
@@ -277,7 +275,7 @@ export default class MealPlanStore implements IMealPlanStore, ILocalStore {
                         }
                     });
                 }
-                // console.log(this._weekPlanList)
+                console.log(this._weekPlanList)
                 return
             }
 

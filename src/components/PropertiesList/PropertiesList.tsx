@@ -16,7 +16,7 @@ const PropertiesList: React.FC<PropertiesListProps> = ({nutrients}) => {
             <li>Calories: <strong>{nutrients.calories}</strong></li>
             <li>Carbohydrates: <strong>{nutrients.carbohydrates}</strong></li>
             <li>Fat: <strong>{nutrients.fat}</strong></li>
-            <li>protein: <strong>{nutrients.protein}</strong></li>
+            <li>Protein: <strong>{nutrients.protein}</strong></li>
         </ol>
     )
 }

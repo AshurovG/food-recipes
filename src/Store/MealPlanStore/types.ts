@@ -12,16 +12,7 @@ export type OneDayPlan = {
     title: string;
     readyInMinutes: number;
     servings: number;
-    sourceUrl: string;
-    imageType: string;
 };
-
-export type WeekPlan = {
-    [key: string]: {
-      meals: OneDayPlan[];
-      nutrients: Nutrients;
-    } | null;
-  } | null;
 
 export type Nutrients = {
     calories: number;
@@ -29,3 +20,11 @@ export type Nutrients = {
     fat: number;
     protein: number;
 }
+
+export type WeekPlan = {
+    [key: string]: {
+      meals: OneDayPlan[];
+      nutrients: Nutrients;
+    } | null;
+} | null;
+
