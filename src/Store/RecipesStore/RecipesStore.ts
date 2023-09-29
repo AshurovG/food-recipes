@@ -58,7 +58,7 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
             }
         }
     );
-    public firstLoad = (): void => {
+    private _firstLoad = (): void => {
         let searchParam = rootStore.query.getParam('search')
         if (searchParam && typeof searchParam === 'string') {
             this._isOnSearchClick = true;
@@ -87,7 +87,6 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
         }
 
         rootStore.prevUrl.setPreviousUrl(this._currentUrl)
-        console.log(`set url from recipes store. Url: ${this._currentUrl}`)
     }
 
     public _loadMore = (): void => {
@@ -138,7 +137,7 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
         }
       
         this._dropdownValue = filteredOptions;
-    };
+      };
 
     public getDropdownTitle = (options: Option[]) => {
         return options.map((option) => option.value).join(', ') || 'Choose a category';
@@ -171,6 +170,9 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
             isBurgerMenuOpen: computed,
             setIsBurgerMenuOpen: action
         })
+
+        // Обрабатываем первый рендер при перезагрузки страницы
+        this._firstLoad()
     };
 
     get list(): RecipeData[] {
@@ -261,18 +263,6 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
             }
         })
     }
-
-    // public reset(): void {
-    //     this._list = [];
-    //     this._offset = 0;
-    //     this._isFirstPage = true;
-    //     this._hasMore = true;
-    //     this._inputValue = '';
-    //     this._isOnSearchClick = false;
-    //     this._dropdownValue = [];
-    //     this._currentUrl = '/';
-    //     this._isBurgerMenuOpen = false;
-    // }
 
     destroy(): void {
         this._qpReaction();
