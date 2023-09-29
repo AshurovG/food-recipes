@@ -1,4 +1,4 @@
-module.exports = {
+yarnmodule.exports = {
     bracketSameLine: false,
     bracketSpacing: true,
     endOfLine: 'auto',
