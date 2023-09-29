@@ -19,7 +19,6 @@ import { useQueryParamsStoreInit } from 'Store/RootStore/hooks/useQueryParamsSto
 const RecipesPage: React.FC = () => {
     useQueryParamsStoreInit();
     const recipesStore = useLocalStore(() => new RecipesStore());
-    recipesStore.firstLoad();
 
     React.useEffect(() => {
         recipesStore.getRecipesData();
