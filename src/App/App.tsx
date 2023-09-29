@@ -18,7 +18,7 @@ function App() {
 
                     <Route path='/mealplan' element={<MealPlanPage />}/>
 
-                    <Route path='*' element={<Navigate to="/" replace />} />
+                    {/* <Route path='*' element={<Navigate to="/" replace />} /> */}
                 </Routes>
             </HashRouter>
         </div>

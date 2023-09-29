@@ -18,6 +18,7 @@ export default class PreviousUrlStore {
     }
 
     setPreviousUrl(url: string) {
+        console.log(`set ${url}`)
         this._previousUrl = url;
     }
 }

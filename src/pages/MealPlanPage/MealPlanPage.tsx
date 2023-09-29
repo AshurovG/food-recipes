@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 import { useLocalStore } from 'utils/useLocalStore';
 import { Meta } from 'utils/meta';
 import styles from './MealPlanPage.module.scss';
@@ -15,6 +15,7 @@ import Slider from 'components/Slider';
 import MealPlanFormStore from 'Store/MealPlanStore';
 import PropertiesList from 'components/PropertiesList';
 import PlanList from 'components/PlanList';
+import { useQueryParamsStoreInit } from 'Store/RootStore/hooks/useQueryParamsStoreInit';
 
 export type OneDayPlan = {
     id: number;
@@ -25,11 +26,14 @@ export type OneDayPlan = {
 
 
 const MealPlanPage: React.FC = () => {
+    useQueryParamsStoreInit();
     const mealPlanFormStore = useLocalStore(() => new MealPlanFormStore());
     const outputRef = React.useRef<HTMLOutputElement>(null);
     const sliderRef = React.useRef<HTMLInputElement>(null);
     const minValue = 500;
     const maxValue = 5000;
+
+    // mealPlanFormStore.firstLoad();
 
     React.useEffect(() => {
         const outputElement = outputRef.current;
@@ -50,6 +54,8 @@ const MealPlanPage: React.FC = () => {
         }
     }, [mealPlanFormStore.sliderValue, minValue, maxValue]);
 
+    const navigate = useNavigate();
+
     const sliderhandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
         const newValueString = event.target.value;
         const newValue = parseInt(newValueString, 10);
@@ -57,6 +63,26 @@ const MealPlanPage: React.FC = () => {
     };
 
     const buttonHandler = () => {
+        let resQuery = '?time_frame='
+        if (mealPlanFormStore.checkboxValue === true) {
+            resQuery += 'day'
+        } else {
+            resQuery += 'week'
+        }
+
+        resQuery += `&calories=${mealPlanFormStore.sliderValue}`
+
+        if (mealPlanFormStore.getDietsTitle(mealPlanFormStore.dietsValue) !== 'Choose a diet if you have') {
+            resQuery += `&diet=${mealPlanFormStore.getDietsTitle(mealPlanFormStore.dietsValue)}`
+        }
+
+        if (mealPlanFormStore.getExcludedIngredientsitle(mealPlanFormStore.excludedIngredientsValue) !== 'Which ingredients should be excluded?') {
+            resQuery += `&exclude=${mealPlanFormStore.getExcludedIngredientsitle(mealPlanFormStore.excludedIngredientsValue)}`
+        }
+
+        console.log(resQuery)
+        navigate(resQuery)
+        
         mealPlanFormStore.getMealPlanData();
         mealPlanFormStore.setIsButtonClicked(true);
     }

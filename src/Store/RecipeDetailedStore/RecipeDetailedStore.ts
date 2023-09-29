@@ -47,6 +47,7 @@ export default class RecipeDetailedStore implements IRecipeDetailedStore, ILocal
 
     get previousUrl(): string {
         this._previousUrl = rootStore.prevUrl.previousUrl
+        console.log(this._previousUrl)
         return this._previousUrl
     }
 
