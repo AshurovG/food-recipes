@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import styles from "./PlanList.module.scss"
 import { Link } from 'react-router-dom';
 import Text from 'components/Text';

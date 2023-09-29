@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import cn from 'classnames'
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
