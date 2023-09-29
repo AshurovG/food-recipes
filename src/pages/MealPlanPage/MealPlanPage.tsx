@@ -16,6 +16,7 @@ import MealPlanFormStore from 'Store/MealPlanStore';
 import PropertiesList from 'components/PropertiesList';
 import PlanList from 'components/PlanList';
 import { useQueryParamsStoreInit } from 'Store/RootStore/hooks/useQueryParamsStoreInit';
+import image from 'images/mealplan.png'
 
 export type OneDayPlan = {
     id: number;
@@ -80,7 +81,6 @@ const MealPlanPage: React.FC = () => {
             resQuery += `&exclude=${mealPlanFormStore.getExcludedIngredientsitle(mealPlanFormStore.excludedIngredientsValue)}`
         }
 
-        console.log(resQuery)
         navigate(resQuery)
         
         mealPlanFormStore.getMealPlanData();
@@ -92,34 +92,40 @@ const MealPlanPage: React.FC = () => {
             <Header />
             <div className={styles.plan__wrapper}>
                 <Text className={styles.plan__title} view='title' color='primary' tag='h1'>You can choose a meal plan especially for yourself ! <br/>To do this, fill out the form:</Text>
-                <form className={cn(styles.plan__form, styles.plan__form)}>
-                    <div className={styles['plan__form-wrapper']}>
-                    <div className={styles.checkbox__block}>
-                        <Text tag='p' view='p-18'>If you want to get a meal plan for only one day, click on</Text> 
-                        <CheckBox checked={mealPlanFormStore.checkboxValue} onChange={() => {mealPlanFormStore.setCheckboxValue(); console.log(`checkbox ${mealPlanFormStore.isButtonClicked}`)}}/>
-                    </div>
+                <div className={styles['main__info']}>
+                    <form className={cn(styles.plan__form, styles.plan__form)}>
+                        <div className={styles['plan__form-wrapper']}>
 
-                    <div className={styles.slider__block}>
-                        <Text tag='p' view='p-18'>How many calories would you like to consume per day?</Text> 
-                        <Slider onChange={sliderhandler} className={styles.slider__item} minValue={minValue} maxValue={maxValue} sliderValue={mealPlanFormStore.sliderValue} outputStyle={mealPlanFormStore.outputStyle} sliderRef={sliderRef} outputRef={outputRef}/>
-                    </div>
+                        <div className={styles.slider__block}>
+                            <Text tag='p' view='p-20'>How many calories would you like to consume per day?</Text> 
+                            <Slider onChange={sliderhandler} className={styles.slider__item} minValue={minValue} maxValue={maxValue} sliderValue={mealPlanFormStore.sliderValue} outputStyle={mealPlanFormStore.outputStyle} sliderRef={sliderRef} outputRef={outputRef}/>
+                        </div>
 
-                    <MultiDropdown
-                        className={styles.selection__block}
-                        options={mealPlanFormStore.dietsOptions}
-                        value={mealPlanFormStore.dietsValue}
-                        onChange={mealPlanFormStore.handleDietsChange}
-                        getTitle={mealPlanFormStore.getDietsTitle}/>
+                        <MultiDropdown
+                            className={styles.selection__block}
+                            options={mealPlanFormStore.dietsOptions}
+                            value={mealPlanFormStore.dietsValue}
+                            onChange={mealPlanFormStore.handleDietsChange}
+                            getTitle={mealPlanFormStore.getDietsTitle}/>
 
-                    <MultiDropdown
-                        className={styles.selection__block}
-                        options={mealPlanFormStore.excludedIngredientsOptions}
-                        value={mealPlanFormStore.excludedIngredientsValue}
-                        onChange={mealPlanFormStore.handleExcludedIngredientsChange}
-                        getTitle={mealPlanFormStore.getExcludedIngredientsitle}/>
+                        <MultiDropdown
+                            className={styles.selection__block}
+                            options={mealPlanFormStore.excludedIngredientsOptions}
+                            value={mealPlanFormStore.excludedIngredientsValue}
+                            onChange={mealPlanFormStore.handleExcludedIngredientsChange}
+                            getTitle={mealPlanFormStore.getExcludedIngredientsitle}/>
+
+                        <div className={styles.checkbox__block}>
+                            <Text tag='p' view='p-20'>If you want to get a meal plan for only one day, click on</Text> 
+                            <CheckBox checked={mealPlanFormStore.checkboxValue} onChange={() => mealPlanFormStore.setCheckboxValue()}/>
+                        </div>
+                        </div>
+                        <Button className={styles['plan__form-button']} onClick={buttonHandler}>Choose</Button>
+                    </form>
+                    <div className={styles['main__info-img-wrapper']}>
+                        <img className={styles['main__info-img']} src={image} alt="dish image" />
                     </div>
-                    <Button className={styles['plan__form-button']} onClick={buttonHandler}>Choose</Button>
-                </form>
+                </div>
                 {mealPlanFormStore.meta === Meta.loading
                 ? <div className={styles.loader__wrapper}><Loader className={styles.loader} size='xl'></Loader></div>
                 : mealPlanFormStore.isButtonClicked && mealPlanFormStore.isOneDayPlan === true && mealPlanFormStore.meta === Meta.success

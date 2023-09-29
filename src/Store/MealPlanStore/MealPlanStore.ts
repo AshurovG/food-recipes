@@ -96,7 +96,6 @@ export default class MealPlanStore implements IMealPlanStore, ILocalStore {
             exclude: rootStore.query.getParam('exclude')
         }),
         ({ timeFrame, calories, diet,  exclude}) => {
-            console.log('reaction...')
             if (typeof timeFrame === 'string' && typeof calories === 'string' && typeof diet === 'string' && typeof exclude === 'string') {
                 if (timeFrame === 'day') {
                     this._checkboxValue = true
@@ -130,44 +129,41 @@ export default class MealPlanStore implements IMealPlanStore, ILocalStore {
 
 
     public firstLoad = (): void => {
-        console.log('first load ...')
         let timeFrame = rootStore.query.getParam('time_frame');
-        console.log(`timeframe is ${timeFrame}`)
         let calories = rootStore.query.getParam('calories');
         let diet = rootStore.query.getParam('diet');
         let exclude = rootStore.query.getParam('exclude');
-        console.log('fjdkjfklsajfklsajfklsafjlk')
         if (timeFrame === 'day') {
             this._checkboxValue = true;
             this._isOneDayPlan = true;
-            
         } else if(timeFrame === 'week') {
             this._checkboxValue = false;
             this._isOneDayPlan = false;
         }
-
-        console.log(`checkbox is ${this._checkboxValue}`)
+        this._currentUrl += `?time_frame=${timeFrame}`
 
         if (typeof calories === 'string') {
             const parsedCalories = parseInt(calories, 10);
             if (!isNaN(parsedCalories)) {
                 this._sliderValue = parsedCalories;
             }
+            this._currentUrl += `&calories=${calories}`
         }
         
         let substrings: string[] = [];
 
-        if (typeof diet === 'string') {
+        if (diet && typeof diet === 'string') {
             substrings = diet?.split(', ');
             this._dietsValue = substrings.map((substring: string) => {
                 return {
                     key: substring,
                     value: substring,
                 };
-        });
+            });
+            this._currentUrl += `&diet=${diet}`
         }
         
-        if (typeof exclude === 'string') {
+        if (exclude && typeof exclude === 'string') {
             substrings = exclude?.split(', ');
             this._excludedIngredientsValue = substrings.map((substring: string) => {
                 return {
@@ -175,12 +171,14 @@ export default class MealPlanStore implements IMealPlanStore, ILocalStore {
                     value: substring,
                 };
             });
+            this._currentUrl += `exclude=${exclude}`
         }
 
         if (timeFrame) {
             this._isButtonClicked = true;
             this.getMealPlanData();
         }
+        rootStore.prevUrl.setPreviousUrl(this._currentUrl)
     }
 
     public handleExcludedIngredientsChange = (options: Option[]) => {
@@ -235,6 +233,30 @@ export default class MealPlanStore implements IMealPlanStore, ILocalStore {
 
     public setIsButtonClicked(value: boolean) {
         this._isButtonClicked = true
+        this._currentUrl = '/mealplan';
+        let timeFrame = rootStore.query.getParam('time_frame');
+        let calories = rootStore.query.getParam('calories');
+        let diet = rootStore.query.getParam('diet');
+        let exclude = rootStore.query.getParam('exclude');
+        this._currentUrl += `?time_frame=${timeFrame}`
+
+        if (typeof calories === 'string') {
+            this._currentUrl += `&calories=${calories}`
+        }
+
+        if (diet && typeof diet === 'string') {
+            this._currentUrl += `&diet=${diet}`
+        }
+        
+        if (exclude && typeof exclude === 'string') {
+            this._currentUrl += `&exclude=${exclude}`
+        }
+
+        if (timeFrame) {
+            this._isButtonClicked = true;
+            this.getMealPlanData();
+        }
+        rootStore.prevUrl.setPreviousUrl(this._currentUrl)
     }
 
     public setOutputStyle(value: {left: string}) {
@@ -349,8 +371,6 @@ export default class MealPlanStore implements IMealPlanStore, ILocalStore {
             url: `https://api.spoonacular.com/mealplanner/generate?apiKey=${apiKey}&timeFrame=${timeFrame}&targetCalories=${this._sliderValue}&diet=${this.getDietsTitle(this._dietsValue)}&exclude=${this.getExcludedIngredientsitle(this._excludedIngredientsValue)}`
         });
 
-        // console.log(response.data)
-
         runInAction(() => {
             if (response.status === 200) {
                 this._meta = Meta.success;
@@ -378,7 +398,6 @@ export default class MealPlanStore implements IMealPlanStore, ILocalStore {
                         }
                     });
                 }
-                console.log(this._weekPlanList)
                 
                 return
             }
