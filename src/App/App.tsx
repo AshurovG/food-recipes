@@ -4,6 +4,7 @@ import './App.scss'
 import RecipesPage from 'pages/RecipesPage'
 import RecipesDetailedPage from 'pages/RecipesDetailedPage'
 import MealPlanPage from 'pages/MealPlanPage';
+import AuthForm from 'pages/AuthForm'
 
 function App() {
     return (
@@ -18,7 +19,9 @@ function App() {
 
                     <Route path='/mealplan' element={<MealPlanPage />}/>
 
-                    {/* <Route path='*' element={<Navigate to="/" replace />} /> */}
+                    <Route path='/auth' element={<AuthForm />}></Route>
+
+                    <Route path='*' element={<Navigate to="/" replace />} />
                 </Routes>
             </HashRouter>
         </div>

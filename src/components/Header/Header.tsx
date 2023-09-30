@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import cn from 'classnames';
 import { observer } from 'mobx-react-lite';
 import { Link } from 'react-router-dom'
@@ -28,7 +28,7 @@ const Header: React.FC = () => {
 
                 <div className={styles.icons}>
                     <FavoritesIcon className={cn(styles.favorite__icon, styles.icons__item)} />
-                    <AccountIcon className={styles.icons__item} />
+                    <Link className={styles.profile__link} to={'/auth'}><AccountIcon className={styles.icons__item} onClick={headerStore.setIsAuthFormOpen}/></Link>
                     {headerStore.isBurgerMenuOpen === false
                         ? <BurgerIcon className={styles.burger__icon} color='accent' onClick={headerStore.setIsBurgerMenuOpen} />
                         : <div className={styles.cancel__icon} onClick={headerStore.setIsBurgerMenuOpen}></div>}

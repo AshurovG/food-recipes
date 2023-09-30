@@ -1,0 +1,52 @@
+@import 'styles/variables.scss';
+@import 'styles/mixins.scss';
+@import 'styles/styles.scss';
+
+.form {
+    &__wrapper {
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+        position: relative;
+    }
+    
+
+    &__title {
+        text-align: center;
+        font-size: 35px;
+        margin-bottom: 50px;
+    }
+}
+
+.login__form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 500px;
+    background-color: $brand-disabled;
+    padding: 50px;
+    border-radius: $border-radius;
+
+    &-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    &-btn {
+        right: 0;
+        max-width: auto;
+        text-align: center;
+    }
+
+    &-link {
+        cursor: pointer;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+
