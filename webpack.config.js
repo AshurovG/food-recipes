@@ -10,44 +10,44 @@ const isProd = process.env.NODE_ENV === 'production';
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const getSettingsForStyles = (withModules = false) => {
     if (isProd) {
-      return [
-        MiniCssExtractPlugin.loader,
-        !withModules ? 'css-loader' : {
-          loader: 'css-loader',
-          options: {
-            modules: {
-              localIdentName: '[hash:base64]',
+        return [
+            MiniCssExtractPlugin.loader,
+            !withModules ? 'css-loader' : {
+                loader: 'css-loader',
+                options: {
+                    modules: {
+                        localIdentName: '[hash:base64]',
+                    },
+                },
             },
-          },
-        },
-        {
-          loader: 'postcss-loader',
-          options: {
-            postcssOptions: {
-              plugins: ['autoprefixer'],
+            {
+                loader: 'postcss-loader',
+                options: {
+                    postcssOptions: {
+                        plugins: ['autoprefixer'],
+                    },
+                },
             },
-          },
-        },
-        'sass-loader',
-      ];
+            'sass-loader',
+        ];
     } else {
       return [
         'style-loader',
         !withModules ? 'css-loader' : {
-          loader: 'css-loader',
-          options: {
-            modules: {
-              localIdentName: '[path][name]__[local]',
+            loader: 'css-loader',
+            options: {
+                modules: {
+                    localIdentName: '[path][name]__[local]',
+                },
             },
-          },
         },
         {
-          loader: 'postcss-loader',
-          options: {
-            postcssOptions: {
-              plugins: ['autoprefixer'],
+            loader: 'postcss-loader',
+            options: {
+                postcssOptions: {
+                    plugins: ['autoprefixer'],
+                },
             },
-          },
         },
         'sass-loader',
       ];

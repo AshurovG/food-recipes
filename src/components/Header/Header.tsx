@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import cn from 'classnames';
 import { observer } from 'mobx-react-lite';
 import { Link } from 'react-router-dom'
@@ -9,10 +9,10 @@ import FavoritesIcon from 'components/icons/FavoritesIcon';
 import AccountIcon from 'components/icons/AccountIcon';
 import BurgerIcon from 'components/icons/BurgerIcon';
 import { useLocalStore } from 'utils/useLocalStore';
-import RecipesStore from 'Store/RecipesStore'
+import HeaderStore from 'Store/HeaderStore';
 
 const Header: React.FC = () => {
-    const recipesStore = useLocalStore(() => new RecipesStore());
+    const headerStore = useLocalStore(() => new HeaderStore());
 
     return (
         <div className={styles.header}>
@@ -29,12 +29,12 @@ const Header: React.FC = () => {
                 <div className={styles.icons}>
                     <FavoritesIcon className={cn(styles.favorite__icon, styles.icons__item)} />
                     <AccountIcon className={styles.icons__item} />
-                    {recipesStore.isBurgerMenuOpen === false
-                        ? <BurgerIcon className={styles.burger__icon} color='accent' onClick={recipesStore.setIsBurgerMenuOpen} />
-                        : <div className={styles.cancel__icon} onClick={recipesStore.setIsBurgerMenuOpen}></div>}
+                    {headerStore.isBurgerMenuOpen === false
+                        ? <BurgerIcon className={styles.burger__icon} color='accent' onClick={headerStore.setIsBurgerMenuOpen} />
+                        : <div className={styles.cancel__icon} onClick={headerStore.setIsBurgerMenuOpen}></div>}
                 </div>
 
-                {recipesStore.isBurgerMenuOpen &&
+                {headerStore.isBurgerMenuOpen &&
                 <div className={styles.burger__menu}>
                     <Link className={styles['burger__menu-item']} to={'/'}>Recipes</Link>
                     <Link className={styles['burger__menu-item']} to={`/mealplan`}>Meal planning</Link>

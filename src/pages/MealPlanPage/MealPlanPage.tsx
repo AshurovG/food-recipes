@@ -34,8 +34,6 @@ const MealPlanPage: React.FC = () => {
     const minValue = 500;
     const maxValue = 5000;
 
-    // mealPlanFormStore.firstLoad();
-
     React.useEffect(() => {
         const outputElement = outputRef.current;
         const sliderElement = sliderRef.current;
