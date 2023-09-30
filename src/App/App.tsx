@@ -5,6 +5,7 @@ import RecipesPage from 'pages/RecipesPage'
 import RecipesDetailedPage from 'pages/RecipesDetailedPage'
 import MealPlanPage from 'pages/MealPlanPage';
 import AuthForm from 'pages/AuthForm'
+import RestaurantsPage from 'pages/RestaurantsPage'
 
 function App() {
     return (
@@ -18,6 +19,8 @@ function App() {
                     </Route>
 
                     <Route path='/mealplan' element={<MealPlanPage />}/>
+                    
+                    <Route path='/restaurants' element={<RestaurantsPage/>}/>
 
                     <Route path='/auth' element={<AuthForm />}></Route>
 

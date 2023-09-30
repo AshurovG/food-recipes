@@ -21,6 +21,11 @@
         line-height: 30px;
         color: $text-primary;
         margin-bottom: 5px;
+        transition: font-size 0.3s ease;
+      }
+      
+    &-title:hover {
+        font-size: 31px;
     }
 
     &-info {
