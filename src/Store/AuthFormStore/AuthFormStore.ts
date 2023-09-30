@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { action, computed, makeObservable, observable, runInAction } from 'mobx';
 import { ILocalStore } from 'utils/useLocalStore';
-import {SentUserInfo, ReceivedUserInfo} from './types'
+import {UserInfo} from './types'
 import { apiKey } from '../../../consts.config';
 
 export interface IMealPlanStore {
@@ -15,12 +15,8 @@ export default class AuthFormStore implements IMealPlanStore, ILocalStore {
     private _fullnameValue = '';
     private _passwordValue = '';
     private _isLoginForm = false;
-    private _sentUserInfo: SentUserInfo  = {
-        username: '',
-        fullname: '',
-        password: ''
-    };
-    private _receivedUserInfo: ReceivedUserInfo  = null;
+
+    private _userInfo: UserInfo  = null;
 
 
     public setUsernameValue = (value: string): void => {
@@ -44,12 +40,6 @@ export default class AuthFormStore implements IMealPlanStore, ILocalStore {
     };
 
     public handleRegisterButtonClick = (): void => {
-        // this._sentUserInfo.username = this._usernameValue;
-        // this._sentUserInfo.password = this._passwordValue;
-        // if (!this._isLoginForm) {
-        //     this._sentUserInfo.fullname = this._fullnameValue
-        // }
-        console.log(111111111111111)
         this.postUserData()
     };
 
@@ -87,32 +77,45 @@ export default class AuthFormStore implements IMealPlanStore, ILocalStore {
     }
 
     async postUserData(): Promise<void> {
-        // const requestBody: SentUserInfo = {
-        //     username: this._usernameValue,
-        //     password: this.passwordValue,
-        //   };
-          
-        //   if (this._fullnameValue) {
-        //     requestBody.fullname = this._fullnameValue;
-        //   }
-        // console.log(requestBody)
+        // const requestBody = {
+            // username: this._usernameValue,
+            // fullname:  this._fullnameValue,
+            // password: this.passwordValue,
+        // };
+
         // const response = await axios({
         //     method: 'POST',
-        //     url: `https://api.spoonacular.com/users/connect&apiKey=${apiKey}`
+        //     url: `https://api.spoonacular.com/users/connect?apiKey=${apiKey}`
         // });
 
         // console.log(response.data);
 
-        // const response = await axios({
-        //     method: 'get',
-        //     url: `https://api.spoonacular.com/recipes/complexSearch?query=${newInputValue}&apiKey=${apiKey}&addRecipeNutrition=true&offset=${this._offset}&number=6&type=${newTypesValue}`
-        // });
+        const url = `https://api.spoonacular.com/users/connect?apiKey=${apiKey}`;
+        const requestBody = {
+            username: this._usernameValue,
+            fullname:  this._fullnameValue,
+            password: this.passwordValue,
+        };
 
-        // runInAction(() => {
-        //     // if (response.status === 200) {
-        //     //     return
-        //     // }
-        // })
+        const response = await axios.post(url, requestBody);
+
+        runInAction(() => {
+            console.log('sjdksjdksljdkl')
+            if (response.status === 200) {
+                this._userInfo = {
+                    username: this._usernameValue,
+                    password: this._passwordValue,
+                    fullname: this._fullnameValue,
+                    spoonacularUsername: response.data.username,
+                    spoonacularPassword: response.data.spoonacularPassword,
+                    hash: response.data.hash
+                }
+
+                localStorage.setItem('userInfo', JSON.stringify(this._userInfo));
+                localStorage.setItem('isLogin', 'true');
+                return
+            }
+        })
     }
 
     reset(): void {}

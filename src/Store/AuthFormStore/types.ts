@@ -1,11 +1,8 @@
-export type SentUserInfo = {
+export type UserInfo = {
     username: string;
-    fullname?: string;
     password: string;
-};
-
-export type ReceivedUserInfo = {
-    username: string;
+    fullname: string;
+    spoonacularUsername: string;
     spoonacularPassword: string;
     hash: string;
 } | null;

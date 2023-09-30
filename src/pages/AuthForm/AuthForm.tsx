@@ -26,7 +26,7 @@ const AuthForm: React.FC = () => {
                     <Input type='password' value={authFormStore.passwordValue} onChange={authFormStore.setPasswordValue} placeholder='Enter password*'/>
                     
                     {!authFormStore.isLoginForm 
-                    ? <Button className={styles['login__form-btn']}>Register</Button>
+                    ? <Button onClick={authFormStore.handleRegisterButtonClick} className={styles['login__form-btn']}>Register</Button>
                     : <Button className={styles['login__form-btn']}>Login</Button>
                     }
                     
