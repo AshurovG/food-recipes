@@ -1,14 +1,27 @@
 import axios from 'axios';
 import { action, computed, makeObservable, observable, runInAction } from 'mobx';
 import { ILocalStore } from 'utils/useLocalStore';
+import {SentUserInfo, ReceivedUserInfo} from './types'
+import { apiKey } from '../../../consts.config';
+
+export interface IMealPlanStore {
+    postUserData(): Promise<void>;
+}
 
 export type PrivateFields = '_usernameValue' | '_fullnameValue' | '_passwordValue' | '_isLoginForm';
 
-export default class AuthFormStore implements ILocalStore {
+export default class AuthFormStore implements IMealPlanStore, ILocalStore {
     private _usernameValue = '';
     private _fullnameValue = '';
     private _passwordValue = '';
     private _isLoginForm = false;
+    private _sentUserInfo: SentUserInfo  = {
+        username: '',
+        fullname: '',
+        password: ''
+    };
+    private _receivedUserInfo: ReceivedUserInfo  = null;
+
 
     public setUsernameValue = (value: string): void => {
         this._usernameValue = value;
@@ -23,8 +36,21 @@ export default class AuthFormStore implements ILocalStore {
     };
 
     public setIsLoginForm = (): void => {
-        console.log('fkldkls')
         this._isLoginForm = !this._isLoginForm;
+    };
+
+    public handleLoginButtonClick = (): void => {
+
+    };
+
+    public handleRegisterButtonClick = (): void => {
+        // this._sentUserInfo.username = this._usernameValue;
+        // this._sentUserInfo.password = this._passwordValue;
+        // if (!this._isLoginForm) {
+        //     this._sentUserInfo.fullname = this._fullnameValue
+        // }
+        console.log(111111111111111)
+        this.postUserData()
     };
 
     constructor() {
@@ -58,6 +84,35 @@ export default class AuthFormStore implements ILocalStore {
 
     get isLoginForm(): boolean {
         return this._isLoginForm
+    }
+
+    async postUserData(): Promise<void> {
+        // const requestBody: SentUserInfo = {
+        //     username: this._usernameValue,
+        //     password: this.passwordValue,
+        //   };
+          
+        //   if (this._fullnameValue) {
+        //     requestBody.fullname = this._fullnameValue;
+        //   }
+        // console.log(requestBody)
+        // const response = await axios({
+        //     method: 'POST',
+        //     url: `https://api.spoonacular.com/users/connect&apiKey=${apiKey}`
+        // });
+
+        // console.log(response.data);
+
+        // const response = await axios({
+        //     method: 'get',
+        //     url: `https://api.spoonacular.com/recipes/complexSearch?query=${newInputValue}&apiKey=${apiKey}&addRecipeNutrition=true&offset=${this._offset}&number=6&type=${newTypesValue}`
+        // });
+
+        // runInAction(() => {
+        //     // if (response.status === 200) {
+        //     //     return
+        //     // }
+        // })
     }
 
     reset(): void {}

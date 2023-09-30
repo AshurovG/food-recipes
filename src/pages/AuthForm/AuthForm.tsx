@@ -16,15 +16,24 @@ const AuthForm: React.FC = () => {
         <div className={styles.form__wrapper}>
             <Header></Header>
             <form className={styles.login__form} action="">
-                {!authFormStore.isLoginForm && <h2 className={styles.form__title}>Registration</h2>}
-                {authFormStore.isLoginForm && <h2 className={styles.form__title}>Login</h2>}
+                {!authFormStore.isLoginForm 
+                ? <h2 className={styles.form__title}>Registration</h2>
+                : <h2 className={styles.form__title}>Login</h2>
+                }
                 <div className={styles['login__form-wrapper']}>
-                    <Input value={authFormStore.usernameValue} onChange={authFormStore.setUsernameValue} placeholder='Enter E-mail*'/>
-                    {!authFormStore.isLoginForm && <Input type='email' value={authFormStore.fullnameValue} onChange={authFormStore.setFullnameValue} placeholder='Enter fullname*'/>}
+                    <Input type='text' value={authFormStore.usernameValue} onChange={authFormStore.setUsernameValue} placeholder='Enter username*'/>
+                    {!authFormStore.isLoginForm && <Input type='text' value={authFormStore.fullnameValue} onChange={authFormStore.setFullnameValue} placeholder='Enter fullname*'/>}
                     <Input type='password' value={authFormStore.passwordValue} onChange={authFormStore.setPasswordValue} placeholder='Enter password*'/>
-                    <Button className={styles['login__form-btn']}>Login</Button>
-                    {!authFormStore.isLoginForm && <div onClick={authFormStore.setIsLoginForm} className={styles['login__form-link']}>Do you already have an account?</div>}
-                    {authFormStore.isLoginForm &&<div onClick={authFormStore.setIsLoginForm} className={styles['login__form-link']}>Don 't you have an account yet?</div>}
+                    
+                    {!authFormStore.isLoginForm 
+                    ? <Button className={styles['login__form-btn']}>Register</Button>
+                    : <Button className={styles['login__form-btn']}>Login</Button>
+                    }
+                    
+                    {!authFormStore.isLoginForm 
+                    ? <div onClick={authFormStore.setIsLoginForm} className={styles['login__form-link']}>Do you already have an account?</div>
+                    : <div onClick={authFormStore.setIsLoginForm} className={styles['login__form-link']}>Don 't you have an account yet?</div>
+                    }
                 </div>
             </form>
         </div >
