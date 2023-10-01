@@ -58,12 +58,12 @@ const AuthForm: React.FC = () => {
                 {authFormStore.isIncorrectError && authFormStore.isLoginForm && !authFormStore.isModalWindow &&<Text tag='p' view='p-16' color='error'>Invalid username or password!</Text>}
             </form>
             {authFormStore.isModalWindow 
-            && !authFormStore.isLoginForm &&<ModalWindow to='/' title='You have successfully registered!' className={styles.form__modal}><SuccessIcon></SuccessIcon></ModalWindow>}
-            {authFormStore.isModalWindow && <LockingScreen to='/'></LockingScreen>}
+            && !authFormStore.isLoginForm &&<ModalWindow to='/' onClick={authFormStore.handleCloseButtonClick} title='You have successfully registered!' className={styles.form__modal}><SuccessIcon></SuccessIcon></ModalWindow>}
+            {authFormStore.isModalWindow && <LockingScreen onClick={authFormStore.handleCloseButtonClick} to='/'></LockingScreen>}
 
             {authFormStore.isModalWindow 
-            && authFormStore.isLoginForm &&<ModalWindow to='/' title='You have successfully logged in!' className={styles.form__modal}><SuccessIcon></SuccessIcon></ModalWindow>}
-            {authFormStore.isModalWindow && authFormStore.isLoginForm && <LockingScreen to='/'></LockingScreen>}
+            && authFormStore.isLoginForm &&<ModalWindow to='/' onClick={authFormStore.handleCloseButtonClick} title='You have successfully logged in!' className={styles.form__modal}><SuccessIcon></SuccessIcon></ModalWindow>}
+            {authFormStore.isModalWindow && authFormStore.isLoginForm && <LockingScreen onClick={authFormStore.handleCloseButtonClick} to='/'></LockingScreen>}
         </div >
     )
 };

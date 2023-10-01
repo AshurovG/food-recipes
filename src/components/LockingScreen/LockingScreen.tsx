@@ -3,12 +3,13 @@ import styles from './LockingScreen.module.scss';
 import { Link } from 'react-router-dom';
 
 export type LockingScreenProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-    to: string
+    to: string,
+    onClick?: () => void;
 };
 
-const LockingScreen: React.FC<LockingScreenProps> = ({to}) => {
+const LockingScreen: React.FC<LockingScreenProps> = ({to, onClick}) => {
     return (
-        <Link className={styles['locking__screen-link']} to={to}><div onClick={() => console.log(47387483)} className={styles.locking__screen}></div></Link>
+        <Link onClick={onClick} className={styles['locking__screen-link']} to={to}><div className={styles.locking__screen}></div></Link>
     )
 };
 

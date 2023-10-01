@@ -7,15 +7,17 @@ import { Link } from 'react-router-dom';
 
 export type ModalProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
     children: React.ReactNode;
-    title: string
-    to: string
+    title: string;
+    to: string;
+    onClick?: () => void;
 };
 
 const ModalWindow: React.FC<ModalProps> = ({
     className,
     title,
     children,
-    to
+    to,
+    onClick
 }) => {
     return (
         <div className={cn(styles.modal, className)}>
@@ -24,7 +26,7 @@ const ModalWindow: React.FC<ModalProps> = ({
                     <h2 className={styles.modal__title}>{title}</h2>
                     {children}
                 </div>
-                <Link to={to}><Button className={styles.modal__btn}>Close</Button></Link>         
+                <Link to={to}><Button onClick={onClick} className={styles.modal__btn}>Close</Button></Link>         
             </div>
             
         </div>

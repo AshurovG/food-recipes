@@ -50,7 +50,6 @@ export default class AuthFormStore implements IAuthFormStore, ILocalStore {
                 const userInfo = JSON.parse(userInfoString);
                 if (this._usernameValue === userInfo.username && this._passwordValue === userInfo.password) {
                     localStorage.setItem('isLogin', 'true');
-                    rootStore.auth.setIsLogin(true)
                     this._isModalWindow = true;
                 } else {
                     this._isIncorrectError = true
@@ -74,6 +73,10 @@ export default class AuthFormStore implements IAuthFormStore, ILocalStore {
             }
         }
     };
+
+    public handleCloseButtonClick = (): void => {
+        rootStore.auth.setIsLogin(true)
+    }
 
     public validation = (): void => {
         if ((this._usernameValue.length < 6 || this._usernameValue.length > 15) && this._usernameValue.length !== 0) {
@@ -197,7 +200,6 @@ export default class AuthFormStore implements IAuthFormStore, ILocalStore {
 
                 localStorage.setItem('userInfo', JSON.stringify(this._userInfo));
                 localStorage.setItem('isLogin', 'true');
-                rootStore.auth.setIsLogin(true)
                 return
             }
         })
