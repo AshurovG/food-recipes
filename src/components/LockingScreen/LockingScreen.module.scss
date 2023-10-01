@@ -1,0 +1,17 @@
+@import 'styles/variables.scss';
+@import 'styles/mixins.scss';
+@import 'styles/styles.scss';
+
+.locking__screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Настройте прозрачность и цвет фона по вашему выбору */
+    z-index: 5000;
+
+    &-link {
+        cursor: default;
+    }
+}
