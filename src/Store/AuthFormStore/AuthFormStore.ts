@@ -47,7 +47,15 @@ export default class AuthFormStore implements IAuthFormStore, ILocalStore {
     };
 
     public handleRegisterButtonClick = (): void => {
-        this.postUserData()
+        const userInfoString = localStorage.getItem('userInfo');
+        if (userInfoString) {
+            const userInfo = JSON.parse(userInfoString);
+            if (this._usernameValue === userInfo.username) {
+                console.log("такой пользователь уже существует!")
+            } else {
+                this.postUserData()
+            }
+        }
     };
 
     constructor() {
