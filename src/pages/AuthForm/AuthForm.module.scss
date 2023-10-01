@@ -14,8 +14,22 @@
     &__title {
         text-align: center;
         font-size: 35px;
-        margin-bottom: 50px;
+        margin-bottom: 30px;
     }
+
+    // &__modal {
+    //     position: absolute;
+    //     top: 50%;
+    //     left: 50%;
+    //     transform: translate(-50%, -50%);
+    //     background-color: red;
+    // }
+}
+
+.form__modal {
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .login__form {

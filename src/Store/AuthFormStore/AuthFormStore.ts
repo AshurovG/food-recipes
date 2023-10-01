@@ -8,14 +8,17 @@ export interface IAuthFormStore {
     postUserData(): Promise<void>;
 }
 
-export type PrivateFields = '_usernameValue' | '_fullnameValue' | '_passwordValue' | '_isLoginForm';
+export type PrivateFields = '_usernameValue' | '_fullnameValue' | '_passwordValue' | '_isLoginForm' | '_isModalWindow' | '_isExistError' | '_isIncorrectError';
 
 export default class AuthFormStore implements IAuthFormStore, ILocalStore {
     private _usernameValue = '';
     private _fullnameValue = '';
     private _passwordValue = '';
     private _isLoginForm = false;
-    // private _successfulLogin = false;
+    private _isModalWindow = false;
+    private _isExistError = false;
+    private _isIncorrectError = false
+
 
     private _userInfo: UserInfo  = null;
 
@@ -42,6 +45,9 @@ export default class AuthFormStore implements IAuthFormStore, ILocalStore {
             const userInfo = JSON.parse(userInfoString);
             if (this._usernameValue === userInfo.username && this._passwordValue === userInfo.password) {
                 localStorage.setItem('isLogin', 'true');
+                this._isModalWindow = true;
+            } else {
+                this._isIncorrectError = true
             }
         }
     };
@@ -51,8 +57,9 @@ export default class AuthFormStore implements IAuthFormStore, ILocalStore {
         if (userInfoString) {
             const userInfo = JSON.parse(userInfoString);
             if (this._usernameValue === userInfo.username) {
-                console.log("такой пользователь уже существует!")
+                this._isExistError = true
             } else {
+                this._isModalWindow = true;
                 this.postUserData()
             }
         }
@@ -64,10 +71,16 @@ export default class AuthFormStore implements IAuthFormStore, ILocalStore {
             _fullnameValue: observable,
             _passwordValue: observable,
             _isLoginForm: observable,
+            _isModalWindow: observable,
+            _isExistError: observable,
+            _isIncorrectError: observable,
             usernameValue: computed,
             fullnameValue: computed,
             passwordValue: computed,
             isLoginForm: computed,
+            isModalWindow: computed,
+            isExistError: computed,
+            isIncorrectError: computed,
             setUsernameValue: action,
             setFullnameValue: action,
             setPasswordValue: action,
@@ -88,7 +101,18 @@ export default class AuthFormStore implements IAuthFormStore, ILocalStore {
     };
 
     get isLoginForm(): boolean {
-        return this._isLoginForm
+        return this._isLoginForm;
+    }
+
+    get isModalWindow(): boolean {
+        return this._isModalWindow;
+    }
+
+    get isExistError(): boolean {
+        return this._isExistError;
+    }
+    get isIncorrectError(): boolean {
+        return this._isIncorrectError;
     }
 
     async postUserData(): Promise<void> {
@@ -119,7 +143,16 @@ export default class AuthFormStore implements IAuthFormStore, ILocalStore {
         })
     }
 
-    reset(): void {}
+    reset(): void {
+        this._isModalWindow = false;
+        this._passwordValue = '';
+        this._userInfo = null;
+        this._usernameValue = '';
+        this._fullnameValue = '';
+        this._passwordValue = '';
+        this._isExistError = false;
+        this._isIncorrectError = false;
+    }
 
     destroy(): void {}
 }

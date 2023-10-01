@@ -1,16 +1,25 @@
 import * as React from 'react';
-import cn from 'classnames';
-import Text from '../../components/Text/Text';
 import Header from 'components/Header';
 import Button from 'components/Button';
 import styles from './AuthForm.module.scss';
 import Input from 'components/Input';
+import Text from 'components/Text';
+import ModalWindow from 'components/ModalWindow';
+import SuccessIcon from 'components/icons/SuccessIcon';
+import LockingScreen from 'components/LockingScreen';
+
 import { useLocalStore } from 'utils/useLocalStore';
 import AuthFormStore from 'Store/AuthFormStore';
 import { observer } from 'mobx-react-lite';
 
 const AuthForm: React.FC = () => {
     const authFormStore = useLocalStore(() => new AuthFormStore());
+
+    React.useEffect(() => {
+            return () => {
+                authFormStore.reset();
+            };
+    }, [])
 
     return (
         <div className={styles.form__wrapper}>
@@ -35,7 +44,16 @@ const AuthForm: React.FC = () => {
                     : <div onClick={authFormStore.setIsLoginForm} className={styles['login__form-link']}>Don 't you have an account yet?</div>
                     }
                 </div>
+                {authFormStore.isExistError && !authFormStore.isLoginForm && !authFormStore.isModalWindow &&<Text tag='p' view='p-16' color='error'>A user with this username already exists!</Text>}
+                {authFormStore.isIncorrectError && authFormStore.isLoginForm && !authFormStore.isModalWindow &&<Text tag='p' view='p-16' color='error'>Invalid username or password!</Text>}
             </form>
+            {authFormStore.isModalWindow 
+            && !authFormStore.isLoginForm &&<ModalWindow to='/' title='You have successfully registered!' className={styles.form__modal}><SuccessIcon></SuccessIcon></ModalWindow>}
+            {authFormStore.isModalWindow && <LockingScreen to='/'></LockingScreen>}
+
+            {authFormStore.isModalWindow 
+            && authFormStore.isLoginForm &&<ModalWindow to='/' title='You have successfully logged in!' className={styles.form__modal}><SuccessIcon></SuccessIcon></ModalWindow>}
+            {authFormStore.isModalWindow && authFormStore.isLoginForm && <LockingScreen to='/'></LockingScreen>}
         </div >
     )
 };

@@ -1,0 +1,32 @@
+@import 'styles/variables.scss';
+@import 'styles/mixins.scss';
+@import 'styles/styles.scss';
+
+.modal {
+    width: 600px;
+    position: fixed;
+    z-index: 10000;
+    background: $default-color;
+    border-radius: $border-radius;
+    box-shadow: $box-shadow;
+
+    &__wrapper {
+        padding: 20px;
+        position: relative;
+    }
+
+    &__title {
+        &-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+    }
+
+    &__btn {
+        position: absolute;
+        right: 20px;
+        bottom: 20px;
+    }
+}
