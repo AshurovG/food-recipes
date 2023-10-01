@@ -29,7 +29,7 @@ const Header: React.FC = () => {
                 </Text>
 
                 <div className={styles.icons}>
-                    <FavoritesIcon className={cn(styles.favorite__icon, styles.icons__item)} />
+                    <Link to={isLogin ? '/favorites' : '/auth'}><FavoritesIcon className={cn(styles.favorite__icon, styles.icons__item)} /></Link>
                     <Link className={styles.profile__link} to={isLogin ? '/profile' : '/auth'}><AccountIcon className={styles.icons__item} onClick={headerStore.setIsAuthFormOpen}/></Link>
                     {headerStore.isBurgerMenuOpen === false
                         ? <BurgerIcon className={styles.burger__icon} color='accent' onClick={headerStore.setIsBurgerMenuOpen} />

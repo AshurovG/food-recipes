@@ -8,6 +8,7 @@ import MealPlanPage from 'pages/MealPlanPage';
 import AuthForm from 'pages/AuthForm'
 import RestaurantsPage from 'pages/RestaurantsPage'
 import ProfilePage from 'pages/ProfilePage'
+import FavoritesPage from 'pages/FavoritesPage'
 import rootStore from 'Store/RootStore/instance';
 
 function App() {
@@ -28,6 +29,8 @@ function App() {
             {!rootStore.auth.isLogin && <Route path="/auth" element={<AuthForm />} />}
   
             {rootStore.auth.isLogin && <Route path="/profile" element={<ProfilePage />} />}
+
+            {rootStore.auth.isLogin &&<Route path='/favorites' element={<FavoritesPage/>}/>}
   
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
