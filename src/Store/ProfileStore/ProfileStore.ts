@@ -1,5 +1,6 @@
 import { action, computed, makeObservable, observable } from 'mobx';
 import { ILocalStore } from 'utils/useLocalStore';
+import rootStore from 'Store/RootStore/instance';
 import {UserInfo} from './types'
 
 
@@ -11,6 +12,7 @@ export default class ProfileStore implements ILocalStore {
 
     public handleButtonClick() {
         localStorage.setItem('isLogin', 'false');
+        rootStore.auth.setIsLogin(false)
     }
 
     constructor() {

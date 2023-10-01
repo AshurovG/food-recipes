@@ -30,10 +30,20 @@ const AuthForm: React.FC = () => {
                 : <h2 className={styles.form__title}>Login</h2>
                 }
                 <div className={styles['login__form-wrapper']}>
-                    <Input type='text' value={authFormStore.usernameValue} onChange={authFormStore.setUsernameValue} placeholder='Enter username*'/>
-                    {!authFormStore.isLoginForm && <Input type='text' value={authFormStore.fullnameValue} onChange={authFormStore.setFullnameValue} placeholder='Enter fullname*'/>}
-                    <Input type='password' value={authFormStore.passwordValue} onChange={authFormStore.setPasswordValue} placeholder='Enter password*'/>
-                    
+                    <div className={styles.input__block}>
+                        <Input type='text' value={authFormStore.usernameValue} onChange={authFormStore.setUsernameValue} placeholder='Enter username*'/>
+                        {authFormStore.usernameValid !== '' && <Text tag='p' view='p-16' color='error'>{authFormStore.usernameValid}</Text>}
+                    </div>
+                    {!authFormStore.isLoginForm &&
+                    <div className={styles.input__block}>
+                        <Input type='text' value={authFormStore.fullnameValue} onChange={authFormStore.setFullnameValue} placeholder='Enter fullname*'/>
+                        {authFormStore.fullnameValid !== '' && <Text tag='p' view='p-16' color='error'>{authFormStore.fullnameValid}</Text>}
+                    </div>
+                    }
+                    <div className={styles.input__block}>
+                        <Input type='password' value={authFormStore.passwordValue} onChange={authFormStore.setPasswordValue} placeholder='Enter password*'/>
+                        {authFormStore.passwordValid !== '' && <Text tag='p' view='p-16' color='error'>{authFormStore.passwordValid}</Text>}
+                    </div>
                     {!authFormStore.isLoginForm 
                     ? <Button onClick={authFormStore.handleRegisterButtonClick} className={styles['login__form-btn']}>Register</Button>
                     : <Button onClick={(authFormStore.handleLoginButtonClick)} className={styles['login__form-btn']}>Login</Button>

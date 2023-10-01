@@ -31,6 +31,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(({ value, onChange,
             )}
         >
             <input
+                autoComplete="off"
                 value={value}
                 onChange={changeHandler}
                 className={styles.input}
