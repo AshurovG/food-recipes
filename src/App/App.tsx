@@ -6,6 +6,7 @@ import RecipesDetailedPage from 'pages/RecipesDetailedPage'
 import MealPlanPage from 'pages/MealPlanPage';
 import AuthForm from 'pages/AuthForm'
 import RestaurantsPage from 'pages/RestaurantsPage'
+import ProfilePage from 'pages/ProfilePage'
 
 function App() {
     return (
@@ -23,6 +24,8 @@ function App() {
                     <Route path='/restaurants' element={<RestaurantsPage/>}/>
 
                     <Route path='/auth' element={<AuthForm />}></Route>
+
+                    <Route path='/profile' element={<ProfilePage/>}/>
 
                     <Route path='*' element={<Navigate to="/" replace />} />
                 </Routes>

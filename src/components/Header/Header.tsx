@@ -13,6 +13,8 @@ import HeaderStore from 'Store/HeaderStore';
 
 const Header: React.FC = () => {
     const headerStore = useLocalStore(() => new HeaderStore());
+    const isLogin = localStorage.getItem('isLogin') === 'true';
+    console.log(isLogin)
 
     return (
         <div className={styles.header}>
@@ -28,7 +30,7 @@ const Header: React.FC = () => {
 
                 <div className={styles.icons}>
                     <FavoritesIcon className={cn(styles.favorite__icon, styles.icons__item)} />
-                    <Link className={styles.profile__link} to={'/auth'}><AccountIcon className={styles.icons__item} onClick={headerStore.setIsAuthFormOpen}/></Link>
+                    <Link className={styles.profile__link} to={isLogin ? '/profile' : '/auth'}><AccountIcon className={styles.icons__item} onClick={headerStore.setIsAuthFormOpen}/></Link>
                     {headerStore.isBurgerMenuOpen === false
                         ? <BurgerIcon className={styles.burger__icon} color='accent' onClick={headerStore.setIsBurgerMenuOpen} />
                         : <div className={styles.cancel__icon} onClick={headerStore.setIsBurgerMenuOpen}></div>}

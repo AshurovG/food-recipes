@@ -4,13 +4,13 @@ import { ILocalStore } from 'utils/useLocalStore';
 import {UserInfo} from './types'
 import { apiKey } from '../../../consts.config';
 
-export interface IMealPlanStore {
+export interface IAuthFormStore {
     postUserData(): Promise<void>;
 }
 
 export type PrivateFields = '_usernameValue' | '_fullnameValue' | '_passwordValue' | '_isLoginForm';
 
-export default class AuthFormStore implements IMealPlanStore, ILocalStore {
+export default class AuthFormStore implements IAuthFormStore, ILocalStore {
     private _usernameValue = '';
     private _fullnameValue = '';
     private _passwordValue = '';
