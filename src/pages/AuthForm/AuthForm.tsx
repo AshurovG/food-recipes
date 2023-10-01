@@ -27,7 +27,7 @@ const AuthForm: React.FC = () => {
                     
                     {!authFormStore.isLoginForm 
                     ? <Button onClick={authFormStore.handleRegisterButtonClick} className={styles['login__form-btn']}>Register</Button>
-                    : <Button className={styles['login__form-btn']}>Login</Button>
+                    : <Button onClick={(authFormStore.handleLoginButtonClick)} className={styles['login__form-btn']}>Login</Button>
                     }
                     
                     {!authFormStore.isLoginForm 

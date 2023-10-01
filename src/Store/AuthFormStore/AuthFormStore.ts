@@ -15,6 +15,7 @@ export default class AuthFormStore implements IAuthFormStore, ILocalStore {
     private _fullnameValue = '';
     private _passwordValue = '';
     private _isLoginForm = false;
+    // private _successfulLogin = false;
 
     private _userInfo: UserInfo  = null;
 
@@ -36,7 +37,13 @@ export default class AuthFormStore implements IAuthFormStore, ILocalStore {
     };
 
     public handleLoginButtonClick = (): void => {
-
+        const userInfoString = localStorage.getItem('userInfo');
+        if (userInfoString) {
+            const userInfo = JSON.parse(userInfoString);
+            if (this._usernameValue === userInfo.username && this._passwordValue === userInfo.password) {
+                localStorage.setItem('isLogin', 'true');
+            }
+        }
     };
 
     public handleRegisterButtonClick = (): void => {
@@ -77,19 +84,6 @@ export default class AuthFormStore implements IAuthFormStore, ILocalStore {
     }
 
     async postUserData(): Promise<void> {
-        // const requestBody = {
-            // username: this._usernameValue,
-            // fullname:  this._fullnameValue,
-            // password: this.passwordValue,
-        // };
-
-        // const response = await axios({
-        //     method: 'POST',
-        //     url: `https://api.spoonacular.com/users/connect?apiKey=${apiKey}`
-        // });
-
-        // console.log(response.data);
-
         const url = `https://api.spoonacular.com/users/connect?apiKey=${apiKey}`;
         const requestBody = {
             username: this._usernameValue,
@@ -100,7 +94,6 @@ export default class AuthFormStore implements IAuthFormStore, ILocalStore {
         const response = await axios.post(url, requestBody);
 
         runInAction(() => {
-            console.log('sjdksjdksljdkl')
             if (response.status === 200) {
                 this._userInfo = {
                     username: this._usernameValue,
