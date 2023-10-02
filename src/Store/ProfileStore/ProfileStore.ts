@@ -12,6 +12,7 @@ export default class ProfileStore implements ILocalStore {
 
     public handleButtonClick() {
         localStorage.setItem('isLogin', 'false');
+        localStorage.removeItem('savedRecipes');
         rootStore.auth.setIsLogin(false)
     }
 

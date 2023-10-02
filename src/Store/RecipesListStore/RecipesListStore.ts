@@ -1,15 +1,6 @@
 import { action, computed, makeObservable, observable } from 'mobx';
 import { ILocalStore } from 'utils/useLocalStore';
-
-export type RecipeData = {
-  id: number;
-  image: string;
-  title: string;
-  readyInMinutes?: string;
-  caloricContent?: string;
-  ingredients?: string;
-  isError?: boolean;
-};
+import {RecipeData} from './types'
 
 export type PrivateFields = '_recipesData';
 
@@ -43,15 +34,12 @@ export default class RecipesListStore implements ILocalStore {
     const hasRecipe = savedRecipes.some(item => item.title === recipe.title);
     if (hasRecipe) {
       const existingRecipe = savedRecipes.find((item) => item.title === recipe.title);
-      console.log(`new ${existingRecipe}`)
       if (existingRecipe) {
         existingRecipe.isError = true;
         const index = this._recipesData.findIndex((item) => item.title === recipe.title);
         if (index !== -1) {
           this._recipesData[index] = existingRecipe;
         }
-        console.log(existingRecipe);
-        console.log(this._recipesData);
       }
       return;
     }
