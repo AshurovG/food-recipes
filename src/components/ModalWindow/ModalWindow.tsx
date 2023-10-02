@@ -6,9 +6,9 @@ import Button from 'components/Button';
 import { Link } from 'react-router-dom';
 
 export type ModalProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-    children: React.ReactNode;
+    children?: React.ReactNode;
     title: string;
-    to: string;
+    to?: string;
     onClick?: () => void;
 };
 
@@ -26,7 +26,8 @@ const ModalWindow: React.FC<ModalProps> = ({
                     <h2 className={styles.modal__title}>{title}</h2>
                     {children}
                 </div>
-                <Link to={to}><Button onClick={onClick} className={styles.modal__btn}>Close</Button></Link>         
+                {to ? <Link to={to}><Button onClick={onClick} className={styles.modal__btn}>Close</Button></Link>
+                : <Button onClick={onClick} className={styles.modal__btn}>Close</Button>}        
             </div>
             
         </div>

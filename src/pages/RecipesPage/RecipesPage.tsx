@@ -41,7 +41,7 @@ const RecipesPage: React.FC = () => {
 
     return (
         <div className={styles.recipes__page}>
-            <Header></Header>
+            <Header/>
             <MainImage />
             <div className={styles['recipes__page-wrapper']}>
                 <Text className={styles.search__title} view='p-20'>

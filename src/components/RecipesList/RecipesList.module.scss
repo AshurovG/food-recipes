@@ -3,6 +3,7 @@
 @import 'styles/mixins.scss';
 
 .recipes__page-cards {
+    position: relative;
     margin-top: 48px;
 
     display: grid;
@@ -10,6 +11,9 @@
     gap: 75px;
 }
 
+.error__message {
+    text-align: center;
+}
 
 
 @include largeTablet {
