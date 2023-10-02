@@ -140,25 +140,24 @@ const MealPlanPage: React.FC = () => {
                 </div>
                 : mealPlanFormStore.isButtonClicked 
                 && <div>
-                    <h2 className={styles['plan__list-block-title']}>Your meal plan for the week:</h2>
-                        {mealPlanFormStore.weekPlanList && Object.entries(mealPlanFormStore.weekPlanList).map(([key, value]) => (
-                            value && (
-                                <div key={key}>
-                                    <div className={styles.plan__info}>
-                                        <div className={styles['plan__list-block']}>
-                                        <p className={styles['plan__list-block-title']}>{key.toUpperCase()}</p>
-                                            <PlanList oneDayPlanArr={value.meals}></PlanList>
-                                        </div>
-                                        
-                                        <div className={styles.plan__nutrients}>
-                                            <h2 className={styles['plan__list-block-title']}>List of nutrients:</h2>
-                                            <PropertiesList nutrients={value.nutrients}/>
-                                        </div>
-                                    </div>
-                                </div>
-                            )
-                            ))}
-                    </div>}
+                    <div className={styles.plan__info}>
+                        <div className={styles['plan__list-block']}>
+                            <h2 className={styles['plan__list-block-title']}>Your meal plan for the week:</h2>
+                            <p className={styles['plan__list-block-title']}>{mealPlanFormStore.currentDay.toUpperCase()}</p>
+                            <PlanList oneDayPlanArr={mealPlanFormStore.oneOfWeekPlanList}></PlanList>
+                        </div>
+                        
+                        <div className={styles.plan__nutrients}>
+                            <div className={styles['plan__nutrients-btns']}>
+                                <Button onClick={() => mealPlanFormStore.onPreviousButtonClick()} className={styles['plan__nutrients-btn']}>Previous</Button>
+                                <Button onClick={() => mealPlanFormStore.onNextButtonClick()} className={styles['plan__nutrients-btn']}>Next</Button>
+                            </div>
+                            <h2 className={styles['plan__list-block-title']}>list of nutrients</h2>
+                            <PropertiesList nutrients={mealPlanFormStore.oneOfWeekPlanNutrients}/>
+                        </div>
+                    </div>
+                </div>}
+                
                 
             </div>
         </div>
@@ -166,3 +165,23 @@ const MealPlanPage: React.FC = () => {
 };
 
 export default observer(MealPlanPage);
+
+//     <h2 className={styles['plan__list-block-title']}>Your meal plan for the week:</h2>
+                //         {mealPlanFormStore.weekPlanList && Object.entries(mealPlanFormStore.weekPlanList).map(([key, value]) => (
+                //             value && (
+                //                 <div key={key}>
+                //                     <div className={styles.plan__info}>
+                //                         <div className={styles['plan__list-block']}>
+                //                         <p className={styles['plan__list-block-title']}>{key.toUpperCase()}</p>
+                //                             <PlanList oneDayPlanArr={value.meals}></PlanList>
+                //                         </div>
+                                        
+                //                         <div className={styles.plan__nutrients}>
+                //                             <h2 className={styles['plan__list-block-title']}>List of nutrients:</h2>
+                //                             <PropertiesList nutrients={value.nutrients}/>
+                //                         </div>
+                //                     </div>
+                //                 </div>
+                //             )
+                //             ))}
+                //     </div>}

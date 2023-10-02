@@ -11,7 +11,9 @@ export interface IMealPlanStore {
     getMealPlanData(): Promise<void>;
 }
 
-export type PrivateFields = '_meta' | '_dietsValue' | '_excludedIngredientsValue' | '_checkboxValue' | '_sliderValue' | '_outputStyle' | '_dayPlanList' | '_weekPlanList' | '_dayNutrients' | '_isButtonClicked' | '_isOneDayPlan';
+export type PrivateFields = '_meta' | '_dietsValue' | '_excludedIngredientsValue' | '_checkboxValue' | '_sliderValue' | 
+'_outputStyle' | '_dayPlanList' | '_weekPlanList' | '_dayNutrients' | '_isButtonClicked' | '_isOneDayPlan' | '_currentDay' |
+'_oneOfWeekPlanList' | '_oneOfWeekPlanNutrients';
 
 export default class MealPlanStore implements IMealPlanStore, ILocalStore {
     private _currentUrl = '/mealplan';
@@ -24,6 +26,16 @@ export default class MealPlanStore implements IMealPlanStore, ILocalStore {
     private _isOneDayPlan = false;
     private _outputStyle: {left: string} = {left: '0'};
     private _dayPlanList: OneDayPlan[] = [];
+    private _currentDay = 'sunday';
+    private _oneOfWeekPlanList: OneDayPlan[] = [];
+    private _oneOfWeekPlanNutrients: Nutrients = {
+        calories: 0,
+        carbohydrates: 0,
+        fat: 0,
+        protein: 0
+    };
+
+    private _keys: string[] = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
     private _dayNutrients: Nutrients = {
         calories: 0,
         carbohydrates: 0,
@@ -263,7 +275,33 @@ export default class MealPlanStore implements IMealPlanStore, ILocalStore {
         this._outputStyle = value;
     }
 
+    public onNextButtonClick(): void {
+        const currentIndex = this._keys.indexOf(this._currentDay);
+        const nextIndex = (currentIndex + 1) % this._keys.length;
+        const nextDay = this._keys[nextIndex];
+        if (this._weekPlanList && this._weekPlanList[nextDay] && nextDay)  {
+            this._oneOfWeekPlanList = this._weekPlanList[nextDay]!.meals
+            this._oneOfWeekPlanNutrients = this._weekPlanList[nextDay]!.nutrients
+            this._currentDay = nextDay;
+        }
+    }
+
+    public onPreviousButtonClick(): void {
+        const currentIndex = this._keys.indexOf(this._currentDay);
+        const prevIndex = (currentIndex - 1) % this._keys.length;
+        let prevDay = this._keys[prevIndex];
+        if (!prevDay) {
+            prevDay = 'saturday'
+        }
+        if (this._weekPlanList && this._weekPlanList[prevDay] && prevDay)  {
+            this._oneOfWeekPlanList = this._weekPlanList[prevDay]!.meals
+            this._oneOfWeekPlanNutrients = this._weekPlanList[prevDay]!.nutrients
+            this._currentDay = prevDay;
+        }
+    }
+
     constructor() {
+        
         makeObservable<MealPlanStore, PrivateFields>(this, {
             _meta: observable,
             _dietsValue: observable,
@@ -276,6 +314,9 @@ export default class MealPlanStore implements IMealPlanStore, ILocalStore {
             _dayPlanList: observable,
             _weekPlanList: observable,
             _dayNutrients: observable,
+            _currentDay: observable,
+            _oneOfWeekPlanList: observable,
+            _oneOfWeekPlanNutrients: observable,
             meta: computed,
             dietsOptions: computed,
             dietsValue: computed,
@@ -288,12 +329,17 @@ export default class MealPlanStore implements IMealPlanStore, ILocalStore {
             outputStyle: computed,
             dayPlanList: computed,
             weekPlanList: computed,
+            oneOfWeekPlanList: computed,
+            oneOfWeekPlanNutrients: computed,
             dayNutrients: computed,
             currentUrl: computed,
+            currentDay: computed,
             setCheckboxValue: action,
             setSliderValue: action,
             setIsButtonClicked: action,
-            setOutputStyle: action
+            setOutputStyle: action,
+            onNextButtonClick: action,
+            onPreviousButtonClick: action
         })
 
         this.firstLoad()
@@ -339,6 +385,14 @@ export default class MealPlanStore implements IMealPlanStore, ILocalStore {
         return this._weekPlanList;
     }
 
+    get oneOfWeekPlanList(): OneDayPlan[] | undefined {
+        return this._oneOfWeekPlanList
+    }
+
+    get oneOfWeekPlanNutrients(): Nutrients | undefined {
+        return this._oneOfWeekPlanNutrients
+    }
+
     get isButtonClicked(): boolean {
         return this._isButtonClicked;
     }
@@ -355,7 +409,10 @@ export default class MealPlanStore implements IMealPlanStore, ILocalStore {
         return this._currentUrl;
     }
 
-    // https://api.spoonacular.com/mealplanner/generate?timeFrame=day&apiKey=0fc912ddd61f4f4c8c54be7a4e564f78
+    get currentDay(): string {
+        return this._currentDay;
+    }
+
     async getMealPlanData(): Promise<void> {
         rootStore.prevUrl.setPreviousUrl(this._currentUrl)
         this._meta = Meta.loading;
@@ -397,6 +454,11 @@ export default class MealPlanStore implements IMealPlanStore, ILocalStore {
                             };
                         }
                     });
+                    if (this._weekPlanList !== null && this._weekPlanList.sunday) {
+                        this._oneOfWeekPlanList = this._weekPlanList.sunday.meals
+                        this._oneOfWeekPlanNutrients = this._weekPlanList.sunday.nutrients
+                    }
+                    
                 }
                 
                 return

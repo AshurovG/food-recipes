@@ -11,13 +11,13 @@ type OneDayPlan = {
 }
 
 type PlanListProps = {
-    oneDayPlanArr: OneDayPlan[];
+    oneDayPlanArr: OneDayPlan[] | undefined;
 };
 
 const PlanList: React.FC<PlanListProps> = ({oneDayPlanArr}) => {
     return (
         <div className={styles.plan__list}>
-            {oneDayPlanArr.map((recipe: OneDayPlan) =>
+            {oneDayPlanArr?.map((recipe: OneDayPlan) =>
                 <div className={styles['plan__list-text']}>
                     <Link className={styles['plan__list-link']} key={recipe.id} to={`/recipe/${recipe.id}`}>
                         <p className={styles['plan__list-title']}>{recipe.title}:</p>

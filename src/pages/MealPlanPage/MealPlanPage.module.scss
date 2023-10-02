@@ -83,15 +83,28 @@
     align-items: flex-start;
 }
 
-.plan__list-block-title {
-    margin-top: 40px;
-    font-size: 30px;
-    color: $text-primary;
-    font-weight: bold;
+.plan__list-block {
+    &-title {
+        margin-top: 40px;
+        font-size: 30px;
+        color: $text-primary;
+        font-weight: bold;
+    }
 }
 
 .plan__nutrients {
     min-width: 40%;
+
+    &-btns {
+        display: flex; 
+        justify-content: flex-end;
+        gap: 15px;
+        margin-top: 40px;
+    }
+
+    &-btn {
+        width: 100px;
+    }
 }
 
 .loader__wrapper {
