@@ -189,6 +189,7 @@ export default class MealPlanStore implements IMealPlanStore, ILocalStore {
         if (timeFrame) {
             this._isButtonClicked = true;
             this.getMealPlanData();
+            console.log('renderfirst')
         }
         rootStore.prevUrl.setPreviousUrl(this._currentUrl)
     }
@@ -265,9 +266,11 @@ export default class MealPlanStore implements IMealPlanStore, ILocalStore {
         }
 
         if (timeFrame) {
+            // this.getMealPlanData();
+            console.log('render')
             this._isButtonClicked = true;
-            this.getMealPlanData();
         }
+
         rootStore.prevUrl.setPreviousUrl(this._currentUrl)
     }
 
@@ -458,7 +461,6 @@ export default class MealPlanStore implements IMealPlanStore, ILocalStore {
                         this._oneOfWeekPlanList = this._weekPlanList.sunday.meals
                         this._oneOfWeekPlanNutrients = this._weekPlanList.sunday.nutrients
                     }
-                    
                 }
                 
                 return

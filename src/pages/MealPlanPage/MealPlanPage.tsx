@@ -61,7 +61,8 @@ const MealPlanPage: React.FC = () => {
         mealPlanFormStore.setSliderValue(newValue)
     };
 
-    const buttonHandler = () => {
+    const buttonHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
         let resQuery = '?time_frame='
         if (mealPlanFormStore.checkboxValue === true) {
             resQuery += 'day'
