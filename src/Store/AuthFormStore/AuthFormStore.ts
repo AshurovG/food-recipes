@@ -62,6 +62,7 @@ export default class AuthFormStore implements IAuthFormStore, ILocalStore {
 
     public handleRegisterButtonClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
         event.preventDefault();
+        localStorage.removeItem('savedRecipes');
       
         this.validation();
         if (this._fullnameValid === '' && this._usernameValid === '' && this._passwordValid === '') {

@@ -11,6 +11,21 @@ import ProfilePage from 'pages/ProfilePage'
 import FavoritesPage from 'pages/FavoritesPage'
 import rootStore from 'Store/RootStore/instance';
 
+if (!localStorage.getItem('isLogin')) {
+  rootStore.auth.setIsLogin(false)
+  localStorage.setItem('isLogin', 'false')
+  const userInfo = {
+    username: '',
+    password: '',
+    fullname: '',
+    spoonacularUsername: '',
+    spoonacularPassword: '',
+    hash: ''
+  }
+
+  localStorage.setItem('userInfo', JSON.stringify(userInfo));
+}
+
 function App() {
     return (
       <div>

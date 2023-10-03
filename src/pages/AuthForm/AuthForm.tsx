@@ -24,7 +24,7 @@ const AuthForm: React.FC = () => {
     return (
         <div className={styles.form__wrapper}>
             <Header></Header>
-            <form className={styles.login__form} action="">
+            <form className={styles.login__form} method='post'>
                 {!authFormStore.isLoginForm 
                 ? <h2 className={styles.form__title}>Registration</h2>
                 : <h2 className={styles.form__title}>Login</h2>
@@ -45,8 +45,8 @@ const AuthForm: React.FC = () => {
                         {authFormStore.passwordValid !== '' && <Text tag='p' view='p-16' color='error'>{authFormStore.passwordValid}</Text>}
                     </div>
                     {!authFormStore.isLoginForm 
-                    ? <Button onClick={authFormStore.handleRegisterButtonClick} className={styles['login__form-btn']}>Register</Button>
-                    : <Button onClick={(authFormStore.handleLoginButtonClick)} className={styles['login__form-btn']}>Login</Button>
+                    ? <Button type="submit" onClick={(e) => authFormStore.handleRegisterButtonClick(e)} className={styles['login__form-btn']}>Register</Button>
+                    : <Button type="submit" onClick={(e) => authFormStore.handleLoginButtonClick(e)} className={styles['login__form-btn']}>Login</Button>
                     }
                     
                     {!authFormStore.isLoginForm 
