@@ -42,7 +42,9 @@ export default class AuthFormStore implements IAuthFormStore, ILocalStore {
         this._isLoginForm = !this._isLoginForm;
     };
 
-    public handleLoginButtonClick = (): void => {
+    public handleLoginButtonClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
+        event.preventDefault();
+
         this.validation();
         if (this._usernameValid === '' && this._passwordValid === '') {
             const userInfoString = localStorage.getItem('userInfo');
@@ -58,21 +60,23 @@ export default class AuthFormStore implements IAuthFormStore, ILocalStore {
         }
     };
 
-    public handleRegisterButtonClick = (): void => {
+    public handleRegisterButtonClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
+        event.preventDefault();
+      
         this.validation();
         if (this._fullnameValid === '' && this._usernameValid === '' && this._passwordValid === '') {
-            const userInfoString = localStorage.getItem('userInfo');
-            if (userInfoString) {
-                const userInfo = JSON.parse(userInfoString);
-                if (this._usernameValue === userInfo.username) {
-                    this._isExistError = true
-                } else {
-                    this._isModalWindow = true;
-                    this.postUserData()
-                }
+          const userInfoString = localStorage.getItem('userInfo');
+          if (userInfoString) {
+            const userInfo = JSON.parse(userInfoString);
+            if (this._usernameValue === userInfo.username) {
+              this._isExistError = true;
+            } else {
+              this._isModalWindow = true;
+              this.postUserData();
             }
+          }
         }
-    };
+      };
 
     public handleCloseButtonClick = (): void => {
         rootStore.auth.setIsLogin(true)

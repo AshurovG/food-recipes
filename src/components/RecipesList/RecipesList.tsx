@@ -6,6 +6,7 @@ import Card from 'components/Card';
 import Text from 'components/Text';
 import { observer } from 'mobx-react-lite';
 import RecipesListStore from 'Store/RecipesListStore';
+import rootStore from 'Store/RootStore/instance';
 import { useLocalStore } from 'utils/useLocalStore';
 
 export type RecipeData = {
@@ -40,7 +41,10 @@ const RecipesList: React.FC<RecipesListProps> = ({ cards }) => {
         <div key={recipe.id}>
           <Link to={`/recipe/${recipe.id}`}>
             <Card
-              actionSlot={<Button onClick={(e) => handleButtonClick(e, recipe)}>Save</Button>}
+              actionSlot={ !rootStore.auth.isLogin 
+                ? <Link to={'/auth'}><Button>Save</Button></Link>
+                : <Button onClick={(e) => handleButtonClick(e, recipe)}>Save</Button>
+              }
               captionSlot={recipe.readyInMinutes + ' minutes'}
               contentSlot={recipe.caloricContent + ' kcal'}
               image={recipe.image}
