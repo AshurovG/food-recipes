@@ -9,15 +9,8 @@
     flex-direction: column;
     gap: 30px;
 
-    &-block-title {
-        margin-top: 40px;
-        font-size: 34px;
-        color: $text-primary;
-        font-weight: bold;
-    }
-
     &-title {
-        font-size: 30px;
+        font-size: 26px;
         line-height: 30px;
         color: $text-primary;
         margin-bottom: 5px;

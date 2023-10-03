@@ -89,13 +89,13 @@ const MealPlanPage: React.FC = () => {
         <div className={styles.plan__page}>
             <Header />
             <div className={styles.plan__wrapper}>
-                <Text className={styles.plan__title} view='title' color='primary' tag='h1'>You can choose a meal plan especially for yourself ! <br/>To do this, fill out the form:</Text>
+                <h1 className={styles.plan__title}>You can choose a meal plan especially for yourself ! <br/>To do this, fill out the form:</h1>
                 <div className={styles['main__info']}>
                     <form className={cn(styles.plan__form, styles.plan__form)}>
                         <div className={styles['plan__form-wrapper']}>
 
                         <div className={styles.slider__block}>
-                            <Text tag='p' view='p-20'>How many calories would you like to consume per day?</Text> 
+                            <p className={styles.plan__subtitle}>How many calories would you like to consume per day?</p> 
                             <Slider onChange={sliderhandler} className={styles.slider__item} minValue={minValue} maxValue={maxValue} sliderValue={mealPlanFormStore.sliderValue} outputStyle={mealPlanFormStore.outputStyle} sliderRef={sliderRef} outputRef={outputRef}/>
                         </div>
 
@@ -114,7 +114,7 @@ const MealPlanPage: React.FC = () => {
                             getTitle={mealPlanFormStore.getExcludedIngredientsitle}/>
 
                         <div className={styles.checkbox__block}>
-                            <Text tag='p' view='p-20'>If you want to get a meal plan for only one day, click on</Text> 
+                            <p className={styles.plan__subtitle}>If you want to get a meal plan for only one day, click on</p> 
                             <CheckBox checked={mealPlanFormStore.checkboxValue} onChange={() => mealPlanFormStore.setCheckboxValue()}/>
                         </div>
                         </div>
@@ -140,18 +140,23 @@ const MealPlanPage: React.FC = () => {
                 </div>
                 : mealPlanFormStore.isButtonClicked 
                 && <div>
+                    <div className={styles['plan__list-block-title-block']}>
+                                <h2 className={styles['plan__list-block-title']}>Your meal plan for the week:</h2>
+                                <div className={styles['plan__nutrients-btns']}>
+                                    <Button onClick={() => mealPlanFormStore.onPreviousButtonClick()} className={styles['plan__nutrients-btn']}>Previous</Button>
+                                    <Button onClick={() => mealPlanFormStore.onNextButtonClick()} className={styles['plan__nutrients-btn']}>Next</Button>
+                                </div>
+                            </div>
                     <div className={styles.plan__info}>
                         <div className={styles['plan__list-block']}>
-                            <h2 className={styles['plan__list-block-title']}>Your meal plan for the week:</h2>
+                            
+                            
                             <p className={styles['plan__list-block-title']}>{mealPlanFormStore.currentDay.toUpperCase()}</p>
                             <PlanList oneDayPlanArr={mealPlanFormStore.oneOfWeekPlanList}></PlanList>
                         </div>
                         
                         <div className={styles.plan__nutrients}>
-                            <div className={styles['plan__nutrients-btns']}>
-                                <Button onClick={() => mealPlanFormStore.onPreviousButtonClick()} className={styles['plan__nutrients-btn']}>Previous</Button>
-                                <Button onClick={() => mealPlanFormStore.onNextButtonClick()} className={styles['plan__nutrients-btn']}>Next</Button>
-                            </div>
+                            
                             <h2 className={styles['plan__list-block-title']}>list of nutrients</h2>
                             <PropertiesList nutrients={mealPlanFormStore.oneOfWeekPlanNutrients}/>
                         </div>
@@ -165,23 +170,3 @@ const MealPlanPage: React.FC = () => {
 };
 
 export default observer(MealPlanPage);
-
-//     <h2 className={styles['plan__list-block-title']}>Your meal plan for the week:</h2>
-                //         {mealPlanFormStore.weekPlanList && Object.entries(mealPlanFormStore.weekPlanList).map(([key, value]) => (
-                //             value && (
-                //                 <div key={key}>
-                //                     <div className={styles.plan__info}>
-                //                         <div className={styles['plan__list-block']}>
-                //                         <p className={styles['plan__list-block-title']}>{key.toUpperCase()}</p>
-                //                             <PlanList oneDayPlanArr={value.meals}></PlanList>
-                //                         </div>
-                                        
-                //                         <div className={styles.plan__nutrients}>
-                //                             <h2 className={styles['plan__list-block-title']}>List of nutrients:</h2>
-                //                             <PropertiesList nutrients={value.nutrients}/>
-                //                         </div>
-                //                     </div>
-                //                 </div>
-                //             )
-                //             ))}
-                //     </div>}

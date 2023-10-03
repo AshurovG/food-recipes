@@ -18,12 +18,16 @@
     }
 
     &__title {
+        font-size: 40px;
         margin-bottom: 30px;
+    }
+
+    &__subtitle {
+        font-size: 20px;
     }
 
     &__form {
         width: 48%;
-        padding-top: 20px;
     }
     
 }
@@ -31,7 +35,6 @@
 .main__info {
     display: flex;
     justify-content: space-between;
-    // gap: 50px;
 
     &-img {
         max-width: 300px;
@@ -62,7 +65,7 @@
     }
 
     &-button {
-        margin-top: 15px;
+        margin-top: 30px;
     }
 }
 
@@ -85,6 +88,11 @@
 
 .plan__list-block {
     &-title {
+        &-block {
+            display: flex;
+            justify-content: space-between;
+            gap: 5px;
+        }
         margin-top: 40px;
         font-size: 30px;
         color: $text-primary;
@@ -96,7 +104,7 @@
     min-width: 40%;
 
     &-btns {
-        display: flex; 
+        display: flex;
         justify-content: flex-end;
         gap: 15px;
         margin-top: 40px;
@@ -104,6 +112,7 @@
 
     &-btn {
         width: 100px;
+        height: 40px;
     }
 }
 
@@ -126,5 +135,130 @@
 
     to {
         transform: rotate((360deg)) scale(1.4);
+    }
+}
+
+
+
+@include tablet {
+    .plan__wrapper {
+        max-width: 1100px;
+    }
+}
+
+@include largeTablet {
+    .plan__wrapper {
+        max-width: 900px;
+    }
+}
+  
+@include mediumTablet {
+    .plan__wrapper {
+      max-width: 800px;
+    }
+}
+  
+@include smallTablet {
+    .plan {
+        &__wrapper {
+            max-width: 700px;
+        }
+        &__form {
+            width: 65%;
+        }
+    }
+
+    .main__info-img {
+        &-wrapper {
+            width: 0;
+        } 
+        display: none;
+    }
+}
+  
+@include mobileLandscape {
+    .plan {
+        &__wrapper {
+            max-width: 600px;
+        }
+
+        &__title {
+            font-size: 25px;
+            margin-bottom: 10px;
+        }
+
+        &__subtitle {
+            font-size: 18px;
+        }
+
+        &__info {
+            display: block;
+        }
+    }
+
+    .plan__list-block-title-block {
+        display: block;
+    }
+
+    .plan__nutrients-btns {
+        justify-content: flex-start;
+    }
+}
+  
+@include mobile {
+    .plan {
+        &__wrapper {
+            max-width: 500px;
+        }
+
+        &__title {
+            text-align: center;
+        }
+
+        &__form {
+            width: 80%;
+        }
+
+        &__form {
+            margin: 0 auto;
+        }
+    }
+
+    .plan__list-block-title {
+        font-size: 25px;
+    }
+}
+  
+@include smallMobile {
+    .plan {
+        &__wrapper {
+            max-width: 450px;
+        }
+    }
+}
+  
+@include extraSmallMobile {
+    .plan {
+        &__wrapper {
+            max-width: 380px;
+        }
+
+        &__title {
+            font-size: 20px;
+        }
+    }
+}
+  
+@include ultraSmallMobile {
+    .plan {
+        &__wrapper {
+            max-width: 330px;
+        }
+    }
+}
+  
+@include tinyMobile {
+    .plan__wrapper {
+      max-width: 290px;
     }
 }
