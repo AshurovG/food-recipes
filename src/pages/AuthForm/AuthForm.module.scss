@@ -3,27 +3,16 @@
 @import 'styles/styles.scss';
 
 .form {
-    &__wrapper {
-        width: 100%;
-        height: 100vh;
-        overflow: hidden;
-        position: relative;
-    }
-    
-
+    width: 100%;
+    height: 100vh;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
     &__title {
         text-align: center;
         font-size: 35px;
         margin-bottom: 30px;
     }
-
-    // &__modal {
-    //     position: absolute;
-    //     top: 50%;
-    //     left: 50%;
-    //     transform: translate(-50%, -50%);
-    //     background-color: red;
-    // }
 }
 
 .form__modal {
@@ -64,3 +53,30 @@
     }
 }
 
+
+  
+@include smallMobile {
+    .login__form {
+        max-width: 450px;
+    }
+}
+  
+@include extraSmallMobile {
+    .login__form {
+        max-width: 380px;
+        max-height: 500px;
+        padding: 25px;
+    }
+}
+  
+@include ultraSmallMobile {
+    .login__form {
+        max-width: 330px;
+    }
+}
+  
+@include tinyMobile {
+    .login__form{
+      max-width: 290px;
+    }
+}

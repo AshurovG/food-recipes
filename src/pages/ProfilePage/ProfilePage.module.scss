@@ -51,11 +51,7 @@
     }
  }
 
- @include mobile {
-    .profile__page-title {
-        font-size: 30px;
-    }
-}
+
 
 @include tablet {
     .profile__page-wrapper {
@@ -88,8 +84,18 @@
 }
   
 @include mobile {
-    .profile__page-wrapper {
-        max-width: 500px;
+    .profile__page {
+        &-wrapper {
+            max-width: 500px;
+        }
+
+        &-title {
+            font-size: 30px;
+        }
+    }
+
+    .profile__page-title {
+        font-size: 30px;
     }
 }
   

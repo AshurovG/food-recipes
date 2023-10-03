@@ -22,7 +22,7 @@ const AuthForm: React.FC = () => {
     }, [])
 
     return (
-        <div className={styles.form__wrapper}>
+        <div className={styles.form}>
             <Header></Header>
             <form className={styles.login__form} method='post'>
                 {!authFormStore.isLoginForm 
