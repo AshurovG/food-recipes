@@ -99,14 +99,10 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
         this._isFirstPage = true;
         this.getRecipesData();
         this._currentUrl = '/';
-        console.log('search click')
-        // let searchParam = rootStore.query.getParam('search')
-        // if (searchParam && typeof searchParam === 'string') {
+        if (this._inputValue) {
             this._currentUrl += `?search=${this._inputValue}`
-        // }
-
-        let typeParam = rootStore.query.getParam('type')
-        if (typeParam && typeof typeParam === 'string') {
+        }
+        if (this._dropdownValue) {
                 console.log(this.getDropdownTitle(this._dropdownValue))
                 if (this._inputValue) {
                     this._currentUrl += `&type=${this.getDropdownTitle(this._dropdownValue)}`

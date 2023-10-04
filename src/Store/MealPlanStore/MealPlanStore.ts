@@ -189,7 +189,6 @@ export default class MealPlanStore implements IMealPlanStore, ILocalStore {
         if (timeFrame) {
             this._isButtonClicked = true;
             this.getMealPlanData();
-            console.log('renderfirst')
         }
         rootStore.prevUrl.setPreviousUrl(this._currentUrl)
     }
@@ -245,31 +244,32 @@ export default class MealPlanStore implements IMealPlanStore, ILocalStore {
     }
 
     public setIsButtonClicked(value: boolean) {
-        this._isButtonClicked = true
+        this._isButtonClicked = true;
         this._currentUrl = '/mealplan';
-        let timeFrame = rootStore.query.getParam('time_frame');
-        let calories = rootStore.query.getParam('calories');
-        let diet = rootStore.query.getParam('diet');
-        let exclude = rootStore.query.getParam('exclude');
-        this._currentUrl += `?time_frame=${timeFrame}`
-
-        if (typeof calories === 'string') {
-            this._currentUrl += `&calories=${calories}`
+        // let timeFrame = rootStore.query.getParam('time_frame');
+        // this._currentUrl += `?time_frame=${timeFrame}`;
+        
+        if(this._checkboxValue) {
+            this._currentUrl += `?time_frame=day`;
+        } else {
+            this._currentUrl += `?time_frame=week`;
         }
 
-        if (diet && typeof diet === 'string') {
-            this._currentUrl += `&diet=${diet}`
+        if (this._sliderValue) {
+            this._currentUrl += `&calories=${this._sliderValue}`;
+        }
+
+        if (this._dietsValue && this.getDietsTitle(this._dietsValue) !== 'Choose a diet if you have') {
+            this._currentUrl += `&diet=${this.getDietsTitle(this._dietsValue)}`;
         }
         
-        if (exclude && typeof exclude === 'string') {
-            this._currentUrl += `&exclude=${exclude}`
+        if (this._excludedIngredientsValue && this.getExcludedIngredientsitle(this._excludedIngredientsValue) !== 'Which ingredients should be excluded?') {
+            this._currentUrl += `&exclude=${this.getExcludedIngredientsitle(this._excludedIngredientsValue)}`;
         }
 
-        if (timeFrame) {
-            // this.getMealPlanData();
-            console.log('render')
-            this._isButtonClicked = true;
-        }
+        // if (timeFrame) {
+        //     this._isButtonClicked = true;
+        // }
 
         rootStore.prevUrl.setPreviousUrl(this._currentUrl)
     }
@@ -304,7 +304,6 @@ export default class MealPlanStore implements IMealPlanStore, ILocalStore {
     }
 
     constructor() {
-        
         makeObservable<MealPlanStore, PrivateFields>(this, {
             _meta: observable,
             _dietsValue: observable,
@@ -417,7 +416,6 @@ export default class MealPlanStore implements IMealPlanStore, ILocalStore {
     }
 
     async getMealPlanData(): Promise<void> {
-        rootStore.prevUrl.setPreviousUrl(this._currentUrl)
         this._meta = Meta.loading;
         let timeFrame = ''
         if (this._checkboxValue) {
