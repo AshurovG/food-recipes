@@ -23,7 +23,7 @@ button {
 
         background-color: $default-color;
         box-shadow: $box-shadow;
-        z-index: 100;
+        z-index: 1000;
     }
 
     &__option {
