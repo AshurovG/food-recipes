@@ -35,6 +35,37 @@ const RecipesList: React.FC<RecipesListProps> = ({ cards }) => {
     recipesListStore.addFavoriteCard(recipe);
   };
 
+  // React.useEffect(() => {
+  //   console.log(11111)
+  //   if (recipesListStore.showError) {
+  //     const timer = setTimeout(() => {
+  //       recipesListStore.setShowError(false);
+  //     }, 3000);
+
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [recipesListStore.showError]);
+
+  React.useEffect(() => {
+    const timers: Map<number, NodeJS.Timeout> = new Map();
+  
+    recipesListStore.recipesData.forEach((recipe: RecipeData) => {
+      if (recipe.isError) {
+        const timer = setTimeout(() => {
+          recipesListStore.setShowError(false);
+          recipesListStore.setIsError(recipe, false);
+          timers.delete(recipe.id);
+        }, 2000);
+  
+        timers.set(recipe.id, timer);
+      }
+    });
+  
+    return () => {
+      timers.forEach((timer) => clearTimeout(timer));
+    };
+  }, [recipesListStore.showError]);
+
   return (
     <div className={styles['recipes__page-cards']}>
       {recipesListStore.recipesData.map((recipe: RecipeData) => (
@@ -52,7 +83,7 @@ const RecipesList: React.FC<RecipesListProps> = ({ cards }) => {
               subtitle={recipe.ingredients}
             />
           </Link>
-          {recipe.isError && (
+          {recipe.isError && recipesListStore.showError && (
             <Text className={styles.error__message} tag="p" view="p-16" color="error">
               You have already added this entry!
             </Text>
