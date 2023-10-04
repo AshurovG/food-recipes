@@ -99,21 +99,22 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
         this._isFirstPage = true;
         this.getRecipesData();
         this._currentUrl = '/';
-        let searchParam = rootStore.query.getParam('search')
-        if (searchParam && typeof searchParam === 'string') {
-            this._currentUrl += `?search=${searchParam}`
-        }
+        console.log('search click')
+        // let searchParam = rootStore.query.getParam('search')
+        // if (searchParam && typeof searchParam === 'string') {
+            this._currentUrl += `?search=${this._inputValue}`
+        // }
 
         let typeParam = rootStore.query.getParam('type')
         if (typeParam && typeof typeParam === 'string') {
-            if (this._currentUrl) {
-                if (searchParam) {
-                    this._currentUrl += `&type=${typeParam}`
+                console.log(this.getDropdownTitle(this._dropdownValue))
+                if (this._inputValue) {
+                    this._currentUrl += `&type=${this.getDropdownTitle(this._dropdownValue)}`
                 } else {
-                    this._currentUrl += `?type=${typeParam}`
+                    this._currentUrl += `?type=${this.getDropdownTitle(this._dropdownValue)}`
                 }
-            }
         }
+        console.log(this._currentUrl)
         rootStore.prevUrl.setPreviousUrl(this._currentUrl)
     };
 
