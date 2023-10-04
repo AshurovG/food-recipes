@@ -12,16 +12,20 @@ type OneDayPlan = {
 
 type PlanListProps = {
     oneDayPlanArr: OneDayPlan[] | undefined;
+    withLinks?: boolean
 };
 
-const PlanList: React.FC<PlanListProps> = ({oneDayPlanArr}) => {
+const PlanList: React.FC<PlanListProps> = ({oneDayPlanArr, withLinks=true}) => {
     return (
         <div className={styles.plan__list}>
             {oneDayPlanArr?.map((recipe: OneDayPlan) =>
                 <div className={styles['plan__list-text']}>
-                    <Link className={styles['plan__list-link']} key={recipe.id} to={`/recipe/${recipe.id}`}>
-                        <p className={styles['plan__list-title']}>{recipe.title}:</p>
+                    {withLinks 
+                    ? <Link className={styles['plan__list-link']} key={recipe.id} to={`/recipe/${recipe.id}`}>
+                        <p className={styles['plan__list-title-hover']}>{recipe.title}:</p>
                     </Link>
+                    : <p className={styles['plan__list-title']}>{recipe.title}:</p>
+                }
                     <Text view='p-20' color={'accent'} className='plan__list-info'>
                         Cooking time: {recipe.readyInMinutes}<br/>Number of servings: {recipe.servings}
                     </Text>

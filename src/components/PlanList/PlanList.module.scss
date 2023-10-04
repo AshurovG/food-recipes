@@ -10,15 +10,21 @@
     gap: 30px;
 
     &-title {
-        font-size: 26px;
+        font-size: 25px;
         line-height: 30px;
         color: $text-primary;
         margin-bottom: 5px;
-        transition: font-size 0.3s ease;
-      }
-      
-    &-title:hover {
-        font-size: 31px;
+    }
+
+    &-title-hover {
+        font-size: 25px;
+        line-height: 30px;
+        color: $text-primary;
+        margin-bottom: 5px;
+
+        &:hover {
+            text-decoration: underline;
+        }
     }
 
     &-info {

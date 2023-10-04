@@ -10,15 +10,16 @@ export type SliderProps = Omit<
 > & {
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     className?: string;
-    sliderValue: number;
-    outputStyle: {left: string};
+    sliderValue?: number;
+    outputStyle?: {left: string};
     minValue: number;
     maxValue: number;
-    sliderRef: React.RefObject<HTMLInputElement>;
-    outputRef: React.RefObject<HTMLOutputElement>;
+    sliderRef?: React.RefObject<HTMLInputElement>;
+    outputRef?: React.RefObject<HTMLOutputElement>;
+    step: number
 };
 
-const Slider: React.FC<SliderProps> = ({ minValue, sliderValue, outputStyle, maxValue, className, sliderRef, outputRef, onChange }) => {
+const Slider: React.FC<SliderProps> = ({ minValue, sliderValue, outputStyle, maxValue, className, sliderRef, outputRef, onChange, step }) => {
     return (
       <div className={cn(styles.slider, className)}>
         <output htmlFor="fader" id="volume" style={toJS(outputStyle)} ref={outputRef}>
@@ -32,7 +33,7 @@ const Slider: React.FC<SliderProps> = ({ minValue, sliderValue, outputStyle, max
           max={maxValue}
           value={sliderValue}
           onChange={onChange}
-          step="1"
+          step={step}
           ref={sliderRef}
         />
       </div>

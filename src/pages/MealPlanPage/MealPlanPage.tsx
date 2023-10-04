@@ -97,7 +97,7 @@ const MealPlanPage: React.FC = () => {
 
                         <div className={styles.slider__block}>
                             <p className={styles.plan__subtitle}>How many calories would you like to consume per day?</p> 
-                            <Slider onChange={sliderhandler} className={styles.slider__item} minValue={minValue} maxValue={maxValue} sliderValue={mealPlanFormStore.sliderValue} outputStyle={mealPlanFormStore.outputStyle} sliderRef={sliderRef} outputRef={outputRef}/>
+                            <Slider step={1} onChange={sliderhandler} className={styles.slider__item} minValue={minValue} maxValue={maxValue} sliderValue={mealPlanFormStore.sliderValue} outputStyle={mealPlanFormStore.outputStyle} sliderRef={sliderRef} outputRef={outputRef}/>
                         </div>
 
                         <MultiDropdown
