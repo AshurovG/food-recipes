@@ -19,8 +19,10 @@ const Header: React.FC = () => {
     return (
         <div className={styles.header}>
             <div className={styles.header__wrapper}>
-                <LogoIcon />
-                <p className={styles.header__title}>Food Client</p>
+                <Link style={{display: 'flex', alignItems: 'center'}} to={'/'}>
+                    <LogoIcon />
+                    <p className={styles.header__title}>Food Client</p>
+                </Link>
                 <Text className={styles.header__blocks} tag='span'>
                     <Link className={styles.header__block} to={'/'}>Recipes</Link>
                     <Link className={styles.header__block} to={`/mealplan`}>Meal planning</Link>

@@ -37,7 +37,7 @@ const AboutPage: React.FC = () => {
                 </div>
 
                 <div className={styles.about__card}>
-                    <h3 className={styles.card__title}>For each recipe we have a lot of additional informatio</h3>
+                    <h3 className={styles.card__title}>For each recipe we have a lot of additional information</h3>
                     <div className={styles.card__icon}><ListIcon></ListIcon></div>
                 </div>
 

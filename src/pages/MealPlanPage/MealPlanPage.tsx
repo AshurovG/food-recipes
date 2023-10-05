@@ -158,7 +158,7 @@ const MealPlanPage: React.FC = () => {
                         
                         <div className={styles.plan__nutrients}>
                             
-                            <h2 className={styles['plan__list-block-title']}>list of nutrients</h2>
+                            <h2 className={styles['plan__list-block-title']}>List of nutrients</h2>
                             <PropertiesList nutrients={mealPlanFormStore.oneOfWeekPlanNutrients}/>
                         </div>
                     </div>
