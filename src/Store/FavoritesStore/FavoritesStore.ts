@@ -28,7 +28,6 @@ export default class FavoritesStore implements ILocalStore {
 
   public deleteRecipe = (recipe: RecipeData) => {
     this._recipesData = this._recipesData.filter(item => item.title !== recipe.title);
-    console.log(`deleting successfuly ${this._recipesData}`)
     localStorage.setItem('savedRecipes', JSON.stringify(this._recipesData));
   }
 
