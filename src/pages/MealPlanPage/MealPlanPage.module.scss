@@ -54,6 +54,7 @@
 .checkbox__block {
     display: flex;
     align-items: center;
+    gap: 5px;
     justify-content: space-between;
 }
 
@@ -233,6 +234,10 @@
     .plan {
         &__wrapper {
             max-width: 450px;
+        }
+
+        &__subtitle {
+            font-size: 16px;
         }
     }
 }

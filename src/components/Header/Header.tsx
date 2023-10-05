@@ -20,12 +20,11 @@ const Header: React.FC = () => {
         <div className={styles.header}>
             <div className={styles.header__wrapper}>
                 <LogoIcon />
-                <Text className={styles.header__title} view='p-20'>Food Client</Text>
+                <p className={styles.header__title}>Food Client</p>
                 <Text className={styles.header__blocks} tag='span'>
                     <Link className={styles.header__block} to={'/'}>Recipes</Link>
                     <Link className={styles.header__block} to={`/mealplan`}>Meal planning</Link>
-                    <Link className={styles.header__block} to={`/restaurants`}>Restaurants</Link>
-                    <Link className={styles.header__block} to={`/products`}>Products</Link>
+                    <Link className={styles.header__block} to={`/restaurants`}>About us</Link>
                 </Text>
 
                 <div className={styles.icons}>
@@ -40,8 +39,7 @@ const Header: React.FC = () => {
                 <div className={styles.burger__menu}>
                     <Link className={styles['burger__menu-item']} to={'/'}>Recipes</Link>
                     <Link className={styles['burger__menu-item']} to={`/mealplan`}>Meal planning</Link>
-                    <Link className={styles['burger__menu-item']} to={`/restaurants`}>Restaurants</Link>
-                    <Link className={styles['burger__menu-item']} to={`/products`}>Products</Link>
+                    <Link className={styles['burger__menu-item']} to={`/restaurants`}>About us</Link>
                 </div>}
             </div>
 
