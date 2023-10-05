@@ -6,7 +6,8 @@ import RecipesPage from 'pages/RecipesPage'
 import RecipesDetailedPage from 'pages/RecipesDetailedPage'
 import MealPlanPage from 'pages/MealPlanPage';
 import AuthForm from 'pages/AuthForm'
-import RestaurantsPage from 'pages/RestaurantsPage'
+// import RestaurantsPage from 'pages/RestaurantsPage'
+import AboutPage from 'pages/AboutPage'
 import ProfilePage from 'pages/ProfilePage'
 import FavoritesPage from 'pages/FavoritesPage'
 import rootStore from 'Store/RootStore/instance';
@@ -39,7 +40,7 @@ function App() {
   
             <Route path="/mealplan" element={<MealPlanPage />} />
   
-            <Route path="/restaurants" element={<RestaurantsPage />} />
+            <Route path="/about" element={<AboutPage />} />
   
             {!rootStore.auth.isLogin && <Route path="/auth" element={<AuthForm />} />}
   

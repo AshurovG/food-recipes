@@ -24,7 +24,7 @@ const Header: React.FC = () => {
                 <Text className={styles.header__blocks} tag='span'>
                     <Link className={styles.header__block} to={'/'}>Recipes</Link>
                     <Link className={styles.header__block} to={`/mealplan`}>Meal planning</Link>
-                    <Link className={styles.header__block} to={`/restaurants`}>About us</Link>
+                    <Link className={styles.header__block} to={`/about`}>About us</Link>
                 </Text>
 
                 <div className={styles.icons}>
@@ -39,7 +39,7 @@ const Header: React.FC = () => {
                 <div className={styles.burger__menu}>
                     <Link className={styles['burger__menu-item']} to={'/'}>Recipes</Link>
                     <Link className={styles['burger__menu-item']} to={`/mealplan`}>Meal planning</Link>
-                    <Link className={styles['burger__menu-item']} to={`/restaurants`}>About us</Link>
+                    <Link className={styles['burger__menu-item']} to={`/about`}>About us</Link>
                 </div>}
             </div>
 
