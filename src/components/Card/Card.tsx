@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import cn from 'classnames';
 import Text from '../Text/Text';
 import styles from './Card.module.scss';
@@ -9,7 +9,7 @@ export type CardProps = {
     image: string;
     captionSlot?: React.ReactNode;
     title: React.ReactNode;
-    subtitle: React.ReactNode;
+    subtitle?: React.ReactNode;
     contentSlot?: React.ReactNode;
     onClick?: React.MouseEventHandler;
     actionSlot?: React.ReactNode;

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import cn from 'classnames'
 import styles from './Input.module.scss'
 
@@ -31,6 +31,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(({ value, onChange,
             )}
         >
             <input
+                autoComplete="off"
                 value={value}
                 onChange={changeHandler}
                 className={styles.input}

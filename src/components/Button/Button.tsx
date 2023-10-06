@@ -1,8 +1,10 @@
-import React from 'react';
+import * as React from 'react';
 import cn from 'classnames';
 import Loader from '../Loader/Loader';
 import Text from '../Text/Text';
 import styles from './Button.module.scss'
+// import styles from './Button.module.scss'
+
 
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
     loading?: boolean;

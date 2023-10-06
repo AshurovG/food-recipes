@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import styles from './DetailedInfo.module.scss'
 import IngredientIcon from 'components/icons/IngredientIcon';
 import EquipmentIcon from 'components/icons/EquipmentIcon';

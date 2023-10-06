@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { observer } from 'mobx-react-lite';
 import { useNavigate } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -23,21 +23,29 @@ const RecipesPage: React.FC = () => {
     React.useEffect(() => {
         recipesStore.getRecipesData();
     }, [recipesStore.offset, recipesStore.isOnSearchClick]);
+    
 
     const navigate = useNavigate();
     const handleFormSubmit = () => {
-        if (recipesStore.getDropdownTitle(recipesStore.dropdownValue) === 'Choose a category') {
+        if (recipesStore.getDropdownTitle(recipesStore.dropdownValue) === 'Choose a category' && recipesStore.inputValue === '') {
+            navigate('');
+            console.log(111)
+        } else if (recipesStore.getDropdownTitle(recipesStore.dropdownValue) === 'Choose a category' && recipesStore.inputValue) {
+            console.log(222)
             navigate(`?search=${recipesStore.inputValue}`)
-        }
-        else {
+        } else if (recipesStore.getDropdownTitle(recipesStore.dropdownValue) !== 'Choose a category' && recipesStore.inputValue == ''){
+            navigate(`?type=${recipesStore.getDropdownTitle(recipesStore.dropdownValue)}`)
+            console.log(333)
+        } else {
             navigate(`?search=${recipesStore.inputValue}&type=${recipesStore.getDropdownTitle(recipesStore.dropdownValue)}`);
+            console.log(444)
         }
         recipesStore.setIsOnSearchClick();
     };
 
     return (
         <div className={styles.recipes__page}>
-            <Header></Header>
+            <Header/>
             <MainImage />
             <div className={styles['recipes__page-wrapper']}>
                 <Text className={styles.search__title} view='p-20'>
@@ -45,7 +53,7 @@ const RecipesPage: React.FC = () => {
                 </Text>
                 <div className={styles['search__info-block']}>
                     <div className={styles['search__input-block']}>
-                        <Input value={recipesStore.inputValue} onChange={recipesStore.setInputValue}></Input> <Button onClick={handleFormSubmit}><SearchIcon /></Button>
+                        <Input value={recipesStore.inputValue} placeholder='Enter dish...' onChange={recipesStore.setInputValue}></Input> <Button onClick={handleFormSubmit}><SearchIcon /></Button>
                     </div>
 
                     <MultiDropdown

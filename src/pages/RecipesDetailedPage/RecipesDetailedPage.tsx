@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { observer } from 'mobx-react-lite';
 import { Link, useParams } from 'react-router-dom'
 import { useLocalStore } from 'utils/useLocalStore';
@@ -13,6 +13,7 @@ import DetailedInfo from 'components/DetailedInfo';
 import DirectionsList from 'components/DirectionsList';
 import Text from 'components/Text';
 import Loader from 'components/Loader';
+import PlanList from 'components/PlanList'
 
 const RecipesDetailedPage: React.FC = () => {
     const params = useParams();
@@ -22,6 +23,7 @@ const RecipesDetailedPage: React.FC = () => {
 
     React.useEffect(() => {
         recipeDetailedStore.getRecipeData();
+        recipeDetailedStore.getSimilarRecipesData()
             return () => {
                 recipeDetailedStore.reset();
             };
@@ -61,7 +63,7 @@ const RecipesDetailedPage: React.FC = () => {
 
                 <div className={styles.features}>
                     <div className={styles.features__item}>
-                        <Text className={styles['features__item-title']} view='p-20' weight='bold'>Ingredients</Text>
+                        <p className={styles['features__item-title']}>Ingredients</p>
                         <div className={`${styles['features__ingredients-content']} ${styles['features__item-content']}`}>
                             {recipeDetailedStore.recipe?.extendedIngredients.map((value: {original: string}) =>
                                 <DetailedInfo key={value.original} type='ingredients'> {value.original}</DetailedInfo>
@@ -74,7 +76,7 @@ const RecipesDetailedPage: React.FC = () => {
                     </div>
 
                     <div className={styles.features__item}>
-                        <Text className={styles['features__item-title']} view='p-20' weight='bold'>Equipment</Text>
+                        <p className={styles['features__item-title']}>Equipment</p>
                         <div className={`${styles['features__equipment-content']} ${styles['features__item-content']}`}>
                             {recipeDetailedStore.recipe?.equipment.map((item: {equipment: { name: string }[]}, index) =>
                                 item.equipment.length > 0 &&
@@ -83,13 +85,19 @@ const RecipesDetailedPage: React.FC = () => {
                         </div>
                     </div>
                 </div>
-                <Text className={styles['features__item-title']} view='p-20' weight='bold'>Directions</Text>
+                <p className={styles['features__item-title']}>Directions</p>
                 <DirectionsList steps={recipeDetailedStore.recipe?.equipment.map((item: {number: number, step: string}) => {
                     return {
                         title: `step ${item.number}`,
                         text: `${item.step}`
                     }
                 })} />
+                {recipeDetailedStore.oneOfWeekPlanList && 
+                <div>
+                    <p className={styles['features__item-title']}>Similar recipes</p>
+                    <PlanList withLinks={false} oneDayPlanArr={recipeDetailedStore.oneOfWeekPlanList}></PlanList>
+                </div>}
+            
             </div>
 
         </div>

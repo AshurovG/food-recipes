@@ -25,3 +25,10 @@ export type RecipeData = {
 export type Params = {
     id: string;
 };
+
+export type OneDayPlan = {
+    id: number;
+    title: string;
+    readyInMinutes: number;
+    servings: number;
+};

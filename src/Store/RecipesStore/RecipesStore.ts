@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { IReactionDisposer, action, computed, makeObservable, observable, reaction, runInAction } from 'mobx';
-import { apiKey } from '../../../consts.config.ts';
-import { ILocalStore } from 'utils/useLocalStore.ts';
+import { apiKey } from '../../../consts.config';
+import { ILocalStore } from 'utils/useLocalStore';
 import { ReceivedRecipeData, IngredientData, RecipeData, Option, DropdownCounts } from './types'
 import rootStore from 'Store/RootStore/instance';
 
@@ -9,7 +9,7 @@ export interface IRecipesStore {
     getRecipesData(): Promise<void>;
 }
 
-export type PrivateFields = '_list' | '_offset' | '_hasMore' | '_inputValue' | '_isOnSearchClick' | '_dropdownValue' | '_isFirstPage' | '_currentUrl' | '_isBurgerMenuOpen';
+export type PrivateFields = '_list' | '_offset' | '_hasMore' | '_inputValue' | '_isOnSearchClick' | '_dropdownValue' | '_isFirstPage' | '_currentUrl';
 
 export default class RecipesStore implements IRecipesStore, ILocalStore {
     private _list: RecipeData[] = []
@@ -20,7 +20,6 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
     private _isOnSearchClick = false;
     private _dropdownValue: Option[] = [];
     private _currentUrl = '/';
-    private _isBurgerMenuOpen = false;
     private _options: Option[] = [
         { key: 'main course', value: 'main course' },
         { key: 'side dish', value: 'side dish' },
@@ -100,21 +99,18 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
         this._isFirstPage = true;
         this.getRecipesData();
         this._currentUrl = '/';
-        let searchParam = rootStore.query.getParam('search')
-        if (searchParam && typeof searchParam === 'string') {
-            this._currentUrl += `?search=${searchParam}`
+        if (this._inputValue) {
+            this._currentUrl += `?search=${this._inputValue}`
         }
-
-        let typeParam = rootStore.query.getParam('type')
-        if (typeParam && typeof typeParam === 'string') {
-            if (this._currentUrl) {
-                if (searchParam) {
-                    this._currentUrl += `&type=${typeParam}`
+        if (this._dropdownValue) {
+                console.log(this.getDropdownTitle(this._dropdownValue))
+                if (this._inputValue) {
+                    this._currentUrl += `&type=${this.getDropdownTitle(this._dropdownValue)}`
                 } else {
-                    this._currentUrl += `?type=${typeParam}`
+                    this._currentUrl += `?type=${this.getDropdownTitle(this._dropdownValue)}`
                 }
-            }
         }
+        console.log(this._currentUrl)
         rootStore.prevUrl.setPreviousUrl(this._currentUrl)
     };
 
@@ -143,10 +139,6 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
         return options.map((option) => option.value).join(', ') || 'Choose a category';
     };
 
-    public setIsBurgerMenuOpen = () => {
-        this._isBurgerMenuOpen = !this._isBurgerMenuOpen;
-    }
-
     constructor() {
         makeObservable<RecipesStore, PrivateFields>(this, {
             _list: observable,
@@ -157,7 +149,6 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
             _isOnSearchClick: observable,
             _dropdownValue: observable,
             _currentUrl: observable,
-            _isBurgerMenuOpen: observable,
             list: computed,
             hasMore: computed,
             offset: computed,
@@ -167,8 +158,6 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
             dropdownValue: computed,
             options: computed,
             currentUrl: computed,
-            isBurgerMenuOpen: computed,
-            setIsBurgerMenuOpen: action
         })
 
         // Обрабатываем первый рендер при перезагрузки страницы
@@ -209,10 +198,6 @@ export default class RecipesStore implements IRecipesStore, ILocalStore {
 
     get currentUrl(): string {
         return this._currentUrl;
-    }
-
-    get isBurgerMenuOpen(): boolean {
-        return this._isBurgerMenuOpen;
     }
 
     getIngredientsString = (ingredients: Array<IngredientData>): string => {

@@ -23,22 +23,28 @@
 
     &__title {
         font-size: 20px;
+        color: $text-primary;
         font-weight: 700;
         margin-left: 20px;
     }
 
     &__blocks {
-        margin-left: 80px;
+        display: flex;
+        width: 70%; 
+        justify-content: center;  
+        gap: 50px;
     }
 
     &__block {
-        margin-left: $space-m;
-        cursor: pointer;
-        transition: color .2s ease;
+      color: $text-primary;
+      font-size: 20px;
+      margin-left: $space-m;
+      cursor: pointer;
+      transition: color .2s ease;
 
-        &:hover {
-            color: $brand;
-        }
+      &:hover {
+          color: $brand;
+      }
     }
 }
 
@@ -65,6 +71,10 @@
 .burger__menu {
     display: none;
 }
+
+// .profile__link {
+//   max-height: 24px;
+// }
 
 
 
@@ -94,7 +104,7 @@
   
     .burger__icon {
       display: inline-block;
-      cursor: pointer;
+      margin-bottom: 5px;
     }
   
     .cancel__icon {
@@ -102,7 +112,7 @@
       position: relative;
       width: 24px;
       height: 24px;
-      cursor: pointer;
+      margin-bottom: 5px;
     }
   
     .cancel__icon::before,
@@ -163,8 +173,15 @@
 }
   
 @include mobile {
-    .header__wrapper {
-      max-width: 500px;
+    .header {
+      &__wrapper {
+        max-width: 500px;
+      }
+
+      &__title {
+        font-size: 18px;
+        min-width: 100px;
+      }
     }
 }
   

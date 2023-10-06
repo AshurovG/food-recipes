@@ -1,6 +1,7 @@
-import React from 'react';
+import * as React from 'react';
 import cn from 'classnames';
 import { observer } from 'mobx-react-lite';
+import { Link } from 'react-router-dom'
 import Text from '../Text/Text';
 import LogoIcon from 'components/icons/LogoIcon';
 import styles from './Header.module.scss';
@@ -8,36 +9,39 @@ import FavoritesIcon from 'components/icons/FavoritesIcon';
 import AccountIcon from 'components/icons/AccountIcon';
 import BurgerIcon from 'components/icons/BurgerIcon';
 import { useLocalStore } from 'utils/useLocalStore';
-import RecipesStore from 'Store/RecipesStore'
-
-const blockNames: Array<string> = ['Recipes', 'Ingradients', 'Products', 'Menu Items', 'Meal Planning']
+import HeaderStore from 'Store/HeaderStore';
 
 const Header: React.FC = () => {
-    const recipesStore = useLocalStore(() => new RecipesStore());
+    const headerStore = useLocalStore(() => new HeaderStore());
+    const isLogin = localStorage.getItem('isLogin') === 'true';
 
     return (
         <div className={styles.header}>
             <div className={styles.header__wrapper}>
-                <LogoIcon />
-                <Text className={styles.header__title} view='p-20'>Food Client</Text>
+                <Link style={{display: 'flex', alignItems: 'center'}} to={'/'}>
+                    <LogoIcon />
+                    <p className={styles.header__title}>Food Client</p>
+                </Link>
                 <Text className={styles.header__blocks} tag='span'>
-                    {blockNames.map(blockName => (
-                        <Text key={blockName} className={styles.header__block} tag='span' view='p-16'>{blockName}</Text>
-                    ))}
+                    <Link className={styles.header__block} to={'/'}>Recipes</Link>
+                    <Link className={styles.header__block} to={`/mealplan`}>Meal planning</Link>
+                    <Link className={styles.header__block} to={`/about`}>About us</Link>
                 </Text>
 
                 <div className={styles.icons}>
-                    <FavoritesIcon className={cn(styles.favorite__icon, styles.icons__item)} />
-                    <AccountIcon className={styles.icons__item} />
-                    {recipesStore.isBurgerMenuOpen === false
-                        ? <BurgerIcon className={styles.burger__icon} color='accent' onClick={recipesStore.setIsBurgerMenuOpen} />
-                        : <div className={styles.cancel__icon} onClick={recipesStore.setIsBurgerMenuOpen}></div>}
+                    <Link to={isLogin ? '/favorites' : '/auth'}><FavoritesIcon className={cn(styles.favorite__icon, styles.icons__item)} /></Link>
+                    <Link className={styles.profile__link} to={isLogin ? '/profile' : '/auth'}><AccountIcon className={styles.icons__item} onClick={headerStore.setIsAuthFormOpen}/></Link>
+                    {headerStore.isBurgerMenuOpen === false
+                        ? <BurgerIcon className={styles.burger__icon} color='accent' onClick={headerStore.setIsBurgerMenuOpen} />
+                        : <div className={styles.cancel__icon} onClick={headerStore.setIsBurgerMenuOpen}></div>}
                 </div>
 
-
-                {recipesStore.isBurgerMenuOpen && <div className={styles.burger__menu}>{blockNames.map(blockName => (
-                    <Text key={blockName} className={styles['burger__menu-item']} tag='span' view='p-16'>{blockName}</Text>
-                ))}</div>}
+                {headerStore.isBurgerMenuOpen &&
+                <div className={styles.burger__menu}>
+                    <Link className={styles['burger__menu-item']} to={'/'}>Recipes</Link>
+                    <Link className={styles['burger__menu-item']} to={`/mealplan`}>Meal planning</Link>
+                    <Link className={styles['burger__menu-item']} to={`/about`}>About us</Link>
+                </div>}
             </div>
 
 

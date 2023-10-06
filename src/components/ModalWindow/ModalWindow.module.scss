@@ -1,0 +1,73 @@
+@import 'styles/variables.scss';
+@import 'styles/mixins.scss';
+@import 'styles/styles.scss';
+
+.modal {
+    width: 600px;
+    position: fixed;
+    z-index: 10000;
+    background: $default-color;
+    border-radius: $border-radius;
+    box-shadow: $box-shadow;
+
+    &__wrapper {
+        padding: 20px;
+        position: relative;
+    }
+
+    &__title {
+        &-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+    }
+
+    &__btn {
+        position: absolute;
+        right: 20px;
+        bottom: 20px;
+    }
+}
+
+@include mobileLandscape {
+    .modal {
+        width: 95%;
+
+        &__title {
+            font-size: 18px;
+        }
+    }
+}
+  
+  
+@include smallMobile {
+    // modal__btn {
+    //     display: none;
+    // }
+    .slot {
+        display: none;
+    }
+}
+  
+@include extraSmallMobile {
+    .modal {
+
+        &__title {
+            font-size: 16px;
+        }
+    }
+}
+  
+@include ultraSmallMobile {
+    .header__wrapper {
+      max-width: 330px;
+    }
+}
+  
+@include tinyMobile {
+    .header__wrapper {
+      max-width: 290px;
+    }
+}

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import styles from './MainImage.module.scss';
 
 const MainImage: React.FC = () => {

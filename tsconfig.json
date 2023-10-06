@@ -1,55 +1,45 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "useDefineForClassFields": true,
-    "lib": [
-      "ES2020",
-      "DOM",
-      "DOM.Iterable"
-    ],
-    "module": "ESNext",
-    "skipLibCheck": true,
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
+      "baseUrl": "src",
+      "paths": {
+          "@components/*": [
+            "components"
+          ],
+          "@config/*": [
+            "config"
+          ],
+          "@styles/*": [
+            "styles"
+          ],
+          "@utils/*": [
+            "utils"
+          ],
+          "@models/*": [
+            "models"
+          ],
+          "@Store/*": [
+            "Store/*"
+          ],
+          "@images/*": [
+            "images/*"
+          ],
+          "@pages/*": [
+            "pages/*"
+          ]
+        },
     "noEmit": true,
-    "jsx": "react-jsx",
+    "allowJs": true,
+    "sourceMap": true,
     "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "baseUrl": "src",
-    "paths": {
-      "components": [
-        "components/*"
-      ],
-      "pages": [
-        "pages/*"
-      ],
-      "images": [
-        "images/*"
-      ],
-      "config": [
-        "config/*"
-      ],
-      "styles": [
-        "styles/*"
-      ],
-      "Store": [
-        "Store/*"
-      ],
-      "utils": [
-        "utils/*"
-      ]
-    }
+    "strictNullChecks": true,
+    "skipLibCheck": true,
+    "module": "es6",
+    "target": "es6",
+    "moduleResolution": "node",
+    "jsx": "react",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
   },
-  "include": [
-    "src"
-  ],
-  "references": [
-    {
-      "path": "./tsconfig.node.json"
-    }
-  ]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
 }
