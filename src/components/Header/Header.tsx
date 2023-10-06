@@ -14,7 +14,6 @@ import HeaderStore from 'Store/HeaderStore';
 const Header: React.FC = () => {
     const headerStore = useLocalStore(() => new HeaderStore());
     const isLogin = localStorage.getItem('isLogin') === 'true';
-    console.log(isLogin)
 
     return (
         <div className={styles.header}>

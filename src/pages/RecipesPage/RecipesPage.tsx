@@ -53,7 +53,7 @@ const RecipesPage: React.FC = () => {
                 </Text>
                 <div className={styles['search__info-block']}>
                     <div className={styles['search__input-block']}>
-                        <Input value={recipesStore.inputValue} onChange={recipesStore.setInputValue}></Input> <Button onClick={handleFormSubmit}><SearchIcon /></Button>
+                        <Input value={recipesStore.inputValue} placeholder='Enter dish...' onChange={recipesStore.setInputValue}></Input> <Button onClick={handleFormSubmit}><SearchIcon /></Button>
                     </div>
 
                     <MultiDropdown
